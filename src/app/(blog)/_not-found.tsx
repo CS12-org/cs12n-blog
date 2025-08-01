@@ -1,5 +1,6 @@
-import { Main } from "~/layout/Main";
-import Vector404 from "../assets/images/404.svg?react";
+// TODO: add 404 page to next routes
+
+import Vector404 from "~/assets/images/404.svg";
 
 function NotFoundPage() {
   return (
