@@ -1,0 +1,12 @@
+body {
+  @apply selection:bg-[#283951] selection:text-white bg-base text-text;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+* {
+  @apply focus-visible:outline-lavender focus-visible:outline-2 outline-offset-2;
+}

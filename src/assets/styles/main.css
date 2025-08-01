@@ -1,0 +1,83 @@
+@import "tailwindcss/theme.css";
+@import "tailwindcss/preflight.css";
+@import "tailwindcss/utilities.css";
+
+@import "tailwindcss-animated";
+
+@import "./palette.css";
+@import "./base.css";
+
+@plugin "tailwindcss-react-aria-components";
+
+@theme inline {
+  --color-rosewater: var(--rosewater);
+  --color-flamingo: var(--flamingo);
+  --color-pink: var(--pink);
+  --color-mauve: var(--mauve);
+  --color-red: var(--red);
+  --color-maroon: var(--maroon);
+  --color-peach: var(--peach);
+  --color-yellow: var(--yellow);
+  --color-green: var(--green);
+  --color-teal: var(--teal);
+  --color-sky: var(--sky);
+  --color-sapphire: var(--sapphire);
+  --color-blue: var(--blue);
+  --color-lavender: var(--lavender);
+  --color-text: var(--text);
+  --color-subtext-1: var(--subtext-1);
+  --color-subtext-0: var(--subtext-0);
+  --color-overlay-2: var(--overlay-2);
+  --color-overlay-1: var(--overlay-1);
+  --color-overlay-0: var(--overlay-0);
+  --color-surface-2: var(--surface-2);
+  --color-surface-1: var(--surface-1);
+  --color-surface-0: var(--surface-0);
+  --color-base: var(--base);
+  --color-mantle: var(--mantle);
+  --color-crust: var(--crust);
+}
+
+@theme {
+  --font-sans: "Vazirmatn UI", sans-serif;
+  --text-display-lg: 56px;
+  --text-display-lg--font-weight: 900;
+  --text-display-md: 48px;
+  --text-display-md--font-weight: 800;
+  --text-display-sm: 44px;
+  --text-display-sm--font-weight: 700;
+  --text-display-xs: 30px;
+  --text-display-xs--font-weight: 700;
+  --text-headline-lg: 32px;
+  --text-headline-lg--font-weight: 800;
+  --text-headline-md: 28px;
+  --text-headline-md--font-weight: 800;
+  --text-headline-sm: 20px;
+  --text-headline-sm--font-weight: 800;
+  --text-headline-xs: 16px;
+  --text-headline-xs--font-weight: 600;
+  --text-title-lg: 20px;
+  --text-title-lg--font-weight: 700;
+  --text-title-md: 18px;
+  --text-title-md--font-weight: 700;
+  --text-title-sm: 16px;
+  --text-title-sm--font-weight: 700;
+  --text-title-xs: 14px;
+  --text-title-xs--font-weight: 600;
+  --text-label-lg: 18px;
+  --text-label-lg--font-weight: 600;
+  --text-label-md: 16px;
+  --text-label-md--font-weight: 600;
+  --text-label-sm: 14px;
+  --text-label-sm--font-weight: 500;
+  --text-label-xs: 12px;
+  --text-label-xs--font-weight: 500;
+  --text-body-lg: 20px;
+  --text-body-lg--font-weight: 400;
+  --text-body-md: 16px;
+  --text-body-md--font-weight: 400;
+  --text-body-sm: 14px;
+  --text-body-sm--font-weight: 400;
+  --text-body-xs: 12px;
+  --text-body-xs--font-weight: 400;
+}
