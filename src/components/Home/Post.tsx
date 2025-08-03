@@ -1,12 +1,19 @@
 import { Link } from "~/components/react-aria-components";
 import PostExampleImg from "~/assets/images/post-example.png";
+import Image from "next/image";
 
 function Post() {
   return (
     <article className="rounded-xl overflow-hidden bg-crust">
       <header>
         <Link href="#" className="block w-full">
-          <img className="w-full" src={PostExampleImg.src} alt="post" />
+          <Image
+            width={100}
+            height={100}
+            className="w-full"
+            src={PostExampleImg.src}
+            alt="post"
+          />
         </Link>
       </header>
       <main>
