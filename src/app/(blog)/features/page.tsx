@@ -83,22 +83,12 @@ const coreFeatures = [
   },
 ];
 
-// TODO: export these meta from this page
-//
-// export const meta: Route.MetaFunction = () => {
-//   return [
-//     { title: "CS12 – Feature Track Page" },
-//     {
-//       name: "description",
-//       content:
-//         "Track the development stages and new features of the CS12 web application, designed to empower developers and learners through deep foundational tools.",
-//     },
-//     {
-//       name: "robots",
-//       content: "index, follow",
-//     },
-//   ];
-// };
+export const metadata = {
+  title: "CS12 – Feature Track Page",
+  description:
+    "Track the development stages and new features of the CS12 web application, designed to empower developers and learners through deep foundational tools.",
+  robots: "index, follow",
+};
 
 function Features() {
   return (

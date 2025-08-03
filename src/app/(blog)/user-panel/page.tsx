@@ -7,6 +7,7 @@ import MyRadioGroup from "~/components/UserPanel/ThemeSetting";
 import UserPanelList from "~/components/UserPanel/UserPanelList";
 import Profile from "~/assets/images/user-profile.png";
 import Cs12Logo from "~/components/Icons/cs12-logo.svg";
+import Image from "next/image";
 
 function UserPanel() {
   return (
@@ -26,9 +27,10 @@ function UserPanel() {
             <div className="rounded-tr-xl bg-mantle w-29.5 h-full flex items-center rounded-bl-[100px] shadow-[_-1px_3px_5px_rgba(0,0,0,0.3)]">
               <Cs12Logo className="mr-1.5" />
             </div>
-            {/* TODO: Replace img with Next Image */}
-            <img
-              src={Profile.src}
+            <Image
+              width={80}
+              height={80}
+              src={Profile}
               alt="User Profile"
               className="w-20 h-20 row-start-1 col-start-2 col-end-3 mr-[25px] justify-self-start rounded-tr-[40px] rounded-bl-[40px] rounded-tl-3xl rounded-br-3xl"
             />

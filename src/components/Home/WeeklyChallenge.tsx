@@ -4,6 +4,7 @@ import { twJoin } from "tailwind-merge";
 
 import Cs12ChallengeImg from "~/assets/images/cs12-challenge.png";
 import Cs12ChallengeLogo from "~/assets/images/cs12challengelogo.png";
+import Image from "next/image";
 
 const COLORS = ["text-yellow", "text-peach", "text-lavender"];
 
@@ -20,10 +21,11 @@ function WeeklyChallenge() {
 
       <main className="px-6 lg:px-10">
         <Link href="#" className="w-full">
-          {/* TODO: Replace with next Image component */}
-          <img
+          <Image
+            width={100}
+            height={100}
             alt="weekly challenge"
-            src={Cs12ChallengeImg.src}
+            src={Cs12ChallengeImg}
             className="w-full rounded-2xl mb-4.5"
           />
         </Link>
@@ -43,12 +45,13 @@ function WeeklyChallenge() {
           className={twJoin(
             "bg-base rounded-xl px-4 py-3",
             "flex items-start gap-2.5 border",
-            "border-solid border-surface-0",
+            "border-solid border-surface-0"
           )}
         >
-          {/* TODO: Replace with next Image component */}
-          <img
-            src={Cs12ChallengeLogo.src}
+          <Image
+            width={46}
+            height={46}
+            src={Cs12ChallengeLogo}
             alt="weekly challenge logo"
             className="size-11.5 rounded-md"
           />
