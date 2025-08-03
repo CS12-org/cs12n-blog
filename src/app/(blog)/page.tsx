@@ -1,8 +1,12 @@
+"use client";
+import { useSession } from "next-auth/react";
 import ArticleCategories from "~/components/Home/ArticleCategories";
 import Post from "~/components/Home/Post";
 import WeeklyChallenge from "~/components/Home/WeeklyChallenge";
 
 function Home() {
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <div className="flex items-start gap-5">
       <ArticleCategories />
