@@ -79,6 +79,7 @@ function SignUpForm() {
         onSubmit={submitHandler}
         className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-full max-w-sm"
       >
+        {/* TODO: Replace svg with a image */}
         <FarhanCharacter
           className={twJoin(
             "animate-fade-up animate-duration-1000 animate-delay-500",

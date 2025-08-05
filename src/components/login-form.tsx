@@ -7,7 +7,7 @@ import { Input, Label, Text, TextField } from "~/components/react-aria-component
 import { Controller, useForm } from "react-hook-form";
 import { twJoin } from "tailwind-merge";
 import { z } from "zod";
-import SamanCharacter from "~/assets/images/SM.svg?url";
+import SamanCharacter from "~/assets/images/SM.svg";
 import Button from "~/components/button";
 
 const schema = z.object({
@@ -51,11 +51,13 @@ function LoginForm() {
         onSubmit={submitHandler}
         className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-full max-w-sm"
       >
+        {/* TODO: Replace svg with a image */}
         <SamanCharacter
-          alt="animated character"
+          preserveAspectRatio="none"
           className={twJoin(
             "animate-fade-up animate-duration-1000 animate-delay-500",
-            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1"
+            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1 h-auto",
+            "object-contain"
           )}
         />
         <h1

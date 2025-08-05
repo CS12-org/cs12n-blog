@@ -6,7 +6,7 @@ import { TextInput } from "~/components/user-panel/text-field";
 import MyRadioGroup from "~/components/user-panel/theme-setting";
 import UserPanelList from "~/components/user-panel/user-panel-list";
 import Profile from "~/assets/images/user-profile.png";
-import Cs12Logo from "~/components/Icons/cs12-logo.svg";
+import Cs12Logo from "~/assets/images/cs12-logo.svg";
 import Image from "next/image";
 
 function UserPanel() {
