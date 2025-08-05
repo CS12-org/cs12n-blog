@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { ReactComponent as FarhanCharacter } from "~/assets/images/FR.svg";
+import FarhanCharacter from "~/assets/images/FR.svg";
 import Button from "~/components/Button";
 import { Input, Text, TextField } from "react-aria-components";
 import { twJoin } from "tailwind-merge";
@@ -14,7 +14,7 @@ import axios from "~/lib/axios";
 
 const SignUpSchema = z
   .object({
-    email: z.string().min(1).email(),
+    email: z.email().min(1),
     password: z.string().min(8),
     confirmPassword: z.string().min(8),
   })
@@ -64,7 +64,7 @@ function SignUpForm() {
       }
     } catch (e: unknown) {
       if (e && typeof e === "object" && "response" in e) {
-        // @ts-ignore
+        // @ts-expect-error TODO: use correct typing
         setError(e.response?.data?.error?.message || DEFAULT_ERROR_MESSAGE);
       } else {
         setError(DEFAULT_ERROR_MESSAGE);
@@ -80,10 +80,9 @@ function SignUpForm() {
         className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-full max-w-sm"
       >
         <FarhanCharacter
-          alt="animated character"
           className={twJoin(
             "animate-fade-up animate-duration-1000 animate-delay-500",
-            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1"
+            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1",
           )}
         />
         <h1 className="font-bold text-4xl mb-7 text-center">
@@ -118,7 +117,7 @@ function SignUpForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2"
+                  fieldState.error && "mt-2",
                 )}
               >
                 {fieldState.error?.message}
@@ -149,7 +148,7 @@ function SignUpForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2"
+                  fieldState.error && "mt-2",
                 )}
               >
                 {fieldState.error?.message}
@@ -180,7 +179,7 @@ function SignUpForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2"
+                  fieldState.error && "mt-2",
                 )}
               >
                 {fieldState.error?.message}

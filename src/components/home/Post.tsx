@@ -8,10 +8,8 @@ function Post() {
       <header>
         <Link href="#" className="block w-full">
           <Image
-            width={100}
-            height={100}
             className="w-full"
-            src={PostExampleImg.src}
+            src={PostExampleImg}
             alt="post"
           />
         </Link>

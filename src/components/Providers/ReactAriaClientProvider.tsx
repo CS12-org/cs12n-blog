@@ -16,7 +16,7 @@ type Props = { children: ReactNode };
 
 function ReactAriaClientProvider(props: Props) {
   const { children } = props;
-  let router = useRouter();
+  const router = useRouter();
   return <RouterProvider navigate={router.push}>{children}</RouterProvider>;
 }
 

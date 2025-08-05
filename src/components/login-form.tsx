@@ -1,7 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input, Label, Text, TextField } from "react-aria-components";
