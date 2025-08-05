@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import FarhanCharacter from "~/assets/images/FR.svg";
 import Button from "~/components/button";
-import { Input, Text, TextField } from "react-aria-components";
+import { Input, Text, TextField } from "~/components/react-aria-components";
 import { twJoin } from "tailwind-merge";
 import { useRouter } from "next/navigation";
 import axios from "~/lib/axios";

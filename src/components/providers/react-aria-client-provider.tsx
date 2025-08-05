@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
-import { RouterProvider } from "react-aria-components";
+import { RouterProvider } from "~/components/react-aria-components";
 
 declare module "react-aria-components" {
   interface RouterConfig {

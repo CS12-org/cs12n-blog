@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import type { ComponentProps } from "react";
-import { Button as AriaButton } from "react-aria-components";
+import { Button as AriaButton } from "~/components/react-aria-components";
 import twMerge from "~/lib/tw-merge";
 
 type Props = Omit<ComponentProps<typeof AriaButton>, "className"> & {
@@ -31,7 +31,7 @@ function Button(props: Props) {
     "rounded-md transition",
     !isDisabled && "hover:brightness-110 pressed:brightness-90",
     variantStyle,
-    className,
+    className
   );
 
   return <AriaButton className={styles} isDisabled={isDisabled} {...other} />;

@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Input, Label, Text, TextField } from "react-aria-components";
+import { Input, Label, Text, TextField } from "~/components/react-aria-components";
 import { Controller, useForm } from "react-hook-form";
 import { twJoin } from "tailwind-merge";
 import { z } from "zod";

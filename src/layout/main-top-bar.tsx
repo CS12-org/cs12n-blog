@@ -1,7 +1,7 @@
 "use client";
 
 import { type ReactNode, useState } from "react";
-import { Input, TextField, Link } from "react-aria-components";
+import { Input, TextField, Link } from "~/components/react-aria-components";
 import {
   FaArrowRightToBracket,
   FaBars,
