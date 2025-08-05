@@ -1,8 +1,8 @@
 "use client";
 import { useSession } from "next-auth/react";
-import ArticleCategories from "~/components/Home/ArticleCategories";
-import Post from "~/components/Home/Post";
-import WeeklyChallenge from "~/components/Home/WeeklyChallenge";
+import ArticleCategories from "~/components/home/article-categories";
+import Post from "~/components/home/post";
+import WeeklyChallenge from "~/components/home/weekly-challenge";
 
 function Home() {
   const { data: session } = useSession();

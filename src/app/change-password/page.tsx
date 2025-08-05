@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { twJoin } from "tailwind-merge";
 import Payamcharacter from "~/assets/images/PY.svg";
-import Button from "~/components/Button";
+import Button from "~/components/button";
 
 // TODO: refactor
 function Login() {

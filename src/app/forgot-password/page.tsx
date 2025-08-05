@@ -2,7 +2,7 @@
 
 import { twJoin } from "tailwind-merge";
 import Mohammadhoseincharacter from "~/assets/images/MH.svg";
-import Button from "~/components/Button";
+import Button from "~/components/button";
 import { useState } from "react";
 
 // TODO: refactor

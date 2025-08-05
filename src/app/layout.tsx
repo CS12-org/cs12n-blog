@@ -1,12 +1,12 @@
 import { Vazirmatn } from "next/font/google";
 import type { Metadata } from "next";
-import ReactAriaClientProvider from "~/components/Providers/ReactAriaClientProvider";
+import ReactAriaClientProvider from "~/components/providers/react-aria-client-provider";
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 
 import "~/assets/styles/main.css";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
-import NextAuthProvider from "~/components/Providers/session-provider";
+import NextAuthProvider from "~/components/providers/session-provider";
 
 const vazirmatn = Vazirmatn({
   display: "swap",

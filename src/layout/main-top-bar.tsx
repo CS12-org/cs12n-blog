@@ -11,10 +11,10 @@ import {
 import { usePathname } from "next/navigation";
 import { twJoin } from "tailwind-merge";
 import Logo from "~/assets/images/cs12-logo.svg";
-import Button from "~/components/Button";
+import Button from "~/components/button";
 import twMerge from "~/lib/tw-merge";
-import { useMainLayoutStore } from "~/components/Providers/MainLayoutStoreProvider";
-import MainThemeSwitch from "./MainThemeSwitch";
+import { useMainLayoutStore } from "~/components/providers/main-layout-store-provider";
+import MainThemeSwitch from "./main-theme-switch";
 
 type Props = {
   isBlured?: boolean;

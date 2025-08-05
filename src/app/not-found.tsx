@@ -1,8 +1,8 @@
 "use client";
 
 import Vector404 from "~/assets/images/404.svg";
-import { MainLayoutStoreProvider } from "~/components/Providers/MainLayoutStoreProvider";
-import Main from "~/layout/Main";
+import { MainLayoutStoreProvider } from "~/components/providers/main-layout-store-provider";
+import Main from "~/layout/main";
 
 function NotFoundPage() {
   return (

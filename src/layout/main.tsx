@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import MainBottombar from "./MainBottombar";
-import MainFooter from "./MainFooter";
-import MainTopbar from "./MainTopbar";
+import MainBottombar from "./main-bottom-bar";
+import MainFooter from "./main-footer";
+import MainTopbar from "./main-top-bar";
 
 type Props = { children?: ReactNode };
 

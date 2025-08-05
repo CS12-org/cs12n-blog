@@ -1,10 +1,10 @@
 import { Text } from "~/components/react-aria-components";
 import PlusSign from "~/assets/images/plus-sign.svg";
-import Button from "~/components/Button";
-import { SettingCheckboxOption } from "~/components/UserPanel/SettingCheckbox";
-import { TextInput } from "~/components/UserPanel/TextFeild";
-import MyRadioGroup from "~/components/UserPanel/ThemeSetting";
-import UserPanelList from "~/components/UserPanel/UserPanelList";
+import Button from "~/components/button";
+import { SettingCheckboxOption } from "~/components/user-panel/setting-checkbox";
+import { TextInput } from "~/components/user-panel/text-field";
+import MyRadioGroup from "~/components/user-panel/theme-setting";
+import UserPanelList from "~/components/user-panel/user-panel-list";
 import Profile from "~/assets/images/user-profile.png";
 import Cs12Logo from "~/components/Icons/cs12-logo.svg";
 import Image from "next/image";

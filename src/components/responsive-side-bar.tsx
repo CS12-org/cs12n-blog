@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { type FunctionComponent, useEffect, useId, useState } from "react";
 import { FaAnglesRight, FaX } from "react-icons/fa6";
 import { twJoin, twMerge } from "tailwind-merge";
-import Button from "~/components/Button";
-import { useMainLayoutStore } from "~/components/Providers/MainLayoutStoreProvider";
+import Button from "~/components/button";
+import { useMainLayoutStore } from "~/components/providers/main-layout-store-provider";
 import { Link } from "~/components/react-aria-components";
 
 type Props = {

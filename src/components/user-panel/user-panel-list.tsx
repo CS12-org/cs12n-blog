@@ -4,7 +4,7 @@ import { BiMessageAltDetail } from "react-icons/bi";
 import { CiBookmark } from "react-icons/ci";
 import { RiUser3Fill } from "react-icons/ri";
 import { TbNotes } from "react-icons/tb";
-import ResponsiveSideBar from "../ResponsiveSideBar";
+import ResponsiveSideBar from "../responsive-side-bar";
 
 const groups = [
   {

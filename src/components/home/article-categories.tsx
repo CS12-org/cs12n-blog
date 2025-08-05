@@ -1,7 +1,7 @@
 'use client';
 
 import { FaFileCode, FaMicrochip } from "react-icons/fa6";
-import ResponsiveSideBar from "../ResponsiveSideBar";
+import ResponsiveSideBar from "../responsive-side-bar";
 
 const groups = [
   {

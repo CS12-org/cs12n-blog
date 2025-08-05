@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { MainLayoutStoreProvider } from "~/components/Providers/MainLayoutStoreProvider";
-import Main from "~/layout/Main";
+import Main from "~/layout/main";
+import { MainLayoutStoreProvider } from "~/components/providers/main-layout-store-provider";
 
 type Props = { children?: ReactNode };
 

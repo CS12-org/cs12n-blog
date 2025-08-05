@@ -8,7 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import { twJoin } from "tailwind-merge";
 import { z } from "zod";
 import SamanCharacter from "~/assets/images/SM.svg?url";
-import Button from "~/components/Button";
+import Button from "~/components/button";
 
 const schema = z.object({
   password: z.string().min(8),
