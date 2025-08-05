@@ -2,7 +2,7 @@
 
 A modern, responsive blog platform built with Next.js 15, featuring authentication, real-time updates, and a beautiful Persian/Arabic RTL interface.
 
-## 🚀 Features
+## Features
 
 - **Modern Tech Stack**: Built with Next.js 15, React 19, and TypeScript
 - **Authentication**: Secure user authentication with NextAuth.js
@@ -16,13 +16,13 @@ A modern, responsive blog platform built with Next.js 15, featuring authenticati
 - **SVG Support**: Custom SVG handling with SVGR
 - **Performance**: Turbopack for faster development builds
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before you begin, ensure you have the following installed:
 - [Node.js](https://nodejs.org/) (version 18 or higher)
 - [Yarn](https://yarnpkg.com/) (recommended) or npm
 
-## 🛠️ Installation
+## Installation
 
 1. **Clone the repository**
    ```bash
@@ -46,7 +46,7 @@ Before you begin, ensure you have the following installed:
    NEXT_PUBLIC_API_URL=http://some-url.com
    ```
 
-## 🚀 Running the Application
+## Running the Application
 
 ### Development Mode
 ```bash
@@ -69,7 +69,7 @@ yarn start
 npm start
 ```
 
-## 🎨 Key Components
+## Key Components
 
 ### Authentication
 - **NextAuth.js**: Secure authentication with multiple providers
@@ -87,14 +87,14 @@ npm start
 - **Axios**: HTTP client for API calls
 - **Zustand**: Lightweight state management
 
-## 🔧 Available Scripts
+## Available Scripts
 
 - `yarn dev` - Start development server with Turbopack
 - `yarn build` - Build for production
 - `yarn start` - Start production server
 - `yarn lint` - Run ESLint
 
-## 🌐 Environment Configuration
+## Environment Configuration
 
 The application supports various environment variables for configuration:
 
@@ -103,7 +103,7 @@ The application supports various environment variables for configuration:
 - `NEXTAUTH_SECRET` - Secret key for NextAuth authentication
 - `NEXT_PUBLIC_API_URL` - Base URL for your public API requests
 
-## 🎯 Features Overview
+## Features Overview
 
 ### Blog Features
 - Article categories and filtering
@@ -123,7 +123,7 @@ The application supports various environment variables for configuration:
 - Prettier for code formatting
 - Husky for git hooks
 
-## 🚀 Deployment
+## Deployment
 
 ### Vercel (Recommended)
 1. Connect your GitHub repository to Vercel
@@ -137,7 +137,7 @@ The application can be deployed to any platform that supports Next.js:
 - DigitalOcean App Platform
 - AWS Amplify
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -145,14 +145,14 @@ The application can be deployed to any platform that supports Next.js:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 🆘 Support
+## Support
 
 If you encounter any issues or have questions:
 1. Check the [Issues](https://github.com/cs12-org/cs12n-blog/issues) page
 2. Create a new issue with detailed information
 3. Contact the development team
 
-## 🔄 Updates
+## Updates
 
 Stay updated with the latest changes by:
 - Watching the repository
