@@ -37,6 +37,18 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  rewrites: async () => {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://cs12-strapi-cs12.kubarcloud.net/api/:path*",
+      },
+      {
+        source: "/uploads/:path*",
+        destination: "https://cs12-strapi-cs12.kubarcloud.net/uploads/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
