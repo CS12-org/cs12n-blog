@@ -8,29 +8,34 @@ import ResponsiveSideBar from "../responsive-side-bar";
 
 const groups = [
   {
-    slug: "#",
+    slug: "/user-panel",
     icon: RiUser3Fill,
     title: "اطلاعات اولیه کاربر",
   },
   {
-    slug: "#",
+    slug: "/user-panel/saved-posts",
     icon: CiBookmark,
     title: "پست های سیو شده",
   },
   {
-    slug: "#",
+    slug: "/user-panel/notes",
     icon: TbNotes,
     title: "یادداشت ها و هایلایت ها",
   },
   {
-    slug: "#",
+    slug: "/user-panel/comments",
     icon: BiMessageAltDetail,
     title: "نظرات و پرسش و پاسخ",
   },
+  {
+    slug: "/user-panel/user-level",
+    icon: BiMessageAltDetail,
+    title: "؟درچه سطحی هستم",
+  },
 ];
 
-function UserPanelList() {
+function UserPanelSidebar() {
   return <ResponsiveSideBar title="پنل کاربری" groups={groups} />;
 }
 
-export default UserPanelList;
+export default UserPanelSidebar;

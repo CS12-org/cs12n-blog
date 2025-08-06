@@ -84,6 +84,7 @@ const ResponsiveSideBar = (prop: Props) => {
             <li key={group.title}>
               <Link
                 href={group.slug}
+                onClick={()=>toggleIsSideBarOpen()}
                 className={twJoin(
                   "flex items-center justify-between bg-mantle p-2",
                   "hover:brightness-110 active:brightness-95 transition",
