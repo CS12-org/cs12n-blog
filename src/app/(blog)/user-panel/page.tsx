@@ -8,6 +8,7 @@ import UserPanelList from "~/components/user-panel/user-panel-list";
 import Profile from "~/assets/images/user-profile.png";
 import Cs12Logo from "~/assets/images/cs12-logo.svg";
 import Image from "next/image";
+import CommentsTabUserPanel from "~/components/user-panel/comments-tab";
 
 function UserPanel() {
   return (
@@ -181,7 +182,11 @@ function UserPanel() {
             </div>
           </form>
         </section>
-      </main>
+
+
+ </main>
+
+
     </section>
   );
 }
