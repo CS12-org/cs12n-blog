@@ -1,5 +1,5 @@
 import ArticleCategories from "~/components/home/article-categories";
-import Post from "~/components/home/post";
+import Posts from "~/components/home/posts";
 import WeeklyChallenge from "~/components/home/weekly-challenge";
 import { getPosts } from "~/service/posts";
 
@@ -33,21 +33,7 @@ async function Home(props: Props) {
 
         <div aria-hidden className="h-[3px] bg-surface-0 my-5 rounded-full" />
 
-        <ul className="flex flex-col items-stretch gap-5">
-          {posts.data.map((post) => (
-            <li key={post.id} aria-label={post.title}>
-              <Post
-                title={post.title}
-                image={post.featured_image}
-                tags={post.tags}
-                // TODO: replace with post.claps
-                claps={5}
-                // TODO: replace with post.content
-                description="در این قسمت ما در مورد ترمینال ها و اطلاعات این چنینی یاد میگیریم، مطالبی که به ما کمک میکند و این یک متن بلند است برای تست"
-              />
-            </li>
-          ))}
-        </ul>
+        <Posts page={parsedPage} pageSize={parsedPageSize} posts={posts.data} />
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import axios from "~/lib/axios";
 /**
  * Parameters for the getPosts function.
  */
-type GetPostsParams = {
+export type GetPostsParams = {
   page: number;
   pageSize: number;
 };
@@ -12,72 +12,53 @@ type GetPostsParams = {
  * Result of the getPosts function.
  * This response is paginated.
  */
-type GetPostsResult = {
+export type GetPostsResult = {
   data: {
     id: number;
-    documentId: string;
-    claps: number;
-    content: string;
+    description: string;
     title: string;
+    content: string;
+    clap: number;
+    slug: string;
+    createdAt: string;
+    narrator: {
+      url: string;
+    } | null;
+    user: {
+      email: string;
+      username: string;
+    } | null;
     tags: {
       id: number;
-      documentId: string;
       title: string;
       slug: string;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-      locale: string | null;
     }[];
-    category: null;
-    user: {
+    category: {
       id: number;
-      documentId: string;
-      username: string;
-      email: string;
-      provider: string;
-      password: string;
-      resetPasswordToken: string | null;
-      confirmationToken: string | null;
-      confirmed: true;
-      blocked: false;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-      locale: string | null;
+      slug: string;
+      title: string;
     };
     featured_image: {
       id: number;
-      documentId: string;
-      name: string;
-      alternativeText: string | null;
-      caption: null;
       width: number;
       height: number;
-      formats: unknown;
-      hash: string;
-      ext: string;
-      mime: string;
-      size: number;
       url: string;
-      previewUrl: string | null;
-      provider: string;
-      provider_metadata: unknown;
-      folderPath: string;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-      locale: string | null;
     };
-    narrator: unknown;
-    slide_image: unknown;
+    slide_image:
+      | {
+          id: number;
+          width: number;
+          height: number;
+          url: string;
+        }[]
+      | null;
   }[];
   meta: {
     pagination: {
       page: number;
       pageSize: number;
-      pageCount: number;
       total: number;
+      pageCount: number;
     };
   };
 };

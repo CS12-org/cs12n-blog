@@ -41,11 +41,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://cs12-strapi-cs12.kubarcloud.net/api/:path*",
+        destination: "https://cs12-strapi.darkube.app/api/:path*",
       },
       {
         source: "/uploads/:path*",
-        destination: "https://cs12-strapi-cs12.kubarcloud.net/uploads/:path*",
+        destination: "https://cs12-strapi.darkube.app/uploads/:path*",
       },
     ];
   },

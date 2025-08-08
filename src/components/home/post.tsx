@@ -10,17 +10,18 @@ type Props = {
   title: string;
   claps: number;
   description: string;
+  slug: string;
   tags: { id: number; title: string; slug: string }[];
   image: { url: string; width: number; height: number };
 };
 
 function Post(props: Props) {
-  const { title, tags, description, claps, image } = props;
+  const { title, tags, description, claps, image, slug } = props;
 
   return (
     <article className="rounded-xl overflow-hidden bg-crust">
       <header>
-        <Link href="#" className="block w-full">
+        <Link href={`/post/${slug}`} className="block w-full">
           <Image
             alt={title}
             src={image.url}
@@ -31,7 +32,7 @@ function Post(props: Props) {
         </Link>
       </header>
       <main>
-        <Link href="#">
+        <Link href={`/post/${slug}`}>
           <h3 className="text-headline-md lg:text-headline-lg px-2.5 pt-4 pb-2.5 truncate">
             {title}
           </h3>

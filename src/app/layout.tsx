@@ -2,6 +2,7 @@ import "~/assets/styles/main.css";
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import ReactAriaClientProvider from "~/components/providers/react-aria-client-provider";
+import QueryProvider from "~/components/providers/query-provider";
 
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 
@@ -22,7 +23,9 @@ function RootLayout(props: RootLayoutProps) {
   return (
     <html lang="fa" dir="rtl" className={`${vazirmatn.variable} dark`}>
       <body className={`${vazirmatn.className} antialiased`}>
-        <ReactAriaClientProvider>{children}</ReactAriaClientProvider>
+        <ReactAriaClientProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </ReactAriaClientProvider>
       </body>
     </html>
   );
