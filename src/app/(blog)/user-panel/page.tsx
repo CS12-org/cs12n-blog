@@ -1,13 +1,13 @@
-import { Text } from "~/components/react-aria-components";
-import PlusSign from "~/assets/images/plus-sign.svg";
+import Image from "next/image";
 import Button from "~/components/button";
-import { SettingCheckboxOption } from "~/components/user-panel/setting-checkbox";
+import PlusSign from "~/assets/images/plus-sign.svg";
+import Cs12Logo from "~/assets/images/cs12-logo.svg";
+import Profile from "~/assets/images/user-profile.png";
+import { Text } from "~/components/react-aria-components";
 import { TextInput } from "~/components/user-panel/text-field";
 import MyRadioGroup from "~/components/user-panel/theme-setting";
 import UserPanelList from "~/components/user-panel/user-panel-list";
-import Profile from "~/assets/images/user-profile.png";
-import Cs12Logo from "~/assets/images/cs12-logo.svg";
-import Image from "next/image";
+import { SettingCheckboxOption } from "~/components/user-panel/setting-checkbox";
 
 function UserPanel() {
   return (

@@ -1,9 +1,11 @@
 import { z } from "zod";
 
 const publicConfigSchema = z.object({
-  NEXT_PUBLIC_API_URL: z.string().url(),
+  NEXT_PUBLIC_API_URL: z.url().min(1),
 });
 
-export const publicConfig = publicConfigSchema.parse({
+const publicConfig = publicConfigSchema.parse({
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
 });
+
+export default publicConfig;
