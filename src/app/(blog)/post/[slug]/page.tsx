@@ -2,7 +2,6 @@ import { BiMessageAltDetail } from "react-icons/bi";
 import { CiBookmark, CiPlay1 } from "react-icons/ci";
 import { IoShareSocialOutline } from "react-icons/io5";
 import Button from "~/components/button";
-import ShareHighlightsPrompt from "~/components/free-sections/share-highlights-prompt";
 import LicenceMark from "~/components/posts/license-mark";
 import PostAuthor from "~/components/posts/post-author";
 import PostNavigation from "~/components/posts/post-navigation";
@@ -10,9 +9,12 @@ import PostTabs from "~/components/posts/post-tabs";
 import Hands from "~/assets/images/hands-celebrate.svg";
 import PostImage from "~/assets/images/post-image.png";
 import Image from "next/image";
+import ReviewsSideBar from "~/components/posts/side-bars/post-side-bar-reviews.tsx";
 
 function PostPage() {
   return (
+    <section className="flex items-start gap-[15px]">
+      <ReviewsSideBar />
     <section className="text-white  w-full flex flex-col gap-[10px] ">
       <section className="bg-crust mb-[20px] rounded-[10px]">
         <header className="flex flex-col  ">
@@ -74,10 +76,10 @@ function PostPage() {
           </div>
         </section>
       </section>
-      <ShareHighlightsPrompt />
-      <PostAuthor />
+          <PostAuthor />
       <PostNavigation />
       <PostTabs />
+    </section>
     </section>
   );
 }
