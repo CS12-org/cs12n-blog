@@ -9,6 +9,7 @@ import PostTabs from "~/components/posts/post-tabs";
 import Hands from "~/assets/images/hands-celebrate.svg";
 import PostImage from "~/assets/images/post-image.png";
 import Image from "next/image";
+import AudioPlayer from "~/components/audio-player";
 
 import SharingSuccessPrompt from "~/components/free-sections/sharing-success-prompt";
 import ResumeSharingNotice from "~/components/free-sections/resume-sharing-notice";
@@ -33,24 +34,7 @@ function PostPage() {
             </h1>
           </header>
 
-          <section className="flex justify-between items-center p-[10px] lg:px-[30px] bg-mantle lg:py-[10px] ">
-            <div className="flex gap-[10px] ">
-              <Button className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center">
-                <CiPlay1 className="text-overlay-1  lg:h-[18px] lg:w-[20px] h-[16px] w-[16px] font-extrabold" />
-              </Button>
-              <Button className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center">
-                <CiBookmark className="text-overlay-1 h-[16px] w-[18px]  lg:h-[18px] lg:w-[20px] font-extrabold" />
-              </Button>
-              <span className="self-center text-sapphire font-extrabold">
-                |
-              </span>{" "}
-              <Button className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-full flex justify-center items-center">
-                <BiMessageAltDetail className="text-overlay-1 h-[16px] w-[18px]  lg:h-[18px] lg:w-[20px] font-extrabold" />
-              </Button>
-            </div>
-            <LicenceMark />
-          </section>
-
+          <AudioPlayer audioSrc="/audio.mp3" />
           <article className="lg:px-[30px] p-[10px] lg:py-[20px] lg:text-[16px] text-[14px]">
             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و ب
             استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
@@ -66,8 +50,6 @@ function PostPage() {
           </article>
 
           <section className="pt-[10px] ">
-            <Image src={PostImage} alt="post" className=" w-full " />
-
             <div className="lg:px-[30px] px-[10px] py-[10px] flex justify-between ">
               <Button className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center">
                 <IoShareSocialOutline className="text-overlay-1 h-[15px] w-[15px] lg:h-[21px] lg:w-[21px] font-extrabold" />
