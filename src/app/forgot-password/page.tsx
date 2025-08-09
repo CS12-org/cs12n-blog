@@ -1,7 +1,7 @@
 "use client";
-
+import Image from "next/image";
 import { twJoin } from "tailwind-merge";
-import Mohammadhoseincharacter from "~/assets/images/MH.svg";
+import Mohammadhoseincharacter from "~/assets/images/mohammad-hossein-character.png";
 import Button from "~/components/button";
 import { useState } from "react";
 
@@ -17,7 +17,9 @@ function Login() {
     return (
       <main className="min-h-dvh flex flex-col items-center">
         <form className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-[360px]">
-          <Mohammadhoseincharacter
+          <Image
+          src={Mohammadhoseincharacter}
+          alt="کرکتر محمد حسین"
             className={twJoin(
               "animate-fade-up animate-duration-1000 animate-delay-500",
               "absolute bottom-[165px] left-1/2 -translate-x-1/2 w-25 -z-1",
