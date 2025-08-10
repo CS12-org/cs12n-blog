@@ -3,7 +3,7 @@ function UserLevel() {
     <section className="flex gap-x-5 w-full items-start">
       <main className="flex flex-col gap-2.5 w-full text-subtext-1">
         <div className=" bg-mantle flex items-center justify-between rtl text-right rounded-[10px]">
-          <span className="font-Vazirmatn w-[670px] h-[36px] p-[10px] text-subtext-0 text-[12px]">
+          <span className="font-Vazirmatn w-full h-auto p-[10px] text-subtext-0 text-[12px]">
             در این بخش شما می‌بینید که در هر دوره‌ای که قبول کردید که یاد
             بگیرید، در چه سطحی هستید و کجای دوره ایستاده‌اید.
           </span>
@@ -28,7 +28,7 @@ function UserLevel() {
           <h1 className="font-extrabold text-3xl mt-2 mb-1">برنامه نویسی</h1>
         </header>
 
-        <div className="w-[680px] h-[150px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
+        <div className="w-full h-[150px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
           <div className="bg-crust flex items-center justify-between px-4 py-2 rounded-tl-[10px] rounded-tr-[10px]">
             <div className="flex gap-2">
               <span className="bg-base text-sapphire text-sm px-3 py-1 rounded-md font-Vazirmatn">
@@ -58,7 +58,7 @@ function UserLevel() {
             <br />- متغیر ها و دیتا تایپ ها در زبان سی [خلاصه مطلب]
           </div>
         </div>
-        <div className="w-[680px] h-[89px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
+        <div className="w-full h-[89px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
           <div className="bg-crust flex items-center justify-between px-4 py-2 rounded-tl-[10px] rounded-tr-[10px]">
             <div className="flex gap-2">
               <span className="bg-base text-sapphire text-sm px-3 py-1 rounded-md font-Vazirmatn">
@@ -86,7 +86,7 @@ function UserLevel() {
             </span>
           </div>
         </div>
-        <div className="w-[680px] h-[89px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
+        <div className="w-full h-[89px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
           <div className="bg-crust flex items-center justify-between px-4 py-2 rounded-tl-[10px] rounded-tr-[10px]">
             <div className="flex gap-2">
               <span className="bg-base text-sapphire text-sm px-3 py-1 rounded-md font-Vazirmatn">
@@ -115,7 +115,7 @@ function UserLevel() {
           </div>
         </div>
 
-        <div className="w-[680px] h-[89px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
+        <div className="w-full h-[89px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
           <div className="bg-crust flex items-center justify-between px-4 py-2 rounded-tl-[10px] rounded-tr-[10px]">
             <div className="flex gap-2">
               <span className="bg-base text-sapphire text-sm px-3 py-1 rounded-md font-Vazirmatn">
@@ -143,7 +143,7 @@ function UserLevel() {
             </span>
           </div>
         </div>
-        <div className="w-[680px] h-[89px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
+        <div className="w-full h-[89px] rounded-md overflow-hidden text-white rounded-br-[10px] rounded-bl-[10px]">
           <div className="bg-crust flex items-center justify-between px-4 py-2 rounded-tl-[10px] rounded-tr-[10px]">
             <div className="flex gap-2">
               <span className="bg-base text-sapphire text-sm px-3 py-1 rounded-md font-Vazirmatn">
