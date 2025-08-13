@@ -31,7 +31,7 @@ function PathPage() {
                 href="#"
                 className={twJoin(
                   "text-text text-body-md py-3 px-5 transition",
-                  "block w-full flex items-center gap-3 hover:bg-surface-0"
+                  "w-full flex items-center gap-3 hover:bg-surface-0"
                 )}
               >
                 <HiBookOpen className="size-6 shrink-0" />
@@ -54,7 +54,7 @@ function PathPage() {
                 href="#"
                 className={twJoin(
                   "text-text text-body-md py-3 px-5 transition",
-                  "block w-full flex items-center gap-3 hover:bg-surface-0"
+                  "w-full flex items-center gap-3 hover:bg-surface-0"
                 )}
               >
                 <HiBookOpen className="size-6 shrink-0" />

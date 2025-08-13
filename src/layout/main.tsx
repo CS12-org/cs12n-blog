@@ -10,7 +10,7 @@ function Main(props: Props) {
 
   return (
     <div className="px-6">
-      <div className="max-w-sm lg:max-w-235 mx-auto space-y-5 pb-5">
+      <div className="mx-auto space-y-5 pb-5 max-w-sm md:max-w-140 lg:max-w-235">
         <MainTopbar isBlured={true} />
         <main>{children}</main>
         <MainBottombar />

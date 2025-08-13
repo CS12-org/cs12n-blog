@@ -8,7 +8,7 @@ function PathPage() {
         <SiProcesswire className="h-14 w-14" />
       </div>
       <h1 className="text-headline-sm lg:text-headline-lg font-extrabold">
-        همه مسیر ها
+        مسیر یادگیری برنامه نویسی
       </h1>
       <p className="text-overlay-2 max-w-prose">
         مسیر تو از همین‌جا شروع می‌شود! یک معرفی عملی به تمام ابزارها و مفاهیم
@@ -23,13 +23,13 @@ function PathPage() {
         <div className="flex-1 h-0.5 bg-text" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full items-start">
         {Array.from({ length: 3 }).map((_, index) => (
           <article
             key={index}
-            className="bg-crust rounded-xl px-6 pt-8 pb-6 text-start flex flex-col"
+            className="bg-crust rounded-xl px-8 pt-10 pb-8 text-start flex flex-col border border-solid border-surface-0"
           >
-            <SiC className="size-14 self-center text-sapphire mb-6" />
+            <SiC className="size-16 self-center text-blue mb-6" />
 
             <p className="flex items-center justify-between w-full text-overlay-2 text-body-sm mb-4">
               <span>مسیر</span>
@@ -38,12 +38,14 @@ function PathPage() {
 
             <h3 className="text-headline-sm font-bold mb-3">آموزش مقدماتی C</h3>
 
-            <p className="text-overlay-1 text-body-sm mb-4">
-              {index != 2 && "توضیح کوتاه درباره این مسیر و مهارت‌هایی که یاد می‌گیرید."}
-              {index === 2 && "توضیح کوتاه درباره این مسیر و مهارت‌هایی که یاد می‌گیرید. توضیح کوتاه درباره این مسیر و مهارت‌هایی که یاد می‌گیرید. توضیح کوتاه درباره این مسیر و مهارت‌هایی که یاد می‌گیرید."}
+            <p className="text-overlay-1 text-body-md mb-4">
+              توضیح کوتاه درباره این مسیر و مهارت‌هایی که یاد می‌گیرید.
             </p>
 
-            <Button variant="none" className="self-start px-5 py-2 bg-sapphire text-base mt-auto">
+            <Button
+              variant="none"
+              className="self-start px-5 py-2 bg-sapphire text-base mt-auto"
+            >
               شروع مسیر
             </Button>
           </article>

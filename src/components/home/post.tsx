@@ -1,4 +1,5 @@
 import { FaComments, FaHandsClapping, FaRegBookmark } from "react-icons/fa6";
+import {HiChatBubbleBottomCenterText} from "react-icons/hi2"
 import { twMerge } from "tailwind-merge";
 import Button from "~/components/button";
 import { Link } from "~/components/react-aria-components";
@@ -63,7 +64,7 @@ function Post(props: Props) {
 
         <div className="flex items-center gap-5">
           <Button className="flex items-center gap-1.5" variant="none">
-            <FaComments size={20} className="text-overlay-1" />
+            <HiChatBubbleBottomCenterText size={20} className="text-overlay-1" />
             <span className="pt-1.5 text-white">نظرات</span>
           </Button>
 
