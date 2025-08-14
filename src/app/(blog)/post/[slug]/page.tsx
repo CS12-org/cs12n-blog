@@ -16,18 +16,18 @@ import ResumeSharingNotice from "~/components/free-sections/resume-sharing-notic
 import CommitMessegeInput from "~/components/free-sections/commit-message-input";
 import ChangeCommitMessege from "~/components/free-sections/change-commit-message";
 import ShareHighlightsPrompt from "~/components/free-sections/share-highlights-prompt";
-import ReviewsSideBar from "~/components/posts/side-bars/post-side-bar-reviews";
+
 function PostPage() {
   return (
     <section className="flex items-start gap-[15px]">
-      <ReviewsSideBar />
+   
       <section className="text-white  w-full flex flex-col gap-[10px] ">
         <section className="bg-crust mb-[20px] rounded-[10px]">
-          <header className="flex flex-col  ">
+          <header className="flex flex-col w-full ">
             <Image
               alt="post"
               src={PostImage}
-              className=" rounded-tl-[10px] rounded-tr-[10px]"
+              className=" rounded-tl-[10px] w-full h-auto rounded-tr-[10px]"
             />
             <h1 className="font-extrabold text-[18px]  lg:text-5xl px-[10px] py-[5px]  lg:px-[30px] lg:py-[25px] lg:pt-[15px] h-auto">
               این یک پست هست
@@ -48,7 +48,16 @@ function PostPage() {
             حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود
             طراحی اساسا مورد استفاده قرار گیرد.
           </article>
+          <Image src={PostImage} alt="post" className=" w-full " />
 
+<section className="flex flex-col gap-[10px] pt-[10px]">
+        <ShareHighlightsPrompt />
+        <SharingSuccessPrompt />
+        <ResumeSharingNotice />
+        <CommitMessegeInput />
+        <ChangeCommitMessege />
+        </section>
+     
           <section className="pt-[10px] ">
             <div className="lg:px-[30px] px-[10px] py-[10px] flex justify-between ">
               <Button className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center">
@@ -58,19 +67,13 @@ function PostPage() {
                 <span className="self-center text-[12px] text-subtext-1 ">
                   123
                 </span>
-                <Button>
+                <button>
                   <Hands className="lg:w-[25px] lg:h-[28px] w-[18px] h-[21px] mx-[5px] lg:mx-[0px] bg- " />
-                </Button>
+                </button>
               </div>
             </div>
           </section>
         </section>
-        <PostAuthor />
-        <ShareHighlightsPrompt />
-        <SharingSuccessPrompt />
-        <ResumeSharingNotice />
-        <CommitMessegeInput />
-        <ChangeCommitMessege />
         <PostAuthor />
         <PostNavigation />
         <PostTabs />
