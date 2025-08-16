@@ -81,7 +81,7 @@ function ReviewSection() {
         <span className="row-start-3 row-end-3 col-start-1 col-end-8 lg:col-end-4 self-center font-bold text-subtext-0">
           ریفرنس یا پاورقی بسازید:{" "}
         </span>
-        <div className="bg-base row-start-3 row-end-3 col-start-7 lg:col-start-3 lg:justify-self-end justify-self-start  self-center rounded-full h-[26px] w-[26px] flex justify-center items-center">
+        <div className="bg-base row-start-3 row-end-3 col-start-7 lg:col-start-4 mr-[-10px] lg:justify-self-start justify-self-start  self-center rounded-full h-[26px] w-[26px] flex justify-center items-center">
           <ExclamationMark fill="#91D7E3" className="h-[20px] w-[6px]" />
         </div>
         <Button className="lg:!h-[48px] self-center justify-self-center lg:!w-[48px] w-[35px] h-[35px] row-start-4 row-end-4 col-start-1 lg:col-end-1 col-end-3 bg-mantle flex justify-center items-center rounded-md">

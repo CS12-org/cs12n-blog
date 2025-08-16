@@ -47,11 +47,11 @@ function HighlightMessege() {
           <div className="flex gap-[5px]">
             <Button className="p-[10px] justify-center items-center text-subtext-0  bg-mantle h-[36px] flex gap-[7.5px]">
               {" "}
-              <Highlighter /> هایلایت ها
+              <Highlighter className="h-[28px] w-[28px]"/> هایلایت ها
             </Button>
             <Button className="p-[10px] justify-center items-center text-subtext-0  bg-mantle h-[36px] flex gap-[7.5px]">
               {" "}
-              <Notes /> یادداشت ها
+              <Notes className="h-[28px] w-[28px]"/> یادداشت ها
             </Button>
           </div>
           <Button className="bg- text-overlay-1 flex items-center gap-[5px]">

@@ -40,7 +40,7 @@ function HighlightCommentMessege() {
 <span aria-hidden className="w-[5px] shrink-0 bg-sapphire " ></span>
 <p className="  grow px-2.5 truncate">بخشی از متن که هایلایت شده آمده است اینجا</p>
 </section>
-          <Highlighter className="" />
+          <Highlighter  className="h-[28px] w-[28px]" />
         </section>
         <p className="px-[10px]">
           سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم شاید
