@@ -2,7 +2,7 @@ function SavedPost() {
   return (
     <section className="flex gap-x-5 w-full items-start">
       <main className="flex flex-col gap-2.5 w-full text-subtext-1 ">
-        <div className=" bg-mantle flex items-center justify-between rtl text-right rounded-[10px]  w-[700px] h-[68px]">
+        <div className=" bg-mantle flex items-center justify-between rtl text-right rounded-[10px]  w-full h-auto">
           <span className="font-Vazirmatn p-[10px] text-subtext-0 text-xs">
             در اینجا پست های ذخیره شده شما نمایش داده میشود. شما میتوانید تا سقف
             ۱۵ پست را ذخیره کنید تا بعدا مطالعه کنید. هر پست به مدت ۱۰ روز در
@@ -29,7 +29,8 @@ function SavedPost() {
         <header className="flex justify-between items-center">
           <h1 className="font-Vazirmatn text-xs mt-2 mb-1">( ۳ از ۱۵ )</h1>
         </header>
-        <div className="flex items-center justify-between bg-crust p-4 rounded-[10px] w-[700px] h-[59px]">
+        <div className="flex items-center justify-between bg-crust p-4 rounded-[10px] w-full h-[59px]">
+
           <div className="text-sm text-right text-white">
             عنوان پستی که ذخیره شده
           </div>
@@ -65,7 +66,7 @@ function SavedPost() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between bg-crust p-4  rounded-[10px] w-[700px] h-[59px]">
+        <div className="flex items-center justify-between bg-crust p-4  rounded-[10px] w-full h-[59px]">
           <div className="text-sm text-right text-white">
             عنوان پستی که ذخیره شده
           </div>
@@ -99,7 +100,7 @@ function SavedPost() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between bg-crust p-4  rounded-[10px] w-[700px] h-[59px]">
+        <div className="flex items-center justify-between bg-crust p-4  rounded-[10px] w-full h-[59px]">
           <div className="text-sm text-right text-white">
             عنوان پستی که ذخیره شده
           </div>

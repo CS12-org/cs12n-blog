@@ -71,7 +71,7 @@ function ReviewSection() {
             placeholder="نقد و نکات تکمیلی رو اینجا بنویسید ..."
           />
         </div>
-        <Button className="row-start-2 justify-self-start self-center row-end-2 col-start-13 lg:col-start-14 col-end-15 bg-base rounded-[10px] lg:h-[48px] lg:w-[48px] w-[35px] h-[35px] lg:self-center justify-self-center flex justify-center items-center">
+        <Button className="row-start-2 self-center row-end-2 col-start-13 lg:col-start-14 col-end-15 bg-base rounded-[10px] lg:h-[48px] lg:w-[48px] w-[35px] h-[35px] lg:self-center justify-self-center flex justify-center items-center">
           <Picture className="w-[22px]" />
         </Button>
         <span className="row-start-3 row-end-3 col-start-1 col-end-8 lg:col-end-4 self-center font-bold text-subtext-0">
