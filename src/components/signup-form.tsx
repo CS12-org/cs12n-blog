@@ -5,12 +5,13 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import FarhanCharacter from "~/assets/images/FR.svg";
+import FarhanCharacter from "~/assets/images/farhan-character.png";
 import Button from "~/components/button";
 import { Input, Text, TextField } from "~/components/react-aria-components";
 import { twJoin } from "tailwind-merge";
 import { useRouter } from "next/navigation";
 import axios from "~/lib/axios";
+import Image from "next/image";
 
 const SignUpSchema = z
   .object({
@@ -79,8 +80,9 @@ function SignUpForm() {
         onSubmit={submitHandler}
         className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-full max-w-sm"
       >
-        {/* TODO: Replace svg with a image */}
-        <FarhanCharacter
+        <Image
+        src={FarhanCharacter}
+        alt="کرکتر فرهان"
           className={twJoin(
             "animate-fade-up animate-duration-1000 animate-delay-500",
             "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1",
