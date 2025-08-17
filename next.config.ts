@@ -37,6 +37,18 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  rewrites: async () => {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://cms.cs12.ir/api/:path*",
+      },
+      {
+        source: "/uploads/:path*",
+        destination: "https://cms.cs12.ir/uploads/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
