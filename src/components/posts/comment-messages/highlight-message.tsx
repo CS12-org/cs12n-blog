@@ -25,11 +25,11 @@ function HighlightMessege() {
           <span className="text-[12px]">2+</span>
           <Button className="bg-teal w-[28px] h-[28px] rounded-[5px] flex justify-center items-center">
             {" "}
-            <IncreaseArrow />
+            <IncreaseArrow   className="w-[20px] h-[10px]"/>
           </Button>
           <Button className="bg-maroon flex justify-center items-center w-[28px] h-[28px] rounded-[5px]">
             {" "}
-            <DecreaseArrow />{" "}
+            <DecreaseArrow   className="w-[20px] h-[10px]"/>{" "}
           </Button>
           <Button className="bg-  text-subtext-0">
             {" "}
@@ -47,16 +47,16 @@ function HighlightMessege() {
           <div className="flex gap-[5px]">
             <Button className="p-[10px] justify-center items-center text-subtext-0  bg-mantle h-[36px] flex gap-[7.5px]">
               {" "}
-              <Highlighter /> هایلایت ها
+              <Highlighter className="h-[28px] w-[28px]"/> هایلایت ها
             </Button>
             <Button className="p-[10px] justify-center items-center text-subtext-0  bg-mantle h-[36px] flex gap-[7.5px]">
               {" "}
-              <Notes /> یادداشت ها
+              <Notes className="h-[28px] w-[28px]"/> یادداشت ها
             </Button>
           </div>
           <Button className="bg- text-overlay-1 flex items-center gap-[5px]">
             12
-            <Comments />
+            <Comments  className="w-[29px] h-[29px]" />
           </Button>
         </section>
       </section>

@@ -7,7 +7,9 @@ import Button from "./button";
 import { CiBookmark, CiPlay1, CiPause1 } from "react-icons/ci";
 import { BiMessageAltDetail } from "react-icons/bi";
 import LicenceMark from "./posts/license-mark";
-
+import Comments from "../assets/images/comments.svg"
+import Play from "~/assets/images/play-audio.svg"
+import Save from "~/assets/images/save.svg"
 export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -90,9 +92,9 @@ const handleSeek = (value: number | number[]) => {
             aria-label={isPlaying ? "Pause audio" : "Play audio"}
           >
             {isPlaying ? (
-              <CiPause1 className="text-overlay-1 lg:h-[18px] lg:w-[20px] h-[16px] w-[16px] font-extrabold" />
+              <CiPause1 className="text-overlay-1 lg:h-[18px] lg:w-[20px] h-[20px] w-[20px] font-extrabold" />
             ) : (
-              <CiPlay1 className="text-overlay-1 lg:h-[18px] lg:w-[20px] h-[16px] w-[16px] font-extrabold" />
+              <Play className="text-overlay-1 lg:h-[24px] lg:w-[24px] h-[20px] w-[20px] font-extrabold" />
             )}
           </Button>
 
@@ -100,7 +102,7 @@ const handleSeek = (value: number | number[]) => {
             className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center"
             aria-label="Bookmark"
           >
-            <CiBookmark className="text-overlay-1 h-[16px] w-[18px] lg:h-[18px] lg:w-[20px] font-extrabold" />
+            <Save className="text-overlay-1 h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] font-extrabold" />
           </Button>
 
           <span className="self-center text-sapphire font-extrabold">|</span>{" "}
@@ -109,7 +111,7 @@ const handleSeek = (value: number | number[]) => {
             className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-full flex justify-center items-center"
             aria-label="Comments"
           >
-            <BiMessageAltDetail className="text-overlay-1 h-[16px] w-[18px] lg:h-[18px] lg:w-[20px] font-extrabold" />
+            <Comments className="text-overlay-1 h-[20px] w-[20px] lg:h-[29px] lg:w-[29px] font-extrabold" />
           </Button>
         </section>
         <LicenceMark />
@@ -129,7 +131,7 @@ const handleSeek = (value: number | number[]) => {
   <SliderTrack className="bg-base h-1 cursor-pointer relative overflow-hidden">
  
     <div
-      className="absolute left-0 top-0 h-1  bg-sapphire transition-all duration-150 ease-linear"
+      className="absolute left-0 top-0 h-[2px]  bg-sapphire transition-all duration-150 ease-linear"
       style={{
         width: duration ? `${(currentTime / duration) * 100}%` : "0%",
       }}

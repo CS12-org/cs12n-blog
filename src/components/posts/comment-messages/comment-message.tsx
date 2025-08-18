@@ -22,10 +22,10 @@ function CommentMessege() {
         <div className="flex items-center gap-[10px]">
           <span className="text-[12px]">2+</span>
           <Button className="bg-teal w-[28px] h-[28px] rounded-[5px] flex justify-center items-center">
-            <IncreaseArrow />
+            <IncreaseArrow className="w-[20px] h-[10px]" />
           </Button>
           <Button className="bg-maroon flex justify-center items-center w-[28px] h-[28px] rounded-[5px]">
-            <DecreaseArrow />
+            <DecreaseArrow  className="w-[20px] h-[10px]" />
           </Button>
           <Button className="bg-  text-subtext-0">
             <ThreeDotts />
@@ -40,7 +40,7 @@ function CommentMessege() {
         </p>
         <section className="flex justify-between">
           <Button className="bg- text-text flex items-center gap-[5px]">
-            <CommentsIcon />
+            <CommentsIcon className="w-[29px] h-[29px]" />
             پاسخ ها
           </Button>
         </section>

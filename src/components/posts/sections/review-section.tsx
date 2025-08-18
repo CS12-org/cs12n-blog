@@ -10,14 +10,14 @@ import ReviewMessege from "../comment-messages/review-message";
 function ReviewSection() {
   return (
     <section className="text-text flex flex-col gap-[10px]">
-      <header className="bg-crust text-subtext-0 rounded-[10px]  w-full p-[20px] font-extrabold text-[20px]">
+      <header className="bg-crust flex  justify-center lg:justify-start text-subtext-0 rounded-[10px]  w-full p-[20px] font-extrabold text-[20px]">
         نقد و بررسی و نکات تکمیلی
       </header>
       <section className="flex flex-col  rounded-[10px] bg-crust gap-[15px]  lg:py-[28px] p-[10px] lg:px-[20px]">
         <header className="flex justify-between items-center">
           <div className="flex gap-[5px] items-center">
             <div className="bg-mantle  rounded-full w-[38px] h-[38px] flex justify-center items-center">
-              <ExclamationMark fill="#ED8796" />
+              <ExclamationMark fill="#ED8796" className="w-[28pc] h-[28px]" />
             </div>
             <Text className="text-maroon  font-extrabold lg:text-[20px] text-[16px]">
               توجه !
@@ -59,14 +59,18 @@ function ReviewSection() {
         </article>
       </section>
 
-      <section className="text-[14px] gap-[5px] grid lg:grid-rows-5 grid-rows-6 grid-cols-14  bg-crust rounded-[10px] lg:pb-[30px] lg:px-[60px] p-[10px] lg:pt-[15px]">
-        <span className="flex gap-[10px] self-end items-center pb-[5px] row-start-1 row-end-1 col-start-1 col-end-7 lg:col-end-3 ">
-          <Anonymous />
-          <span className="font-bold text-subtext-0">نام فرد</span>
-        </span>
+      <section className="text-[14px] bg-crust rounded-[10px] lg:pb-[30px] lg:px-[60px] p-[10px] ">
+<section className=" gap-x-[5px]  grid lg:grid-rows-4 grid-rows-5 grid-cols-14 ">
+<section className="flex gap-[10px]  items-end pb-[5px] ">
+           <section className="shadow-inner shadow-[#24273A] flex items-center justify-center h-[35px] w-[35px] rounded-full">
+          <Anonymous aria-lable="آیکون فرد" className="bg-crust rounded-full h-[25px] w-[25px]"/>
+           </section>
+
+          <span className="font-bold text-subtext-0 flex-1 whitespace-nowrap mb-[8px]">نام فرد</span>
+        </section>
         <div className="row-start-2 row-end-2 col-start-1 col-end-13 lg:col-end-14 ">
           <TextInput
-            className="!p-[15px]  lg:h-auto h-[35px] w-full lg:text-[14px] text-[12px] placeholder:text-text text-text   "
+            className="!p-[15px] border-b-[1px] border-surface-0   lg:h-auto h-[35px] w-full lg:text-[14px] text-[12px] placeholder:text-text text-text   "
             name="نقد و نکات"
             placeholder="نقد و نکات تکمیلی رو اینجا بنویسید ..."
           />
@@ -77,27 +81,28 @@ function ReviewSection() {
         <span className="row-start-3 row-end-3 col-start-1 col-end-8 lg:col-end-4 self-center font-bold text-subtext-0">
           ریفرنس یا پاورقی بسازید:{" "}
         </span>
-        <div className="bg-base row-start-3 row-end-3 col-start-7 lg:col-start-3 lg:justify-self-end justify-self-start  self-center rounded-full h-[26px] w-[26px] flex justify-center items-center">
+        <div className="bg-base row-start-3 row-end-3 col-start-7 lg:col-start-4 mr-[-10px] lg:justify-self-start justify-self-start  self-center rounded-full h-[26px] w-[26px] flex justify-center items-center">
           <ExclamationMark fill="#91D7E3" className="h-[20px] w-[6px]" />
         </div>
-        <Button className="lg:!h-[48px] self-end justify-self-center lg:!w-[48px] w-[35px] h-[35px] row-start-4 row-end-4 col-start-1 lg:col-end-1 col-end-3 bg-mantle flex justify-center items-center rounded-md">
+        <Button className="lg:!h-[48px] self-center justify-self-center lg:!w-[48px] w-[35px] h-[35px] row-start-4 row-end-4 col-start-1 lg:col-end-1 col-end-3 bg-mantle flex justify-center items-center rounded-md">
           <PlusSign className="lg:w-[28px] lg:h-[28px] w-[20px]" />
         </Button>
         <div className="row-start-4 row-end-4 col-start-3 col-end-15 self-center  lg:col-start-2 lg:col-end-5 ">
           <TextInput
-            className=" lg:text-[14px] text-[12px] lg:h-auto h-[35px] !p-[15px] w-full placeholder:text-text text-text"
+            className=" lg:text-[14px] border-b-[1px] border-surface-0 text-[12px] lg:h-auto h-[35px] !p-[15px] w-full placeholder:text-text text-text"
             name="نقد و نکات"
             placeholder="نام کلمه یا عدد ریفرنس"
           />
         </div>
-        <div className="lg:row-start-4 lg:row-end-4 row-start-5 col-start-1 lg:col-start-5 col-end-15">
+        <div className="lg:row-start-4 lg:row-end-4 row-start-5 col-start-1 lg:col-start-5 col-end-15 self-center">
           <TextInput
-            className=" lg:text-[14px] text-[12px]  lg:h-auto h-[35px] !p-[15px] w-full  placeholder:text-text text-text"
+            className=" lg:text-[14px] border-b-[1px] border-surface-0 text-[12px]  lg:h-auto h-[35px] !p-[15px] w-full  placeholder:text-text text-text"
             name="نقد و نکات"
             placeholder="توضیح کلمه تخصصی یا لینک ..."
           />
         </div>
-        <Button className="bg-blue w-full lg:row-start-5 lg:row-end-5 row-start-6 col-start-1 mt-[5px] col-end-15 lg:h-[52px] h-[35px] font-bold rounded-[10px] text-crust">
+</section>
+        <Button className="bg-blue  w-full  mt-[15px]  lg:h-[52px] h-[35px] font-bold rounded-[10px] text-crust">
           ارسال نقد
         </Button>
       </section>
