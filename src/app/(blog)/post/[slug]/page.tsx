@@ -17,12 +17,17 @@ import CommitMessegeInput from "~/components/free-sections/commit-message-input"
 import ChangeCommitMessege from "~/components/free-sections/change-commit-message";
 import ShareHighlightsPrompt from "~/components/free-sections/share-highlights-prompt";
 import HighlightMenu from "~/components/posts/highlight-menu";
+import SharePopoverButton from "../../../../components/posts/share-button";
 
 function PostPage() {
   return (
     <section className="flex items-start gap-[15px]">
-     <PostSideBar />
-      <section className="text-white  w-full flex flex-col gap-[10px] ">
+    
+   
+<PostSideBar className="hidden lg:flex" />
+
+     
+      <section className="text-white z-10 w-full flex flex-col gap-[10px] ">
            <HighlightMenu containerId="highlight-area"/>
         <section className="bg-crust mb-[20px] rounded-[10px]">
           <header className="flex flex-col w-full ">
@@ -103,9 +108,10 @@ function PostPage() {
      
           <section className="pt-[10px] ">
             <div className="lg:px-[30px] px-[10px] py-[10px] flex justify-between ">
-              <Button className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center">
+           <SharePopoverButton/>
+              {/* <Button className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center">
                 <IoShareSocialOutline className="text-overlay-1 h-[15px] w-[15px] lg:h-[21px] lg:w-[21px] font-extrabold" />
-              </Button>
+              </Button> */}
               <div className="flex gap-[6px]">
                 <span className="self-center text-[12px] text-subtext-1 ">
                   123
