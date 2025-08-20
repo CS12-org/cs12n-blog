@@ -1,42 +1,24 @@
-import { BiMessageAltDetail } from "react-icons/bi";
-import { CiBookmark, CiPlay1 } from "react-icons/ci";
-import { IoShareSocialOutline } from "react-icons/io5";
-import Button from "~/components/button";
-import LicenceMark from "~/components/posts/license-mark";
-import PostAuthor from "~/components/posts/post-author";
-import PostNavigation from "~/components/posts/post-navigation";
-import PostTabs from "~/components/posts/post-tabs";
-import Hands from "~/assets/images/hands-celebrate.svg";
 import Image from "next/image";
+import Hands from "~/assets/images/hands-celebrate.svg";
+import PostSideBar from "~/components/posts/side-bar";
+import HighlightMenu from "~/components/posts/highlight-menu";
 import AudioPlayer from "~/components/audio-player";
-import PostSideBar from "~/components/posts/side-bar.tsx";
+import ShareHighlightsPrompt from "~/components/free-sections/share-highlights-prompt";
 import SharingSuccessPrompt from "~/components/free-sections/sharing-success-prompt";
 import ResumeSharingNotice from "~/components/free-sections/resume-sharing-notice";
 import CommitMessegeInput from "~/components/free-sections/commit-message-input";
 import ChangeCommitMessege from "~/components/free-sections/change-commit-message";
-import ShareHighlightsPrompt from "~/components/free-sections/share-highlights-prompt";
-import HighlightMenu from "~/components/posts/highlight-menu";
 import SharePopoverButton from "../../../../components/posts/share-button";
-import axios from "axios";
-
-
-async function getPostBySlug(slug: string) {
-  try {
-    const res = await axios.get(`https://cms.cs12.ir/api/posts/get-by-id/${slug}`);
-    return res.data;
-  } catch (err: any) {
-    console.error("خطا در گرفتن پست:", err.response?.status, err.response?.data);
-    throw new Error("خطا در گرفتن پست");
-  }
-}
-
+import PostAuthor from "~/components/posts/post-author";
+import PostNavigation from "~/components/posts/post-navigation";
+import PostTabs from "~/components/posts/post-tabs";
+import { getPostBySlug } from "~/service/posts";
 
 type Props = {
   params: {
     slug: string;
   };
 };
-
 
 export default async function PostPage({ params }: Props) {
   const post = await getPostBySlug(params.slug);
@@ -53,7 +35,7 @@ export default async function PostPage({ params }: Props) {
             {post.featured_image && (
               <Image
                 alt={post.title}
-                src={`https://cms.cs12.ir${post.featured_image.url}`}
+                src={post.featured_image.url.startsWith("http") ? post.featured_image.url : `https://cms.cs12.ir${post.featured_image.url}`}
                 width={post.featured_image.width}
                 height={post.featured_image.height}
                 className="rounded-tl-[10px] rounded-tr-[10px] w-full h-auto"
@@ -76,7 +58,7 @@ export default async function PostPage({ params }: Props) {
 
           {post.featured_image && (
             <Image
-              src={`https://cms.cs12.ir${post.featured_image.url}`}
+              src={post.featured_image.url.startsWith("http") ? post.featured_image.url : `https://cms.cs12.ir${post.featured_image.url}`}
               alt={post.title}
               width={post.featured_image.width}
               height={post.featured_image.height}
