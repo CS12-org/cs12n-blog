@@ -19,10 +19,10 @@ export type Post = {
  */
 export const getPostBySlug = async (slug: string): Promise<Post> => {
   try {
-    const res = await axios.get(`/api/posts/get-by-id/${slug}`);
+    const res = await axios.get(`/api/posts/get-by-slug/${slug}`);
     return res.data;
   } catch (err: any) {
-    console.error("خطا در گرفتن پست:", err.response?.status, err.response?.data);
+    console.log(err)
     throw new Error("خطا در گرفتن پست");
   }
 };
