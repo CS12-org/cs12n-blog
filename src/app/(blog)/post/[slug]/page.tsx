@@ -89,7 +89,7 @@ export default async function PostPage({ params }: Props) {
           </section>
         </section>
 
-        <PostAuthor />
+    <PostAuthor user={post.user} />
         <PostNavigation />
         <PostTabs />
       </section>

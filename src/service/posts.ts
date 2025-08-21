@@ -12,6 +12,12 @@ export type Post = {
     height: number;
     url: string;
   } | null;
+  user: {
+    email: string;
+    username: string;
+    avatarUrl?: string; // اختیاری
+    bio?: string;       // اختیاری
+  } | null;
 };
 
 /**
@@ -22,7 +28,7 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
     const res = await axios.get(`/api/posts/get-by-slug/${slug}`);
     return res.data;
   } catch (err: any) {
-    console.log(err)
+    console.log(err);
     throw new Error("خطا در گرفتن پست");
   }
 };
