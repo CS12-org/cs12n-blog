@@ -64,7 +64,7 @@ function Post(props: Props) {
         <div className="flex items-center gap-5">
           <Button className="flex items-center gap-1.5" variant="none">
             <Comments  className="text-overlay-1 w-[29px] h-[29px]" />
-            <span className="pt-1.5 text-white">نظرات</span>
+            <span className="text-white">نظرات</span>
           </Button>
 {/* 
           <Button className="flex items-center gap-1.5" variant="none">
@@ -72,7 +72,7 @@ function Post(props: Props) {
             <span className="pt-1.5 text-white">{claps}</span>
           </Button> */}
 
-          <p className="pt-1.5 text-white mr-auto">3 دقیقه</p>
+          <p className=" text-white mr-auto">3 دقیقه</p>
           <Button variant="none">
             <Save className="text-overlay-1 w-[27px] h-[27px]" />
           </Button>
