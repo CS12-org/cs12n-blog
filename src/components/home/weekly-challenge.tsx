@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { FaPersonRunning, FaRegClock } from "react-icons/fa6";
+import RunnintPerson from "~/assets/images/running-with-obstacles.svg"
+import Oclock from "~/assets/images/time-oclock.svg"
 import { twJoin } from "tailwind-merge";
 import Cs12ChallengeImg from "~/assets/images/cs12-challenge.png";
 import Cs12ChallengeLogo from "~/assets/images/cs12challengelogo.png";
@@ -13,8 +15,8 @@ function WeeklyChallenge() {
     <article className="rounded-xl bg-crust py-5">
       <header className="px-5 flex items-center gap-1 [&>*]:shrink-0 mb-2.5">
         <h3 className="text-body-sm text-subtext-0">چالش هفتگی</h3>
-        <FaPersonRunning size={20} className="text-yellow" />
-        <FaRegClock size={18} className="mr-auto text-lavender" />
+        <RunnintPerson  className="text-yellow w-[23px] h-[23px]" />
+        <Oclock  className="mr-auto text-lavender w-[20px] h-[20px]" />
       </header>
 
       <main className="px-6 lg:px-10">
