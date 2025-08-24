@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import MainBottombar from "./main-bottom-bar";
 import MainFooter from "./main-footer";
 import MainTopbar from "./main-top-bar";
+import Footer from "~/components/footer";
 
 type Props = { children?: ReactNode };
 
@@ -15,6 +16,7 @@ function Main(props: Props) {
         <main>{children}</main>
         <MainBottombar />
         <MainFooter />
+        <Footer />
       </div>
     </div>
   );
