@@ -13,6 +13,7 @@ import PostAuthor from "~/components/posts/post-author";
 import PostNavigation from "~/components/posts/post-navigation";
 import PostTabs from "~/components/posts/post-tabs";
 import { getPostBySlug } from "~/service/posts";
+import ClapButton from "~/components/posts/clap-button";
 
 type Props = {
   params: {
@@ -20,13 +21,15 @@ type Props = {
   };
 };
 
-export default async function PostPage({ params }: Props) {
-  const post = await getPostBySlug(params.slug);
+export default async function PostPage(props: Props) {
+  const { slug } = props.params; 
+  const post = await getPostBySlug(slug);
+
+  if (!post) return <p className="text-white p-10">Post not found.</p>;
 
   return (
     <section className="flex items-start gap-[15px]">
       <PostSideBar className="hidden lg:flex" />
-
       <section className="text-white z-10 w-full flex flex-col gap-[10px]">
         <HighlightMenu containerId="highlight-area" />
 
@@ -35,7 +38,10 @@ export default async function PostPage({ params }: Props) {
             {post.featured_image && (
               <Image
                 alt={post.title}
-                src={post.featured_image.url.startsWith("http") ? post.featured_image.url : `https://cms.cs12.ir${post.featured_image.url}`}
+                src={post.featured_image.url.startsWith("http")
+                  ? post.featured_image.url
+                  : `https://cms.cs12.ir${post.featured_image.url}`
+                }
                 width={post.featured_image.width}
                 height={post.featured_image.height}
                 className="rounded-tl-[10px] rounded-tr-[10px] w-full h-auto"
@@ -58,7 +64,10 @@ export default async function PostPage({ params }: Props) {
 
           {post.featured_image && (
             <Image
-              src={post.featured_image.url.startsWith("http") ? post.featured_image.url : `https://cms.cs12.ir${post.featured_image.url}`}
+              src={post.featured_image.url.startsWith("http")
+                ? post.featured_image.url
+                : `https://cms.cs12.ir${post.featured_image.url}`
+              }
               alt={post.title}
               width={post.featured_image.width}
               height={post.featured_image.height}
@@ -77,19 +86,13 @@ export default async function PostPage({ params }: Props) {
           <section className="pt-[10px]">
             <div className="lg:px-[30px] px-[10px] py-[10px] flex justify-between">
               <SharePopoverButton />
-              <div className="flex gap-[6px]">
-                <span className="self-center text-[12px] text-subtext-1">
-                  {post.clap}
-                </span>
-                <button>
-                  <Hands className="lg:w-[25px] lg:h-[28px] w-[18px] h-[21px]" />
-                </button>
-              </div>
+        <ClapButton postId={post.id} slug={post.slug} />
+
             </div>
           </section>
         </section>
 
-    <PostAuthor user={post.user} />
+        <PostAuthor user={post.user} />
         <PostNavigation />
         <PostTabs />
       </section>
