@@ -10,7 +10,7 @@ import Hands from "~/assets/images/hands-celebrate.svg";
 import PostImage from "~/assets/images/post-image.png";
 import Image from "next/image";
 import AudioPlayer from "~/components/audio-player";
-import PostSideBar from "~/components/posts/side-bar.tsx";
+import PostSideBar from "~/components/posts/side-bar";
 import SharingSuccessPrompt from "~/components/free-sections/sharing-success-prompt";
 import ResumeSharingNotice from "~/components/free-sections/resume-sharing-notice";
 import CommitMessegeInput from "~/components/free-sections/commit-message-input";
