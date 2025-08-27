@@ -3,47 +3,44 @@ import axios from "~/lib/axios";
 import { Post } from "~/service/posts";
 import { useState } from "react";
 
-export function useClap({ postId, slug }: { postId: number; slug: string }) {
+type Props = {
+  postId: number;
+  slug: string;
+  data: Post
+}
+
+export function useClap({ postId, slug, data }: Props) {
   const queryClient = useQueryClient();
   const [clickCount, setClickCount] = useState(0);
   const maxClicks = 5;
 
- 
-  const { data: post, isLoading } = useQuery<Post>({
+  const { data: post, isLoading } = useQuery({
+    initialData: data,
     queryKey: ["post", slug],
-    queryFn: async () => {
-      const res = await axios.get(`/api/posts/get-by-slug/${slug}`);
-      return res.data.data;
-    },
+    queryFn: () =>
+      axios.get<Post>(`/api/posts/get-by-slug/${slug}`).then((res) => res.data),
   });
 
-
   const mutation = useMutation({
-    mutationFn: async () => {
-      const res = await axios.post(`/api/posts/add-clap/${postId}`, {});
-      return res.data;
-    },
+    mutationFn: (postId: number) =>
+      axios.post(`/api/posts/add-clap/${postId}`, {}).then((res) => res.data),
     onMutate: async () => {
       setClickCount((prev) => prev + 1);
 
-    
-      queryClient.setQueryData<Post>(["post", slug], (old) => {
-        if (!old) return old as Post;
+      return queryClient.setQueryData<Post>(["post", slug], (old) => {
+        if (!old) return old;
         return { ...old, clap: old.clap + 1 };
       });
     },
-    onError: () => {
+    onError: (_1, _2, ctx) => {
       setClickCount((prev) => prev - 1);
-      queryClient.invalidateQueries({ queryKey: ["post", slug] });
-    },
-    onSuccess: (newData) => {
-      queryClient.setQueryData<Post>(["post", slug], newData);
+      queryClient.setQueryData(["post", slug], ctx);
     },
   });
 
   const handleClap = () => {
     if (clickCount < maxClicks) {
-      mutation.mutate();
+      mutation.mutate(postId);
     }
   };
 

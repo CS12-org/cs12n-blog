@@ -16,13 +16,13 @@ import { getPostBySlug } from "~/service/posts";
 import ClapButton from "~/components/posts/clap-button";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export default async function PostPage(props: Props) {
-  const { slug } = props.params; 
+  const { slug } = await props.params; 
   const post = await getPostBySlug(slug);
 
   if (!post) return <p className="text-white p-10">Post not found.</p>;
@@ -53,7 +53,7 @@ export default async function PostPage(props: Props) {
             </h1>
           </header>
 
-          {post.narrator && <AudioPlayer audioSrc={post.narrator} />}
+          {post.narrator && <AudioPlayer audioSrc={post.narrator.url} />}
 
           <article
             id="highlight-area"
@@ -86,7 +86,7 @@ export default async function PostPage(props: Props) {
           <section className="pt-[10px]">
             <div className="lg:px-[30px] px-[10px] py-[10px] flex justify-between">
               <SharePopoverButton />
-        <ClapButton postId={post.id} slug={post.slug} />
+        <ClapButton data={post} postId={post.id} slug={post.slug} />
 
             </div>
           </section>
