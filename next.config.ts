@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 interface RuleWithTest {
   test?: RegExp;
-  issuer?: any;
-  resourceQuery?: any;
+  issuer?: unknown;
+  resourceQuery?: unknown;
 }
 
 const nextConfig: NextConfig = {
@@ -51,11 +51,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://cms.cs12.ir/api/:path*",
+        destination: "http://localhost:1337/api/:path*",
       },
       {
         source: "/uploads/:path*",
-        destination: "https://cms.cs12.ir/uploads/:path*",
+        destination: "http://localhost:1337/uploads/:path*",
       },
     ];
   },
