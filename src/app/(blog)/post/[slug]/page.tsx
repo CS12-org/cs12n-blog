@@ -35,7 +35,7 @@ export default async function PostPage({ params }: Props) {
             {post.featured_image && (
               <Image
                 alt={post.title}
-                src={post.featured_image.url.startsWith("http") ? post.featured_image.url : `https://cms.cs12.ir${post.featured_image.url}`}
+                src={post.featured_image.url}
                 width={post.featured_image.width}
                 height={post.featured_image.height}
                 className="rounded-tl-[10px] rounded-tr-[10px] w-full h-auto"
@@ -58,11 +58,11 @@ export default async function PostPage({ params }: Props) {
 
           {post.featured_image && (
             <Image
-              src={post.featured_image.url.startsWith("http") ? post.featured_image.url : `https://cms.cs12.ir${post.featured_image.url}`}
               alt={post.title}
+              className="w-full"
+              src={post.featured_image.url}
               width={post.featured_image.width}
               height={post.featured_image.height}
-              className="w-full"
             />
           )}
 

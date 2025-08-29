@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 import { type FunctionComponent, useEffect, useId, useState } from "react";
 import { FaAnglesRight, FaX } from "react-icons/fa6";
 import { twJoin, twMerge } from "tailwind-merge";
@@ -12,8 +13,10 @@ type Props = {
   title: string;
   groups: {
     slug: string;
-    icon: FunctionComponent<{ className?: string; size?: number }>;
     title: string;
+    icon:
+      | { url: string; width: number; height: number }
+      | FunctionComponent<{ className?: string; size?: number }>;
   }[];
 };
 const ResponsiveSideBar = (prop: Props) => {
@@ -31,7 +34,7 @@ const ResponsiveSideBar = (prop: Props) => {
 
   const sideBarOpen = useMainLayoutStore((state) => state.isSideBarOpen);
   const toggleIsSideBarOpen = useMainLayoutStore(
-    (state) => state.toggleIsSideBarOpen,
+    (state) => state.toggleIsSideBarOpen
   );
 
   const asideContents = (
@@ -57,7 +60,7 @@ const ResponsiveSideBar = (prop: Props) => {
           className={twMerge(
             "bg-base p-1.5 rounded-lg mr-auto shrink-0",
             collapsed && "p-[17px] bg-mantle transition-all",
-            "hidden lg:block",
+            "hidden lg:block"
           )}
         >
           <FaAnglesRight
@@ -71,7 +74,7 @@ const ResponsiveSideBar = (prop: Props) => {
           onPress={() => toggleIsSideBarOpen()}
           className={twMerge(
             "bg-base p-1.5 rounded-lg mr-auto shrink-0",
-            "block lg:hidden",
+            "block lg:hidden"
           )}
         >
           <FaX size={10} className="text-red" />
@@ -83,12 +86,12 @@ const ResponsiveSideBar = (prop: Props) => {
           {prop.groups.map((group) => (
             <li key={group.title}>
               <Link
-                href={group.slug}
-                onClick={()=>toggleIsSideBarOpen()}
+                href={`/roadmap/${group.slug}`}
+                onClick={() => toggleIsSideBarOpen()}
                 className={twJoin(
                   "flex items-center justify-between bg-mantle p-2",
                   "hover:brightness-110 active:brightness-95 transition",
-                  "rounded-md",
+                  "rounded-md"
                 )}
               >
                 <AnimatePresence initial={false}>
@@ -103,10 +106,20 @@ const ResponsiveSideBar = (prop: Props) => {
                     </motion.span>
                   )}
                 </AnimatePresence>
-                <group.icon
-                  size={16}
-                  className="box-content p-1.5 rounded bg-base text-sky shrink-0"
-                />
+                {typeof group.icon === "function" ? (
+                  <group.icon
+                    size={16}
+                    className="box-content p-1.5 rounded bg-base text-sky shrink-0"
+                  />
+                ) : (
+                  <Image
+                    alt={group.title}
+                    src={group.icon.url}
+                    width={group.icon.width}
+                    height={group.icon.height}
+                    className="box-content p-1.5 rounded bg-base shrink-0 size-4"
+                  />
+                )}
               </Link>
             </li>
           ))}
@@ -134,7 +147,7 @@ const ResponsiveSideBar = (prop: Props) => {
           "p-3 bg-crust w-full rounded-xl",
           "transition-[width] hidden lg:block max-w-65",
           "sticky top-5",
-          collapsed && "w-17",
+          collapsed && "w-17"
         )}
       >
         {asideContents}
@@ -150,7 +163,7 @@ const ResponsiveSideBar = (prop: Props) => {
             className={twMerge(
               "fixed top-30.5 right-[calc((100%-384px)/2)]",
               "p-3 bg-crust w-full rounded-xl max-w-sm z-10",
-              "lg:hidden",
+              "lg:hidden"
             )}
           >
             {asideContents}
