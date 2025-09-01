@@ -22,17 +22,7 @@ function UserPanel() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 const {register} = useForm<FormFielde>();
 
-  const methods = useForm({
-    defaultValues: {
-      "نام کاربری": "",
-      "رمز عبور": "",
-      ایمیل: "",
-      "توضیح کوتاه از فرد": "",
-      "نظر در مورد سایت": "",
-      "theme-color": "",
-      settings: [],
-    },
-  });
+
   const onSubmit = (data: any) => {
     console.log("Form Submitted:", data);
   };
