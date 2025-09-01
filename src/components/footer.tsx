@@ -24,7 +24,7 @@ export default function Footer() {
     href === "/" ? pathname === "/" : pathname.startsWith(href)
 
   return (
-    <section className="bg-crust lg:hidden justify-between flex rounded-t-[11px] px-[50px] pt-[20px] pb-[10px] gap-[20px] text-overlay-1 text-[12px]">
+<section className="bg-crust lg:hidden justify-between flex rounded-t-[11px] px-[50px] pt-[20px] pb-[10px] gap-[20px] text-overlay-1 text-[12px] fixed bottom-0 w-[384px] md:w-[560px] ">
       {links.map((link) => {
         const active = isActive(link.href)
         const Icon = link.icon
