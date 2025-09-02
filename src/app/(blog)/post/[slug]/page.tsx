@@ -61,7 +61,9 @@ export default async function PostPage({ params }: Props) {
             <p>{post.description}</p>
           </article>
 
-          <ImageSlider slideImages={(post as unknown as PostData)?.slide_image ?? []} />
+          {((post as unknown as PostData)?.slide_image?.length ?? 0 > 0) && (
+            <ImageSlider slideImages={(post as unknown as PostData)?.slide_image ?? []} />
+          )}
           <section className='flex flex-col gap-[10px] pt-[10px]'>
             <ShareHighlightsPrompt />
             <SharingSuccessPrompt />
