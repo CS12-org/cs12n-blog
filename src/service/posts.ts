@@ -1,4 +1,4 @@
-import axios from "~/lib/axios";
+import axios from '~/lib/axios';
 
 export type Post = {
   id: number;
@@ -16,7 +16,7 @@ export type Post = {
     email: string;
     username: string;
     avatarUrl?: string; // اختیاری
-    bio?: string;       // اختیاری
+    bio?: string; // اختیاری
   } | null;
 };
 
@@ -29,7 +29,7 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
     return res.data;
   } catch (err: unknown) {
     console.log(err);
-    throw new Error("خطا در گرفتن پست");
+    throw new Error('خطا در گرفتن پست');
   }
 };
 
@@ -38,49 +38,49 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
 export type GetPostsParams = {
   page: number;
   pageSize: number;
-}
-
-export type GetPostsResult = {
-  data: {
+};
+export type ImageData = {
+  documentId: string;
+  id: number;
+  width: number;
+  height: number;
+  url: string;
+};
+export type PostData = {
+  id: number;
+  description: string;
+  title: string;
+  content: string;
+  clap: number;
+  slug: string;
+  createdAt: string;
+  narrator: {
+    url: string;
+  } | null;
+  user: {
+    email: string;
+    username: string;
+  } | null;
+  tags: {
     id: number;
-    description: string;
     title: string;
-    content: string;
-    clap: number;
     slug: string;
-    createdAt: string;
-    narrator: {
-      url: string;
-    } | null;
-    user: {
-      email: string;
-      username: string;
-    } | null;
-    tags: {
-      id: number;
-      title: string;
-      slug: string;
-    }[];
-    category: {
-      id: number;
-      slug: string;
-      title: string;
-    };
-    featured_image: {
-      id: number;
-      width: number;
-      height: number;
-      url: string;
-    };
-    slide_image:
-      | {
-          id: number;
-          width: number;
-          height: number;
-          url: string;
-        }[]
-      | null;
   }[];
+  category: {
+    id: number;
+    slug: string;
+    title: string;
+  };
+  featured_image: {
+    id: number;
+    width: number;
+    height: number;
+    url: string;
+  };
+  slide_image: ImageData[] | null;
+};
+export type GetPostsResult = {
+  data: PostData[];
   meta: {
     pagination: {
       page: number;
@@ -89,7 +89,7 @@ export type GetPostsResult = {
       pageCount: number;
     };
   };
-}
+};
 
 /**
  * Fetches posts from the API.
@@ -98,4 +98,4 @@ export type GetPostsResult = {
  * @returns A promise that resolves to the posts data.
  */
 export const getPosts = (params: GetPostsParams) =>
-  axios.get<GetPostsResult>("/api/posts/feed", { params });
+  axios.get<GetPostsResult>('/api/posts/feed', { params });
