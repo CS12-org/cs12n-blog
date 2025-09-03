@@ -1,10 +1,9 @@
-import { FaComments, FaHandsClapping, FaRegBookmark } from "react-icons/fa6";
-import {HiChatBubbleBottomCenterText} from "react-icons/hi2"
 import { twMerge } from "tailwind-merge";
 import Button from "~/components/button";
 import { Link } from "~/components/react-aria-components";
 import Image from "next/image";
-
+import Comments from "~/assets/images/comments.svg";
+import Save from "~/assets/images/save.svg"
 const colors = ["text-peach", "text-mauve", "text-yellow"];
 
 type Props = {
@@ -44,7 +43,7 @@ function Post(props: Props) {
           <p className="truncate text-subtext-0 grow px-2.5">{description}</p>
         </div>
       </main>
-      <footer className="pt-7 px-2.5 pb-5 text-body-xs">
+      <footer className="pt-7 px-[10px] pb-5 text-body-xs">
         <ul className="flex items-baseline gap-2.5 mb-4">
           {tags.map((item, index) => (
             <li
@@ -64,18 +63,18 @@ function Post(props: Props) {
 
         <div className="flex items-center gap-5">
           <Button className="flex items-center gap-1.5" variant="none">
-            <HiChatBubbleBottomCenterText size={20} className="text-overlay-1" />
-            <span className="pt-1.5 text-white">نظرات</span>
+            <Comments  className="text-overlay-1 w-[29px] h-[29px]" />
+            <span className="text-white">نظرات</span>
           </Button>
-
+{/* 
           <Button className="flex items-center gap-1.5" variant="none">
             <FaHandsClapping size={20} className="text-overlay-1" />
             <span className="pt-1.5 text-white">{claps}</span>
-          </Button>
+          </Button> */}
 
-          <p className="pt-1.5 text-white mr-auto">3 دقیقه</p>
+          <p className=" text-white mr-auto">3 دقیقه</p>
           <Button variant="none">
-            <FaRegBookmark size={16} className="text-overlay-1" />
+            <Save className="text-overlay-1 w-[27px] h-[27px]" />
           </Button>
         </div>
       </footer>
