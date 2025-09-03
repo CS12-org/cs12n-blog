@@ -11,6 +11,7 @@ interface User {
 }
 
 const authOptions: NextAuthOptions = {
+  debug: true,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -23,17 +24,23 @@ const authOptions: NextAuthOptions = {
           return null;
         }
         try {
-          const res = await axios.post("/auth/local", {
-            identifier: credentials.email,
-            password: credentials.password,
-          });
-          const user = res.data.user;
-          if (user && res.data.jwt) {
+          const res = await axios.post(
+            `${process.env.BACKEND_URL}/api/auth/login`,
+            {
+              usernameOrEmail: credentials.email,
+              password: credentials.password,
+            }
+          );
+          const user = res.data.data.email;
+          if (user && res.data) {
             return {
               id: user.id,
-              name: user.username,
               email: user.email,
-              jwt: res.data.jwt,
+              username: user.username,
+              isProfileCompleted: res.data.isProfileCompleted,
+              accessToken: res.data.accessToken,
+              refreshToken: res.data.refreshToken,
+              tokenType: res.data.tokenType,
             };
           }
           return null;
@@ -60,11 +67,35 @@ const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token && session.user) {
         (
-          session.user as typeof session.user & { id?: string; jwt?: string }
+          session.user as typeof session.user & {
+            id?: string;
+            accessToken?: string;
+            email?: string;
+            username?: string;
+            isProfileCompleted?: boolean;
+            refreshToken?: string;
+          }
         ).id = token.id as string;
         (
-          session.user as typeof session.user & { id?: string; jwt?: string }
-        ).jwt = token.jwt as string;
+          session.user as typeof session.user & {
+            id?: string;
+            accessToken?: string;
+            email?: string;
+            username?: string;
+            isProfileCompleted?: boolean;
+            refreshToken?: string;
+          }
+        ).accessToken = token.accessToken as string;
+        (
+          session.user as typeof session.user & {
+            id?: string;
+            accessToken?: string;
+            email?: string;
+            username?: string;
+            isProfileCompleted?: boolean;
+            refreshToken?: string;
+          }
+        ).email = token.email as string;
       }
       return session;
     },

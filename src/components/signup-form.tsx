@@ -1,8 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import FarhanCharacter from "~/assets/images/farhan-character.png";
@@ -12,6 +10,8 @@ import { twJoin } from "tailwind-merge";
 import { useRouter } from "next/navigation";
 import axios from "~/lib/axios";
 import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
 const SignUpSchema = z
   .object({
@@ -33,6 +33,14 @@ type SignUpFormFields = z.infer<typeof SignUpSchema>;
 const DEFAULT_ERROR_MESSAGE =
   "متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.";
 
+interface AxiosError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 function SignUpForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -45,32 +53,25 @@ function SignUpForm() {
     },
   });
 
-  const submitHandler = handleSubmit(async (values) => {
-    setError(null);
-    try {
-      await axios.post("/auth/local/register", {
+  const signupMutation = useMutation({
+    mutationFn: async (values: SignUpFormFields) => {
+      const response = await axios.post("/api/auth/register", {
         email: values.email,
         password: values.password,
-        username: values.email.split("@")[0],
+        confirmPassword: values.confirmPassword,
       });
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: values.email,
-        password: values.password,
-      });
-      if (res?.ok) {
-        router.push("/");
-      } else {
-        setError(res?.error || DEFAULT_ERROR_MESSAGE);
-      }
-    } catch (e: unknown) {
-      if (e && typeof e === "object" && "response" in e) {
-        // @ts-expect-error TODO: use correct typing
-        setError(e.response?.data?.error?.message || DEFAULT_ERROR_MESSAGE);
-      } else {
-        setError(DEFAULT_ERROR_MESSAGE);
-      }
-    }
+      return response.data;
+    },
+    onSuccess: () => {
+      router.push("/verify-your-email");
+    },
+    onError: (error: AxiosError) => {
+      setError(error.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+    },
+  });
+
+  const submitHandler = handleSubmit((values) => {
+    signupMutation.mutate(values);
   });
 
   return (
@@ -81,11 +82,11 @@ function SignUpForm() {
         className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-full max-w-sm"
       >
         <Image
-        src={FarhanCharacter}
-        alt="کرکتر فرهان"
+          src={FarhanCharacter}
+          alt="کرکتر فرهان"
           className={twJoin(
             "animate-fade-up animate-duration-1000 animate-delay-500",
-            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1",
+            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1"
           )}
         />
         <h1 className="font-bold text-4xl mb-7 text-center">
@@ -120,7 +121,7 @@ function SignUpForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2",
+                  fieldState.error && "mt-2"
                 )}
               >
                 {fieldState.error?.message}
@@ -151,7 +152,7 @@ function SignUpForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2",
+                  fieldState.error && "mt-2"
                 )}
               >
                 {fieldState.error?.message}
@@ -182,7 +183,7 @@ function SignUpForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2",
+                  fieldState.error && "mt-2"
                 )}
               >
                 {fieldState.error?.message}
@@ -196,8 +197,12 @@ function SignUpForm() {
           </p>
         )}
         <div className="mt-4 flex gap-2">
-          <Button type="submit" className="py-2 grow">
-            ثبت نام در سایت
+          <Button
+            type="submit"
+            className="py-2 grow"
+            isDisabled={signupMutation.isPending}
+          >
+            {signupMutation.isPending ? "در حال ثبت نام..." : "ثبت نام در سایت"}
           </Button>
           <Button
             type="button"

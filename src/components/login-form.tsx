@@ -3,7 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Input, Label, Text, TextField } from "~/components/react-aria-components";
+import {
+  Input,
+  Label,
+  Text,
+  TextField,
+} from "~/components/react-aria-components";
 import { Controller, useForm } from "react-hook-form";
 import { twJoin } from "tailwind-merge";
 import { z } from "zod";
@@ -34,6 +39,7 @@ function LoginForm() {
 
   const submitHandler = handleSubmit(async (values) => {
     setError(null);
+
     const res = await signIn("credentials", {
       redirect: false,
       email: values.identifier,
@@ -53,8 +59,8 @@ function LoginForm() {
         className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-full max-w-sm"
       >
         <Image
-        src={SamanCharacter}
-         alt="کرکتر سامان"
+          src={SamanCharacter}
+          alt="کرکتر سامان"
           className={twJoin(
             "animate-fade-up animate-duration-1000 animate-delay-500",
             "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1 h-auto",

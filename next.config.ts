@@ -50,8 +50,12 @@ const nextConfig: NextConfig = {
   rewrites: async () => {
     return [
       {
+        source: "/api/auth/:path*",
+        destination: "/api/auth/:path*",
+      },
+      {
         source: "/api/:path*",
-        destination: "https://cms.cs12.ir/api/:path*",
+        destination: "https://cs12-back-prod-cs12.kubarcloud.net/api/:path*",
       },
       {
         source: "/uploads/:path*",
