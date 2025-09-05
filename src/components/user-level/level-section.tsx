@@ -1,5 +1,6 @@
 import ThreeDotts from "~/assets/images/threeDotts.svg";
 import Link from 'next/link'
+import ThreeDotPopover from "./three-dots-popover";
 
 
 
@@ -27,7 +28,8 @@ const colors = {
   ))}
 </ul>
 
-   <ThreeDotts className="w-[22px] h-[4px]" />
+  <ThreeDotPopover />
+
       </header>
 <section className="bg-[#101122] p-[10px] pt-[15px] rounded-b-[10px]">
 <p className="mb-[10px]" >
