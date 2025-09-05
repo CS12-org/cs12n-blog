@@ -17,9 +17,9 @@ export default function UserNotesHighlightsTab() {
           میتوانید هایلایت ها و یاد داشت هایی که دیگر نمیخواهید شیر شده باشند رو
           از حالت شیر بردارید.
         </p>
-        <span className="bg-crust w-[23px] h-[23px] rounded-[5px] flex items-center justify-center">
+        <button className="bg-crust w-[23px] h-[23px] rounded-[5px] flex items-center justify-center">
           <Close />
-        </span>
+        </button>
       </section>
 
     
