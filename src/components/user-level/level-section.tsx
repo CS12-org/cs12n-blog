@@ -7,9 +7,13 @@ import ThreeDotPopover from "./three-dots-popover";
 export default function LevelSection(){
 const tabs = [
   { id:1 , label: "برنامه‌نویسی", href: "/programming" },
+  { id:2 , label: "زبان سی", href: "/c" },
+
  ]
 const colors = {
   "برنامه‌نویسی": "text-sapphire",
+  "زبان سی": "text-maroon",
+  
 }
     return(
         <section className="  text-text text-[12px]  flex flex-col w-full ">
