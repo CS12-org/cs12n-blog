@@ -27,7 +27,9 @@ const nextConfig: NextConfig = {
         {
           test: /\.svg$/i,
           issuer: fileLoaderRule.issuer,
-          resourceQuery: { not: [...(fileLoaderRule.resourceQuery?.not || []), /url/] },
+          resourceQuery: {
+            not: [...(fileLoaderRule.resourceQuery?.not || []), /url/],
+          },
           use: ["@svgr/webpack"],
         }
       );
@@ -50,7 +52,7 @@ const nextConfig: NextConfig = {
   rewrites: async () => {
     return [
       {
-        source: "/api/auth/:path*",
+        source: "/api/auth/login/:path*",
         destination: "/api/auth/:path*",
       },
       {
