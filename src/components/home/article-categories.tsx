@@ -1,23 +1,19 @@
-'use client';
-
-import { FaFileCode, FaMicrochip } from "react-icons/fa6";
 import ResponsiveSideBar from "../responsive-side-bar";
+import { getRoadmaps } from "~/service/roadmaps";
 
-const groups = [
-  {
-    slug: "#coding",
-    icon: FaFileCode,
-    title: "برنامه نویسی",
-  },
-  {
-    slug: "#",
-    icon: FaMicrochip,
-    title: "معماری کامپیوتر",
-  },
-];
+async function ArticleCategories() {
+  const roadmaps = await getRoadmaps().then((res) => res.data);
 
-function ArticleCategories() {
-  return <ResponsiveSideBar title="مطالب سایت" groups={groups} />;
+  return (
+    <ResponsiveSideBar
+      title="مطالب سایت"
+      groups={roadmaps.map((map) => ({
+        slug: map.slug,
+        title: map.title,
+        icon: map.top_icon,
+      }))}
+    />
+  );
 }
 
 export default ArticleCategories;
