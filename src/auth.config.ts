@@ -34,27 +34,35 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        if (
+          !credentials?.email ||
+          !credentials?.password ||
+          !process.env.BACKEND_URL
+        )
           return null;
-        }
+
+        const authenticationUrl = new URL(
+          process.env.BACKEND_URL,
+          "/api/auth/login",
+        ).toString();
+
         try {
-          const res = await axios.post(
-            `${process.env.BACKEND_URL}/api/auth/login`,
-            {
+          const res = await axios
+            .post(authenticationUrl, {
               usernameOrEmail: credentials.email,
               password: credentials.password,
-            }
-          );
-          if (res.data.data.id) {
-            const data = res.data.data;
+            })
+            .then((res) => res.data.data);
+
+          if (res.id) {
             return {
-              id: data.id,
-              email: data.email,
-              username: data.username,
-              isProfileCompleted: data.isProfileCompleted,
-              accessToken: data.accessToken,
-              refreshToken: data.refreshToken,
-              accessTokenExpires: data.accessTokenExpires,
+              id: res.id,
+              email: res.email,
+              username: res.username,
+              isProfileCompleted: res.isProfileCompleted,
+              accessToken: res.accessToken,
+              refreshToken: res.refreshToken,
+              accessTokenExpires: res.accessTokenExpires,
             };
           }
           return null;
@@ -64,22 +72,23 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
+
   secret: serverConfig.NEXTAUTH_SECRET,
 
-  session: {
-    strategy: "jwt",
-  },
+  session: { strategy: "jwt" },
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         const u = user as ExtendedUser;
+
         return {
           ...token,
+          email: u.email,
+          username: u.username,
           accessToken: u.accessToken,
           refreshToken: u.refreshToken,
           accessTokenExpires: u.accessTokenExpires,
-          email: u.email,
-          username: u.username,
           isProfileCompleted: u.isProfileCompleted,
         } as Partial<ExtendedToken>;
       }

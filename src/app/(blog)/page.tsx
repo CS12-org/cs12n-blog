@@ -1,4 +1,3 @@
-
 import ArticleCategories from "~/components/home/article-categories";
 import Posts from "~/components/home/posts";
 import WeeklyChallenge from "~/components/home/weekly-challenge";
@@ -35,9 +34,7 @@ async function Home(props: Props) {
         <div aria-hidden className="h-[3px] bg-surface-0 my-5 rounded-full" />
 
         <Posts page={parsedPage} pageSize={parsedPageSize} posts={posts.data} />
-
       </div>
-    
     </div>
   );
 }
