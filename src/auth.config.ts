@@ -3,11 +3,25 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import serverConfig from "~/lib/server-config";
 
-interface User {
+interface ExtendedUser {
   id: string;
-  name: string;
+  username: string;
   email: string;
-  jwt: string;
+  accessToken: string;
+  accessTokenExpires: number;
+  refreshToken: string;
+  isProfileCompleted: boolean;
+}
+
+export interface ExtendedToken {
+  accessToken: string;
+  refreshToken: string;
+  accessTokenExpires: number;
+  id: string;
+  username: string;
+  email: string;
+  isProfileCompleted: boolean;
+  error: string;
 }
 
 const authOptions: NextAuthOptions = {
@@ -31,16 +45,16 @@ const authOptions: NextAuthOptions = {
               password: credentials.password,
             }
           );
-          const user = res.data.data.email;
-          if (user && res.data) {
+          if (res.data.data.id) {
+            const data = res.data.data;
             return {
-              id: user.id,
-              email: user.email,
-              username: user.username,
-              isProfileCompleted: res.data.isProfileCompleted,
-              accessToken: res.data.accessToken,
-              refreshToken: res.data.refreshToken,
-              tokenType: res.data.tokenType,
+              id: data.id,
+              email: data.email,
+              username: data.username,
+              isProfileCompleted: data.isProfileCompleted,
+              accessToken: data.accessToken,
+              refreshToken: data.refreshToken,
+              accessTokenExpires: data.accessTokenExpires,
             };
           }
           return null;
@@ -58,45 +72,25 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        const u = user as User;
-        token.id = u.id;
-        token.jwt = u.jwt;
+        const u = user as ExtendedUser;
+        return {
+          ...token,
+          accessToken: u.accessToken,
+          refreshToken: u.refreshToken,
+          accessTokenExpires: u.accessTokenExpires,
+          email: u.email,
+          username: u.username,
+          isProfileCompleted: u.isProfileCompleted,
+        } as Partial<ExtendedToken>;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token && session.user) {
-        (
-          session.user as typeof session.user & {
-            id?: string;
-            accessToken?: string;
-            email?: string;
-            username?: string;
-            isProfileCompleted?: boolean;
-            refreshToken?: string;
-          }
-        ).id = token.id as string;
-        (
-          session.user as typeof session.user & {
-            id?: string;
-            accessToken?: string;
-            email?: string;
-            username?: string;
-            isProfileCompleted?: boolean;
-            refreshToken?: string;
-          }
-        ).accessToken = token.accessToken as string;
-        (
-          session.user as typeof session.user & {
-            id?: string;
-            accessToken?: string;
-            email?: string;
-            username?: string;
-            isProfileCompleted?: boolean;
-            refreshToken?: string;
-          }
-        ).email = token.email as string;
-      }
+      session.user.email = token.email as string;
+      session.user.username = token.username as string;
+      session.accessToken = token.accessToken as string;
+      session.isProfileCompleted = token.isProfileCompleted as boolean;
+
       return session;
     },
   },

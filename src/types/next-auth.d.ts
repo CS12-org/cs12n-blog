@@ -3,10 +3,11 @@ declare module "next-auth" {
     user: {
       email: string;
       id: string;
-      name: string;
-      jwt: string;
+      username: string;
     };
-    expires: string;
+    accessToken: string;
+    refreshToken: string;
+    isProfileCompleted: boolean;
   }
 
   interface JWT {

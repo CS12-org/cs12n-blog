@@ -55,7 +55,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/api/:path*",
-        destination: "https://cs12-back-prod-cs12.kubarcloud.net/api/:path*",
+        destination: "https://cs12-back-cs12.kubarcloud.net/api/:path*",
       },
       {
         source: "/uploads/:path*",
