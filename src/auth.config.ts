@@ -43,7 +43,7 @@ const authOptions: NextAuthOptions = {
 
         const authenticationUrl = new URL(
           process.env.BACKEND_URL,
-          "/api/auth/login",
+          "/api/auth/login"
         ).toString();
 
         try {
@@ -73,7 +73,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
 
-  secret: serverConfig.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 
   session: { strategy: "jwt" },
 
