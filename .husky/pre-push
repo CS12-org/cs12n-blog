@@ -1,0 +1,23 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo '🏗️👷 testing and building your project before committing'
+
+# Check ESLint Standards
+npm run check-lint ||
+(
+        echo '😤🏀👋😤 Get that weak shit out of here! 😤🏀👋😤
+                ESLint Check Failed. Make the required changes listed above, add changes and try to commit again.'
+        false;
+)
+
+# Check tsconfig standards
+npm run check-types ||
+(
+    echo '🤡😂❌🤡 Failed Type check. 🤡😂❌🤡
+            Are you seriously trying to write that? Make the changes required above.'
+    false;
+)
+
+# If everything passes... Now we can commit
+echo '✅✅✅✅ You win this time... I am pushing this now. ✅✅✅✅'
