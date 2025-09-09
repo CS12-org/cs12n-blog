@@ -31,7 +31,7 @@ function Button(props: Props) {
     "rounded-md transition",
     !isDisabled && "hover:brightness-110 pressed:brightness-90",
     variantStyle,
-    className
+    className,
   );
 
   return <AriaButton className={styles} isDisabled={isDisabled} {...other} />;

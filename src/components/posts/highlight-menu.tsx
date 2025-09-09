@@ -1,10 +1,8 @@
-
-
 "use client";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Comments from "~/assets/images/comments.svg";
-import Notes from "~/assets/images/notes.svg";
 import Highlighter from "~/assets/images/highlighter.svg";
+import Notes from "~/assets/images/notes.svg";
 
 interface HighlightMenuProps {
   containerId: string;
@@ -31,23 +29,20 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
 
     const firstRect = getFirstLineRect(sel);
 
-  
     const dir = getComputedStyle(container).direction || "ltr";
 
-    const margin = 8; 
+    const margin = 8;
     const scrollX = window.scrollX;
     const scrollY = window.scrollY;
 
- 
     const menuBox = menuRef.current?.getBoundingClientRect();
     const menuW = menuBox?.width ?? 0;
 
-
     let x: number;
     if (dir === "rtl") {
-      x = firstRect.right + scrollX - menuW; 
+      x = firstRect.right + scrollX - menuW;
     } else {
-      x = firstRect.left + scrollX; 
+      x = firstRect.left + scrollX;
     }
 
     const y = firstRect.top + scrollY - margin;
@@ -61,6 +56,7 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
 
   useLayoutEffect(() => {
     if (isVisible) updatePosition();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible, selectedText]);
 
   useEffect(() => {
@@ -72,7 +68,8 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
       const hasText = !!sel && !!sel.toString().trim();
       const inContainer =
         !!sel &&
-        (container.contains(sel.anchorNode) || container.contains(sel.focusNode));
+        (container.contains(sel.anchorNode) ||
+          container.contains(sel.focusNode));
 
       if (hasText && inContainer) {
         setSelectedText(sel!.toString());
@@ -85,7 +82,9 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
     };
 
     document.addEventListener("selectionchange", handleSelectionChange);
-    document.addEventListener("touchend", handleSelectionChange, { passive: true });
+    document.addEventListener("touchend", handleSelectionChange, {
+      passive: true,
+    });
     window.addEventListener("scroll", updatePosition, { passive: true });
     window.addEventListener("resize", updatePosition);
 
@@ -95,6 +94,7 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
       window.removeEventListener("scroll", updatePosition);
       window.removeEventListener("resize", updatePosition);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [containerId]);
 
   if (!isVisible || !coords) return null;
@@ -111,7 +111,7 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
     >
       <button
         aria-label="هایلایت متن انتخاب شده"
-              className="flex items-center gap-[3px]"
+        className="flex items-center gap-[3px]"
       >
         <Highlighter className="h-[13px] w-[13px]" />
         هایلایت
@@ -139,4 +139,3 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
     </div>
   );
 }
-

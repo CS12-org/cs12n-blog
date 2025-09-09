@@ -19,18 +19,21 @@ A modern, responsive blog platform built with Next.js 15, featuring authenticati
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
+
 - [Node.js](https://nodejs.org/) (version 18 or higher)
 - [Yarn](https://yarnpkg.com/) (recommended) or npm
 
 ## Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd cs12n-blog
    ```
 
 2. **Install dependencies**
+
    ```bash
    yarn install
    # or
@@ -49,14 +52,17 @@ Before you begin, ensure you have the following installed:
 ## Running the Application
 
 ### Development Mode
+
 ```bash
 yarn dev
 # or
 npm run dev
 ```
+
 The application will be available at `http://localhost:3000`
 
 ### Production Build
+
 ```bash
 # Build the application
 yarn build
@@ -72,17 +78,20 @@ npm start
 ## Key Components
 
 ### Authentication
+
 - **NextAuth.js**: Secure authentication with multiple providers
 - **Session Management**: Server-side and client-side session handling
 - **Protected Routes**: Automatic route protection
 
 ### UI/UX
+
 - **Tailwind CSS**: Utility-first CSS framework
 - **React Aria**: Accessible component primitives
 - **Motion**: Smooth animations and transitions
 - **Responsive Design**: Mobile-first approach
 
 ### Data Management
+
 - **React Query**: Server state management
 - **Axios**: HTTP client for API calls
 - **Zustand**: Lightweight state management
@@ -99,6 +108,7 @@ npm start
 The application supports various environment variables for configuration:
 
 ### Required
+
 - `NEXTAUTH_URL` - Your application URL (used by NextAuth)
 - `NEXTAUTH_SECRET` - Secret key for NextAuth authentication
 - `NEXT_PUBLIC_API_URL` - Base URL for your public API requests
@@ -106,18 +116,21 @@ The application supports various environment variables for configuration:
 ## Features Overview
 
 ### Blog Features
+
 - Article categories and filtering
 - Weekly challenges
 - User-generated content
 - Responsive post layout
 
 ### User Management
+
 - User registration and login
 - Profile management
 - Settings panel
 - Password change functionality
 
 ### Technical Features
+
 - TypeScript for type safety
 - ESLint for code quality
 - Prettier for code formatting
@@ -126,12 +139,15 @@ The application supports various environment variables for configuration:
 ## Deployment
 
 ### Vercel (Recommended)
+
 1. Connect your GitHub repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
 
 ### Other Platforms
+
 The application can be deployed to any platform that supports Next.js:
+
 - Netlify
 - Railway
 - DigitalOcean App Platform
@@ -148,6 +164,7 @@ The application can be deployed to any platform that supports Next.js:
 ## Support
 
 If you encounter any issues or have questions:
+
 1. Check the [Issues](https://github.com/cs12-org/cs12n-blog/issues) page
 2. Create a new issue with detailed information
 3. Contact the development team
@@ -155,6 +172,7 @@ If you encounter any issues or have questions:
 ## Updates
 
 Stay updated with the latest changes by:
+
 - Watching the repository
 - Following the release notes
 - Checking the changelog

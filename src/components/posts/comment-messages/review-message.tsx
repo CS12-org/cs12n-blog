@@ -26,10 +26,10 @@ function ReviewMessege() {
         <section className="flex items-center gap-[10px] ">
           <span className="text-[12px]">2+</span>
           <Button className="bg-teal w-[28px] h-[28px] rounded-[5px] flex justify-center items-center">
-            <IncreaseArrow   className="w-[20px] h-[10px] text-crust"/>
+            <IncreaseArrow className="w-[20px] h-[10px] text-crust" />
           </Button>
           <Button className="bg-maroon flex justify-center items-center w-[28px] h-[28px] rounded-[5px]">
-            <DecreaseArrow   className="w-[20px] h-[10px] text-crust"/>
+            <DecreaseArrow className="w-[20px] h-[10px] text-crust" />
           </Button>
           <Button className="bg-  text-subtext-0">
             <ThreeDotts />
@@ -41,14 +41,14 @@ function ReviewMessege() {
         <p className="p-[10px]">
           مقاله‌ای که به بررسی موضوع بش‌ (۰) پرداخته، به خوبی ابعاد مختلف این
           مفهوم را تحلیل کرده است. با این حال، برخی از نکات کلیدی نادیده گرفته
-          شده‌اند که می‌توانستند به عمق بیشتری در بحث کمک کنند. به‌طور کلی، مقاله
-          می‌تواند با ارائه مثال‌های عملی و مستندات بیشتر، جذاب‌تر و آموزنده‌تر شود.
-          نقد مقاله در مورد بش
+          شده‌اند که می‌توانستند به عمق بیشتری در بحث کمک کنند. به‌طور کلی،
+          مقاله می‌تواند با ارائه مثال‌های عملی و مستندات بیشتر، جذاب‌تر و
+          آموزنده‌تر شود. نقد مقاله در مورد بش
         </p>
         <section className="flex items-center text-[12px] justify-between border-b-[1px] border-t-[1px] border-base px-[10px] py-[11.5px]">
           <div className="flex ">
             <Button className="flex rounded-r-[5px] justify-center items-center bg-mantle gap-[6px] text-subtext-0 border-l-[1px] border-surface-1 p-[5px] px-[10px] text-text">
-              <Comments  className="w-[29px] h-[29px]" />
+              <Comments className="w-[29px] h-[29px]" />
               پاسخ ها
             </Button>
             <Button className="flex rounded-l-[5px] justify-center items-center gap-[7px] bg-mantle text-subtext-0  p-[5px] px-[10px] text-text">
@@ -60,29 +60,27 @@ function ReviewMessege() {
               دیدن پاورقی
             </Button>
           </div>
-  
 
-<section className="flex -space-x-7">
-  <div className="relative h-[38px] w-[38px] rounded-full bg-[#101122] overflow-hidden z-30">
-    <Image
-      src={Profile2}
-      alt="farhan"
-      className="h-full w-full object-cover"
-    />
-  
-    <div className="absolute inset-0 rounded-full shadow-[inset_0_0_8px_#101122] pointer-events-none"></div>
-  </div>
+          <section className="flex -space-x-7">
+            <div className="relative h-[38px] w-[38px] rounded-full bg-[#101122] overflow-hidden z-30">
+              <Image
+                src={Profile2}
+                alt="farhan"
+                className="h-full w-full object-cover"
+              />
 
-  <div className="relative h-[38px] w-[38px] rounded-full bg-[#101122] overflow-hidden z-10">
-    <Image
-      src={Profile}
-      alt="farhan"
-      className="h-full w-full object-cover"
-    />
-    <div className="absolute inset-0 rounded-full shadow-[inset_0_0_3px_1px_#101122] pointer-events-none"></div>
-  </div>
-</section>
+              <div className="absolute inset-0 rounded-full shadow-[inset_0_0_8px_#101122] pointer-events-none"></div>
+            </div>
 
+            <div className="relative h-[38px] w-[38px] rounded-full bg-[#101122] overflow-hidden z-10">
+              <Image
+                src={Profile}
+                alt="farhan"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 rounded-full shadow-[inset_0_0_3px_1px_#101122] pointer-events-none"></div>
+            </div>
+          </section>
         </section>
         <ul className="px-[10px] pb-[20px] text-[10px]">
           <li>

@@ -22,44 +22,39 @@ export default function UserNotesHighlightsTab() {
         </button>
       </section>
 
-    
-<article className="w-full">
+      <article className="w-full">
+        <header className="bg-[#060818] py-2.5 flex items-stretch w-full rounded-t-[10px]">
+          <div aria-hidden className="w-[3px] shrink-0 bg-teal" />
+          <h2 className="truncate text-subtext-0 grow px-2.5 text-sm">
+            <span className="font-bold">متعلق به پست: </span>
+            عنوان پست
+          </h2>
+        </header>
 
-  <header className="bg-[#060818] py-2.5 flex items-stretch w-full rounded-t-[10px]">
-    <div aria-hidden className="w-[3px] shrink-0 bg-teal" />
-    <h2 className="truncate text-subtext-0 grow px-2.5 text-sm">
-      <span className="font-bold">متعلق به پست: </span>
-      عنوان پست
-    </h2>
-  </header>
+        <footer className="flex justify-between bg-[#101122] p-[10px] pt-[15px] rounded-b-[10px]">
+          <Button
+            className="bg-mantle rounded-[5px] w-[93px] h-[36px] flex items-center px-[10px] py-[5px] gap-[5px]"
+            aria-label="مشاهده کامنت"
+          >
+            <Eye className="h-[28px] w-[28px]" />
+            مشاهده
+          </Button>
 
+          <div className="flex items-center gap-[10px]">
+            <Button aria-label="حذف کامنت">
+              <Trash />
+            </Button>
 
-  <footer className="flex justify-between bg-[#101122] p-[10px] pt-[15px] rounded-b-[10px]">
-    <Button
-      className="bg-mantle rounded-[5px] w-[93px] h-[36px] flex items-center px-[10px] py-[5px] gap-[5px]"
-      aria-label="مشاهده کامنت"
-    >
-      <Eye className="h-[28px] w-[28px]" />
-      مشاهده
-    </Button>
-
-    <div className="flex items-center gap-[10px]">
-      <Button aria-label="حذف کامنت">
-        <Trash />
-      </Button>
-
-      <Button
-        className="flex gap-[3px] items-center"
-        aria-label="مشاهده 12 کامنت"
-      >
-        12
-        <Comments className="h-[29px] w-[29px]" />
-      </Button>
-    </div>
-  </footer>
-</article>
-           </section>
-  
-  
+            <Button
+              className="flex gap-[3px] items-center"
+              aria-label="مشاهده 12 کامنت"
+            >
+              12
+              <Comments className="h-[29px] w-[29px]" />
+            </Button>
+          </div>
+        </footer>
+      </article>
+    </section>
   );
 }

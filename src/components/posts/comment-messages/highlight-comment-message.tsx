@@ -23,10 +23,10 @@ function HighlightCommentMessege() {
         <div className="flex items-center gap-[10px]">
           <span className="text-[12px]">2+</span>
           <Button className="bg-teal w-[28px] h-[28px] rounded-[5px] flex justify-center items-center">
-            <IncreaseArrow   className="w-[20px] h-[20px]"/>
+            <IncreaseArrow className="w-[20px] h-[20px]" />
           </Button>
           <Button className="bg-maroon flex justify-center items-center w-[28px] h-[28px] rounded-[5px]">
-            <DecreaseArrow   className="w-[20px] h-[10px]"/>
+            <DecreaseArrow className="w-[20px] h-[10px]" />
           </Button>
           <Button className="bg-  text-subtext-0">
             <ThreeDotts />
@@ -36,12 +36,13 @@ function HighlightCommentMessege() {
 
       <section className="text-[12px] text-text bg-[#101122] lg:mx-[20px] rounded-b-[10px] py-[10px] gap-y-[15px] flex flex-col ">
         <section className="bg-mantle pl-[10px]  w-full h-auto flex justify-between text-text py-[13px] text-[14px]  ">
-        <section className="flex items-center">
-<p className="  grow pr-2.5 truncate border-r-[4px] border-sapphire ">بخشی از متن که هایلایت شده آمده است اینجا</p>
-</section>
+          <section className="flex items-center">
+            <p className="  grow pr-2.5 truncate border-r-[4px] border-sapphire ">
+              بخشی از متن که هایلایت شده آمده است اینجا
+            </p>
+          </section>
           <Highlighter className="h-[17px] w-[17px]" />
         </section>
-
 
         <p className="px-[10px]">
           سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم شاید
@@ -50,7 +51,7 @@ function HighlightCommentMessege() {
         </p>
         <section className="flex justify-between px-[10px]">
           <Button className="bg- text-text flex items-center gap-[5px]">
-            <CommentsIcon  className="w-[29px] h-[29px]" />
+            <CommentsIcon className="w-[29px] h-[29px]" />
             پاسخ ها
           </Button>
         </section>

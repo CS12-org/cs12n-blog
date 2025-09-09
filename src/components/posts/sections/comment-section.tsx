@@ -8,32 +8,32 @@ import HighlightCommentMessege from "../comment-messages/highlight-comment-messa
 function CommentSection() {
   return (
     <section className="flex flex-col gap-[25px]">
-
       <section className="text-[14px] justify-start flex flex-col gap-[10px]  bg-crust rounded-[10px] py-[30px] lg:px-[60px] px-[10px] ">
-       
-<header className=" text-subtext-0 text-[20px] font-extrabold">
-          نظرات (۷) 
+        <header className=" text-subtext-0 text-[20px] font-extrabold">
+          نظرات (۷)
         </header>
-      
-<section className="flex gap-[10px]  items-center pb-[5px]">
-           <section className="shadow-inner shadow-[#24273A] flex items-center justify-center h-[35px] w-[35px] rounded-full">
-          <Anonymous aria-lable="آیکون فرد" className="bg-crust rounded-full h-[25px] w-[25px]"/>
-           </section>
+
+        <section className="flex gap-[10px]  items-center pb-[5px]">
+          <section className="shadow-inner shadow-[#24273A] flex items-center justify-center h-[35px] w-[35px] rounded-full">
+            <Anonymous
+              aria-label="آیکون فرد"
+              className="bg-crust rounded-full h-[25px] w-[25px]"
+            />
+          </section>
 
           <span className="font-bold text-subtext-0">نام فرد</span>
         </section>
-      
-<div className="">
+
+        <div className="">
           <TextInput
             className="lg:!p-[15px] border-b-[1px] border-surface-0 lg:h-auto h-[35px] p-[5px] w-full text-[12px] lg:text-[14px] placeholder:text-text text-text"
             name="نقد و نکات"
-            aria-lable="کامنت خود را نوبیسید"
+            aria-label="کامنت خود را نوبیسید"
             placeholder="کامنت خود رو بنویسید ..."
           />
         </div>
 
-       
-<Button className="bg-blue w-full  lg:h-[52px] h-[35px] font-bold rounded-[10px] text-crust">
+        <Button className="bg-blue w-full  lg:h-[52px] h-[35px] font-bold rounded-[10px] text-crust">
           ارسال نقد
         </Button>
       </section>

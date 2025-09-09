@@ -1,15 +1,13 @@
-
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { Slider, SliderTrack, SliderThumb } from "react-aria-components";
+import { useEffect, useRef, useState } from "react";
+import { Slider, SliderThumb, SliderTrack } from "react-aria-components";
+import { CiPause1 } from "react-icons/ci";
+import Play from "~/assets/images/play-audio.svg";
+import Save from "~/assets/images/save.svg";
+import Comments from "../assets/images/comments.svg";
 import Button from "./button";
-import { CiBookmark, CiPlay1, CiPause1 } from "react-icons/ci";
-import { BiMessageAltDetail } from "react-icons/bi";
 import LicenceMark from "./posts/license-mark";
-import Comments from "../assets/images/comments.svg"
-import Play from "~/assets/images/play-audio.svg"
-import Save from "~/assets/images/save.svg"
 export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -17,26 +15,23 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-
   const handleTimeUpdate = () => {
     if (!audioRef.current) return;
     setCurrentTime(audioRef.current.currentTime);
     setDuration(audioRef.current.duration);
   };
 
+  const handleSeek = (value: number | number[]) => {
+    if (!audioRef.current) return;
 
-const handleSeek = (value: number | number[]) => {
-  if (!audioRef.current) return;
+    const newTime = Array.isArray(value) ? value[0] : value;
 
-
-  const newTime = Array.isArray(value) ? value[0] : value;
-
-
-  if (typeof newTime === "number" && Number.isFinite(newTime)) {
-    audioRef.current.currentTime = newTime;
-    setCurrentTime(newTime);
-  }
-};  const handlePlay = () => {
+    if (typeof newTime === "number" && Number.isFinite(newTime)) {
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+  };
+  const handlePlay = () => {
     if (!audioRef.current) return;
     audioRef.current.play();
     setIsPlaying(true);
@@ -97,16 +92,13 @@ const handleSeek = (value: number | number[]) => {
               <Play className="text-overlay-1 lg:h-[24px] lg:w-[24px] h-[20px] w-[20px] font-extrabold" />
             )}
           </Button>
-
           <Button
             className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center"
             aria-label="Bookmark"
           >
             <Save className="text-overlay-1 h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] font-extrabold" />
           </Button>
-
           <span className="self-center text-sapphire font-extrabold">|</span>{" "}
-
           <Button
             className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-full flex justify-center items-center"
             aria-label="Comments"
@@ -118,34 +110,31 @@ const handleSeek = (value: number | number[]) => {
       </section>
 
       <section className=" ">
-  
-<Slider
-  minValue={0}
-  maxValue={duration || 0}
-  value={currentTime}
-  step={0.01}
-  onChange={handleSeek}
-  aria-label="Audio seek slider"
-  className="w-full h-1 bg-crust relative"
->
-  <SliderTrack className="bg-base h-1 cursor-pointer relative overflow-hidden">
- 
-    <div
-      className="absolute left-0 top-0 h-[2px]  bg-sapphire transition-all duration-150 ease-linear"
-      style={{
-        width: duration ? `${(currentTime / duration) * 100}%` : "0%",
-      }}
-    />
-  </SliderTrack>
-  <SliderThumb
-    className="block w-0 h-0 bg-maroon rounded-full "
-    aria-label="Seek handle"
-  />
-</Slider>
+        <Slider
+          minValue={0}
+          maxValue={duration || 0}
+          value={currentTime}
+          step={0.01}
+          onChange={handleSeek}
+          aria-label="Audio seek slider"
+          className="w-full h-1 bg-crust relative"
+        >
+          <SliderTrack className="bg-base h-1 cursor-pointer relative overflow-hidden">
+            <div
+              className="absolute left-0 top-0 h-[2px]  bg-sapphire transition-all duration-150 ease-linear"
+              style={{
+                width: duration ? `${(currentTime / duration) * 100}%` : "0%",
+              }}
+            />
+          </SliderTrack>
+          <SliderThumb
+            className="block w-0 h-0 bg-maroon rounded-full "
+            aria-label="Seek handle"
+          />
+        </Slider>
       </section>
 
       <audio ref={audioRef} src={audioSrc} preload="metadata" />
     </section>
   );
 }
-

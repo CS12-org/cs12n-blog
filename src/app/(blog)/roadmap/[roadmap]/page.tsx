@@ -66,7 +66,7 @@ async function PathPage(props: Props) {
               className={twJoin(
                 "self-start px-5 py-2 bg-sapphire text-base mt-auto",
                 "rounded-md hover:brightness-110 active:brightness-100",
-                "transition"
+                "transition",
               )}
             >
               شروع مسیر

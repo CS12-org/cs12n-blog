@@ -34,7 +34,7 @@ function MainTopbar(props: Props) {
 
   const sideBarOpen = useMainLayoutStore((state) => state.isSideBarOpen);
   const toggleIsSideBarOpen = useMainLayoutStore(
-    (state) => state.toggleIsSideBarOpen
+    (state) => state.toggleIsSideBarOpen,
   );
 
   const pathname = usePathname();
@@ -48,7 +48,7 @@ function MainTopbar(props: Props) {
         "gap-3.5 [&>*]:shrink-0 lg:px-7.5",
         "relative z-11 select-none",
         "[&>button]:text-overlay-1",
-        "z-11 "
+        "z-11 ",
       )}
     >
       <Logo />
@@ -57,7 +57,7 @@ function MainTopbar(props: Props) {
         className={twJoin(
           "flex items-center grow gap-3.5",
           // TODO : remove in release version
-          isBlured && "blur-[4px] pointer-events-none"
+          isBlured && "blur-[4px] pointer-events-none",
         )}
       >
         <nav className="hidden text-body-sm mr-3.5 lg:block">
@@ -97,7 +97,7 @@ function MainTopbar(props: Props) {
               }}
               className={twMerge(
                 "p-3 rounded-lg lg:hidden select-none bg-base",
-                sideBarOpen && "bg-sapphire text-crust"
+                sideBarOpen && "bg-sapphire text-crust",
               )}
             >
               {" "}
@@ -114,14 +114,14 @@ function MainTopbar(props: Props) {
                 "w-10 h-10 rounded-lg bg-base absolute left-0",
                 "focus:p-2.5 placeholder:text-xs text-xs placeholder:text-text",
                 "focus:outline-none focus:w-[245px] lg:focus:w-[660px]",
-                "transition-all duration-200 ease-in-out cursor-pointer"
+                "transition-all duration-200 ease-in-out cursor-pointer",
               )}
             />
             <FaMagnifyingGlass
               size={16}
               className={twJoin(
                 "absolute top-1/2 left-1/2 -translate-x-1/2",
-                "-translate-y-1/2 cursor-pointer pointer-events-none"
+                "-translate-y-1/2 cursor-pointer pointer-events-none",
               )}
             />
           </TextField>

@@ -26,7 +26,7 @@ function Posts(props: Props) {
 
   const totalPages = useMemo(
     () => Math.ceil(totalPosts / pageSize),
-    [totalPosts, pageSize]
+    [totalPosts, pageSize],
   );
 
   const pageNumbers = useMemo(() => {

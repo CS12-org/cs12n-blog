@@ -18,10 +18,10 @@ type PaginationProps = React.ComponentProps<"nav">;
 /**
  * Main pagination navigation wrapper component.
  * Provides the semantic structure and accessibility for pagination controls.
- * 
+ *
  * @param props - All standard nav element props including className
  * @returns A nav element with proper pagination semantics
- * 
+ *
  * @example
  * ```tsx
  * <Pagination>
@@ -55,10 +55,10 @@ type PaginationContentProps = React.ComponentProps<"ul">;
 /**
  * Container for pagination items, rendered as an unordered list.
  * Provides the layout structure for pagination controls.
- * 
+ *
  * @param props - All standard ul element props including className
  * @returns A ul element styled for pagination content
- * 
+ *
  * @example
  * ```tsx
  * <PaginationContent>
@@ -84,10 +84,10 @@ type PaginationItemProps = React.ComponentProps<"li">;
 /**
  * Individual pagination item wrapper, rendered as a list item.
  * Used to contain pagination links, buttons, or other controls.
- * 
+ *
  * @param props - All standard li element props including className
  * @returns A li element styled for pagination items
- * 
+ *
  * @example
  * ```tsx
  * <PaginationItem>
@@ -120,10 +120,10 @@ type PaginationLinkProps = {
 /**
  * Clickable pagination link component.
  * Renders as a Link component with proper accessibility attributes.
- * 
+ *
  * @param props - Link props plus optional isActive boolean
  * @returns A Link element with pagination-specific accessibility
- * 
+ *
  * @example
  * ```tsx
  * <PaginationLink href="/page/2" isActive={currentPage === 2}>
@@ -151,10 +151,10 @@ type PaginationPreviousProps = React.ComponentProps<typeof PaginationLink>;
 /**
  * Previous page navigation button.
  * Displays a chevron left icon with accessibility text in Persian.
- * 
+ *
  * @param props - All PaginationLink props including href
  * @returns A PaginationLink styled as a previous button
- * 
+ *
  * @example
  * ```tsx
  * <PaginationPrevious href="/page/1" />
@@ -184,10 +184,10 @@ type PaginationNextProps = React.ComponentProps<typeof PaginationLink>;
 /**
  * Next page navigation button.
  * Displays a chevron right icon with accessibility text in Persian.
- * 
+ *
  * @param props - All PaginationLink props including href
  * @returns A PaginationLink styled as a next button
- * 
+ *
  * @example
  * ```tsx
  * <PaginationNext href="/page/3" />
@@ -218,10 +218,10 @@ type PaginationEllipsisProps = React.ComponentProps<"span">;
  * Ellipsis indicator for pagination.
  * Shows "..." to indicate there are more pages between displayed page numbers.
  * Includes Persian screen reader text for accessibility.
- * 
+ *
  * @param props - All standard span element props including className
  * @returns A span element with ellipsis icon and accessibility text
- * 
+ *
  * @example
  * ```tsx
  * <PaginationEllipsis />

@@ -15,13 +15,14 @@ import PostTabs from "~/components/posts/post-tabs";
 import { getPostBySlug } from "~/service/posts";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export default async function PostPage({ params }: Props) {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
   return (
     <section className="flex items-start gap-[15px]">
@@ -89,7 +90,7 @@ export default async function PostPage({ params }: Props) {
           </section>
         </section>
 
-    <PostAuthor user={post.user} />
+        <PostAuthor user={post.user} />
         <PostNavigation />
         <PostTabs />
       </section>

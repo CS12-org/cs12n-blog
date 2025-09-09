@@ -43,7 +43,7 @@ async function PathPage(props: Props) {
                   href={`/post/${link.post.slug}`}
                   className={twJoin(
                     "text-text text-body-md py-3 px-5 transition",
-                    "w-full flex items-center gap-3 hover:bg-surface-0"
+                    "w-full flex items-center gap-3 hover:bg-surface-0",
                   )}
                 >
                   {link.link_type === "POST" && (

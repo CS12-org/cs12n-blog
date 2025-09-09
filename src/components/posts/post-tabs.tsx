@@ -1,4 +1,9 @@
-import { Tab, TabList, TabPanel, Tabs } from "~/components/react-aria-components";
+import {
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+} from "~/components/react-aria-components";
 import CommentSection from "~/components/posts/sections/comment-section";
 import Highlights from "~/components/posts/sections/highlight-section";
 import ReviewSection from "~/components/posts/sections/review-section";
