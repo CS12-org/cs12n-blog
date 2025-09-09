@@ -1,7 +1,6 @@
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import serverConfig from "~/lib/server-config";
 
 interface ExtendedUser {
   id: string;
@@ -43,7 +42,7 @@ const authOptions: NextAuthOptions = {
 
         const authenticationUrl = new URL(
           process.env.BACKEND_URL,
-          "/api/auth/login"
+          "/api/auth/login",
         ).toString();
 
         try {

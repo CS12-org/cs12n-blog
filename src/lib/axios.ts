@@ -9,8 +9,7 @@ const axios = Axios.create({
   baseURL: publicConfig.NEXT_PUBLIC_API_URL,
 });
 
-axios.interceptors.request.use(async (
-  config) => {
+axios.interceptors.request.use(async (config) => {
   const session = await (typeof window === "undefined"
     ? getServerSession(authOptions)
     : getSession());

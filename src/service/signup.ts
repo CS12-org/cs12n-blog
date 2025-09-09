@@ -15,12 +15,12 @@ export type SignUpResponse = {
  * Register a new user
  */
 export const registerUser = async (
-  data: SignUpData
+  data: SignUpData,
 ): Promise<SignUpResponse> => {
   try {
     const response = await axios.post<SignUpResponse>(
       "/api/auth/register",
-      data
+      data,
     );
     return response.data;
   } catch (err: unknown) {

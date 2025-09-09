@@ -14,7 +14,7 @@ export default function VerifyEmailForm() {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
   const [status, setStatus] = useState<"pending" | "success" | "error">(
-    "pending"
+    "pending",
   );
   const [error, setError] = useState<string | null>(null);
   const [isResending, setIsResending] = useState(false);
@@ -22,12 +22,12 @@ export default function VerifyEmailForm() {
 
   const verifyEmail = async () => {
     try {
-      const response = await axios.get(`/api/auth/verify-email?token=${token}`);
+      await axios.get(`/api/auth/verify-email?token=${token}`);
       setStatus("success");
       //setExpirationTimer(response?.data?.expiresIn || 0);
-    } catch (err: any) {
+    } catch {
       setStatus("error");
-      setError(err.response?.data?.message || "خطا در تایید ایمیل");
+      setError("خطا در تایید ایمیل");
     }
   };
 
@@ -36,10 +36,8 @@ export default function VerifyEmailForm() {
     try {
       await axios.post(`/api/auth/resend-verification-email`, { email });
       setError(null);
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message || "ارسال مجدد ایمیل با خطا مواجه شد"
-      );
+    } catch {
+      setError("ارسال مجدد ایمیل با خطا مواجه شد");
     }
     setIsResending(false);
   };
@@ -54,6 +52,7 @@ export default function VerifyEmailForm() {
   // Call verifyEmail on mount (or when needed)
   useEffect(() => {
     verifyEmail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const isEmailExsist = error === "Email already verified";
   return (
@@ -64,7 +63,7 @@ export default function VerifyEmailForm() {
           alt="فرهان"
           className={twJoin(
             "animate-fade-up animate-duration-1000 animate-delay-500",
-            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1"
+            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1",
           )}
         />
         <h1 className="font-bold text-3xl mb-7 text-center">

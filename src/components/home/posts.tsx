@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useMemo } from 'react';
-import Post from '~/components/home/post';
-import { useQuery } from '@tanstack/react-query';
-import { getPosts, type GetPostsResult } from '~/service/posts';
+import { useMemo } from "react";
+import Post from "~/components/home/post";
+import { useQuery } from "@tanstack/react-query";
+import { getPosts, type GetPostsResult } from "~/service/posts";
 import {
   Pagination,
   PaginationContent,
@@ -12,12 +12,12 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '~/components/pagination';
+} from "~/components/pagination";
 
 type Props = {
   page: number;
   pageSize: number;
-  posts: GetPostsResult['data'];
+  posts: GetPostsResult["data"];
   totalPosts?: number;
 };
 
@@ -33,20 +33,22 @@ function Posts(props: Props) {
     const pages: (number | string)[] = [];
     const maxVisiblePages = 5;
 
-    if (totalPages <= maxVisiblePages) for (let i = 1; i <= totalPages; i++) pages.push(i);
+    if (totalPages <= maxVisiblePages)
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
     else {
       pages.push(1);
 
       if (page > 3) {
-        pages.push('...');
+        pages.push("...");
       }
 
       const start = Math.max(2, page - 1);
       const end = Math.min(totalPages - 1, page + 1);
 
-      for (let i = start; i <= end; i++) if (i !== 1 && i !== totalPages) pages.push(i);
+      for (let i = start; i <= end; i++)
+        if (i !== 1 && i !== totalPages) pages.push(i);
 
-      if (page < totalPages - 2) pages.push('...');
+      if (page < totalPages - 2) pages.push("...");
 
       if (totalPages > 1) pages.push(totalPages);
     }
@@ -56,12 +58,12 @@ function Posts(props: Props) {
 
   const { data } = useQuery({
     initialData: posts,
-    queryKey: ['posts', pageSize, page],
+    queryKey: ["posts", pageSize, page],
     queryFn: () => getPosts({ page, pageSize }).then((res) => res.data.data),
   });
 
   const postList = (
-    <ul className='flex flex-col items-stretch gap-5'>
+    <ul className="flex flex-col items-stretch gap-5">
       {(data ?? [])?.map((post) => (
         <li key={post.id} aria-label={post.title}>
           <Post
@@ -86,14 +88,17 @@ function Posts(props: Props) {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious isDisabled={page <= 1} href={`?page=${page - 1}`} />
+            <PaginationPrevious
+              isDisabled={page <= 1}
+              href={`?page=${page - 1}`}
+            />
           </PaginationItem>
 
           {pageNumbers.map((pageNum, index) => (
             <PaginationItem key={index}>
-              {pageNum === '...' && <PaginationEllipsis />}
+              {pageNum === "..." && <PaginationEllipsis />}
 
-              {pageNum !== '...' && (
+              {pageNum !== "..." && (
                 <PaginationLink
                   href={`?page=${pageNum}`}
                   isActive={page === pageNum}
@@ -106,7 +111,10 @@ function Posts(props: Props) {
           ))}
 
           <PaginationItem>
-            <PaginationNext href={`?page=${page + 1}`} isDisabled={page >= totalPages} />
+            <PaginationNext
+              href={`?page=${page + 1}`}
+              isDisabled={page >= totalPages}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
