@@ -32,14 +32,12 @@ function PostAuthor({ user }: { user: User }) {
           height={40}
           className="rounded-full h-[40px] w-[40px] border-crust border-[5px]"
         />
-        <h3 className="font-extrabold lg:text-[20px] text-[16px]">{username}</h3>
+        <h3 className="font-extrabold lg:text-[20px] text-[16px]">
+          {username}
+        </h3>
       </div>
 
-      {bio && (
-        <p className="lg:text-[16px] text-[14px]">
-          {bio}
-        </p>
-      )}
+      {bio && <p className="lg:text-[16px] text-[14px]">{bio}</p>}
 
       <div className="flex flex-row-reverse justify-start gap-[10px]">
         <PiTelegramLogoDuotone className="lg:h-[28px] lg:w-[28px] w-[24px] h-[24px]" />

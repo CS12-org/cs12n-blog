@@ -16,9 +16,8 @@ function Main(props: Props) {
         <main>{children}</main>
         <MainBottombar />
         <MainFooter />
-   
       </div>
-     <Footer />
+      <Footer />
     </div>
   );
 }

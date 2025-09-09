@@ -86,7 +86,7 @@ function SignUpForm() {
           alt="کرکتر فرهان"
           className={twJoin(
             "animate-fade-up animate-duration-1000 animate-delay-500",
-            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1"
+            "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1",
           )}
         />
         <h1 className="font-bold text-4xl mb-7 text-center">
@@ -121,7 +121,7 @@ function SignUpForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2"
+                  fieldState.error && "mt-2",
                 )}
               >
                 {fieldState.error?.message}
@@ -152,7 +152,7 @@ function SignUpForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2"
+                  fieldState.error && "mt-2",
                 )}
               >
                 {fieldState.error?.message}
@@ -183,7 +183,7 @@ function SignUpForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2"
+                  fieldState.error && "mt-2",
                 )}
               >
                 {fieldState.error?.message}

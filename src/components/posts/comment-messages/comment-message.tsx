@@ -25,7 +25,7 @@ function CommentMessege() {
             <IncreaseArrow className="w-[20px] h-[10px]" />
           </Button>
           <Button className="bg-maroon flex justify-center items-center w-[28px] h-[28px] rounded-[5px]">
-            <DecreaseArrow  className="w-[20px] h-[10px]" />
+            <DecreaseArrow className="w-[20px] h-[10px]" />
           </Button>
           <Button className="bg-  text-subtext-0">
             <ThreeDotts />

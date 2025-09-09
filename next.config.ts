@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   webpack(config) {
     const rules = config.module.rules;
     const fileLoaderRule = rules.find((rule: RuleWithTest) =>
-      rule.test?.test?.(".svg")
+      rule.test?.test?.(".svg"),
     );
 
     if (fileLoaderRule) {
@@ -27,9 +27,11 @@ const nextConfig: NextConfig = {
         {
           test: /\.svg$/i,
           issuer: fileLoaderRule.issuer,
-          resourceQuery: { not: [...(fileLoaderRule.resourceQuery?.not || []), /url/] },
+          resourceQuery: {
+            not: [...(fileLoaderRule.resourceQuery?.not || []), /url/],
+          },
           use: ["@svgr/webpack"],
-        }
+        },
       );
 
       fileLoaderRule.exclude = /\.svg$/i;

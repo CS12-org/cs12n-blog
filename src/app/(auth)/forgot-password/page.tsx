@@ -18,8 +18,8 @@ function Login() {
       <main className="min-h-dvh flex flex-col items-center">
         <form className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-[360px]">
           <Image
-          src={Mohammadhoseincharacter}
-          alt="کرکتر محمد حسین"
+            src={Mohammadhoseincharacter}
+            alt="کرکتر محمد حسین"
             className={twJoin(
               "animate-fade-up animate-duration-1000 animate-delay-500",
               "absolute bottom-[165px] left-1/2 -translate-x-1/2 w-25 -z-1",

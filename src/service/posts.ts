@@ -16,7 +16,7 @@ export type Post = {
     email: string;
     username: string;
     avatarUrl?: string; // اختیاری
-    bio?: string;       // اختیاری
+    bio?: string; // اختیاری
   } | null;
 };
 
@@ -38,7 +38,7 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
 export type GetPostsParams = {
   page: number;
   pageSize: number;
-}
+};
 
 export type GetPostsResult = {
   data: {
@@ -89,7 +89,7 @@ export type GetPostsResult = {
       pageCount: number;
     };
   };
-}
+};
 
 /**
  * Fetches posts from the API.

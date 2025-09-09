@@ -64,13 +64,13 @@ function LoginForm() {
           className={twJoin(
             "animate-fade-up animate-duration-1000 animate-delay-500",
             "absolute bottom-full left-1/2 -translate-x-1/2 w-25 -z-1 h-auto",
-            "object-contain"
+            "object-contain",
           )}
         />
         <h1
           className={twJoin(
             "font-bold text-4xl mb-7 text-center",
-            "flex gap-2 justify-center"
+            "flex gap-2 justify-center",
           )}
         >
           <span className="text-rosewater animate-fade">و</span>
@@ -102,7 +102,7 @@ function LoginForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2"
+                  fieldState.error && "mt-2",
                 )}
               >
                 {fieldState.error?.message}
@@ -134,7 +134,7 @@ function LoginForm() {
                 slot="description"
                 className={twJoin(
                   "text-red block text-label-xs",
-                  fieldState.error && "mt-2"
+                  fieldState.error && "mt-2",
                 )}
               >
                 {fieldState.error?.message}

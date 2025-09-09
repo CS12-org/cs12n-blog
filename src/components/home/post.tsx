@@ -1,9 +1,9 @@
+import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+import Comments from "~/assets/images/comments.svg";
+import Save from "~/assets/images/save.svg";
 import Button from "~/components/button";
 import { Link } from "~/components/react-aria-components";
-import Image from "next/image";
-import Comments from "~/assets/images/comments.svg";
-import Save from "~/assets/images/save.svg"
 const colors = ["text-peach", "text-mauve", "text-yellow"];
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 };
 
 function Post(props: Props) {
-  const { title, tags, description, claps, image, slug } = props;
+  const { title, tags, description, image, slug } = props;
 
   return (
     <article className="rounded-xl overflow-hidden bg-crust">
@@ -53,7 +53,7 @@ function Post(props: Props) {
                 "first-of-type:bg-surface-2 first-of-type:text-text",
                 "first-of-type:rounded first-of-type:px-2.5",
                 "first-of-type:py-0.5 hover:brightness-110",
-                "active:brightness-90 transition-[filter]"
+                "active:brightness-90 transition-[filter]",
               )}
             >
               <Link href={`/tags/${item.slug}`}>{item.title}</Link>
@@ -63,10 +63,10 @@ function Post(props: Props) {
 
         <div className="flex items-center gap-5">
           <Button className="flex items-center gap-1.5" variant="none">
-            <Comments  className="text-overlay-1 w-[29px] h-[29px]" />
+            <Comments className="text-overlay-1 w-[29px] h-[29px]" />
             <span className="text-white">نظرات</span>
           </Button>
-{/* 
+          {/* 
           <Button className="flex items-center gap-1.5" variant="none">
             <FaHandsClapping size={20} className="text-overlay-1" />
             <span className="pt-1.5 text-white">{claps}</span>

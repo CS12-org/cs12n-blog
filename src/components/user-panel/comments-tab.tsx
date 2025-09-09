@@ -6,20 +6,18 @@ import Profile from "~/assets/images/farhan.jpg";
 import Close from "~/assets/images/close.svg";
 import { TextInput } from "~/components/user-panel/text-field";
 
-
 import IncreaseArrow from "~/assets/images/increaseArrow.svg";
 import ThreeDotts from "~/assets/images/threeDotts.svg";
 import Button from "~/components/button";
 
-
 export default function CommentsTabUserPanel() {
-
   return (
     <section className="flex flex-col gap-[10px]">
-
       <span className="p-[10px] w-full flex justify-between items-center bg-mantle rounded-[10px]">
-
-        <p className="text-[12px] text-subtext-0">در اینجا شما نظرات رو خواهید دید میتوانید برای پاسخ دادن از markdown برای استایل دادن به نظراتتون استفاده کنید.</p>
+        <p className="text-[12px] text-subtext-0">
+          در اینجا شما نظرات رو خواهید دید میتوانید برای پاسخ دادن از markdown
+          برای استایل دادن به نظراتتون استفاده کنید.
+        </p>
         <Close className="bg-crust" />
       </span>
 
@@ -50,7 +48,6 @@ export default function CommentsTabUserPanel() {
         <section className="text-[12px] text-text bg-[#101122]  rounded-b-[10px] py-[10px] gap-y-[15px] flex flex-col ">
           <section className="bg-surface-0  w-full h-auto flex justify-between text-text py-[13px] px-[10px] text-[14px]  ">
             <p className=" ">در پاسخ به : من به نظرم فلان هست </p>
-
           </section>
           <p className="px-[10px]">
             سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم شاید
@@ -65,8 +62,6 @@ export default function CommentsTabUserPanel() {
           </section>
         </section>
       </article>
-
-
 
       <article className=" w-full flex flex-col px-[20px] ">
         <header className="flex justify-between  rounded-tr-[10px] rounded-tl-[10px] p-[10px]  bg-crust">
@@ -95,7 +90,6 @@ export default function CommentsTabUserPanel() {
         <section className="text-[12px] text-text bg-[#101122]  rounded-b-[10px] py-[10px] gap-y-[10px] flex flex-col ">
           <section className="bg-surface-0  w-full h-auto flex justify-between text-text py-[13px] px-[10px] text-[14px]  ">
             <p className=" ">در پاسخ به : من به نظرم فلان هست </p>
-
           </section>
           <p className="px-[10px]">
             سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم شاید
@@ -111,18 +105,18 @@ export default function CommentsTabUserPanel() {
               <Close className="bg- h-[13px] w-[13px]" />
               لغو پاسخ
             </Button>
-
           </section>
           <div className="px-[10px] text-[14px] flex flex-col gap-[10px]">
-            <TextInput className="h-[52px] text-text text-[14px]" placeholder="کامنت خود را بنویسید ..." />
-            <Button className="w-full h-[52px] bg-blue text-crust font-bold">ارسال نظر</Button>
+            <TextInput
+              className="h-[52px] text-text text-[14px]"
+              placeholder="کامنت خود را بنویسید ..."
+            />
+            <Button className="w-full h-[52px] bg-blue text-crust font-bold">
+              ارسال نظر
+            </Button>
           </div>
         </section>
-
-
       </article>
-
     </section>
-
-  )
+  );
 }
