@@ -5,32 +5,111 @@ import { twJoin } from "tailwind-merge";
 import Payamcharacter from "~/assets/images/payam-character.png";
 import Button from "~/components/button";
 import Image from "next/image";
+import { Controller, useForm } from "react-hook-form";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import axios from "~/lib/axios";
+import { useRouter } from "next/navigation";
+import { Input, Text, TextField } from "react-aria-components";
+const ChangePasswordSchema = z
+  .object({
+    password: z.string().min(8),
+    confirmPassword: z.string().min(8),
+  })
+  .superRefine((values, ctx) => {
+    if (values.password !== values.confirmPassword)
+      ctx.addIssue({
+        code: "custom",
+        message: "تکرار رمز عبور با رمز عبور یکسان نیست",
+        path: ["confirmPassword"],
+      });
+  });
 
+type ChangePasswordFormFields = z.infer<typeof ChangePasswordSchema>;
+
+const DEFAULT_ERROR_MESSAGE =
+  "متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.";
+
+interface AxiosError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
 // TODO: refactor
-function Login() {
-  const [isHasSent, setHasSent] = useState(false);
+export default function ChangePassword() {
+  const router = useRouter();
 
-  const handleSubmitClick = () => {
-    setHasSent(true);
+  const [isHasSent, setHasSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [sentEmail, setSentEmail] = useState<string | null>(null);
+  const { control, handleSubmit } = useForm<ChangePasswordFormFields>({
+    resolver: zodResolver(ChangePasswordSchema),
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const ChangePasswordMutation = useMutation({
+    mutationFn: async (values: ChangePasswordFormFields) => {
+      const response = await axios.post("/api/auth/register", {
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+      });
+      return response.data;
+    },
+    onSuccess: (res) => {
+      setHasSent(true);
+      setSentEmail(res?.data?.email);
+    },
+    onError: (error: AxiosError) => {
+      setError(error.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+    },
+  });
+
+  const submitHandler = handleSubmit((values) => {
+    ChangePasswordMutation.mutate(values);
+  });
+  // Helper to get webmail URL
+  const getWebmailUrl = (email: string) => {
+    const domain = email.split("@")[1]?.toLowerCase();
+    if (!domain) return null;
+    if (domain === "gmail.com") return "https://mail.google.com/";
+    if (domain === "yahoo.com") return "https://mail.yahoo.com/";
+    if (
+      domain === "outlook.com" ||
+      domain === "hotmail.com" ||
+      domain === "live.com"
+    )
+      return "https://outlook.live.com/";
+    // Add more providers as needed
+    return `https://mail.${domain}/`;
   };
 
   if (!isHasSent)
     return (
       <main className="min-h-dvh flex flex-col items-center">
-        <form className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-[360px] max-w-sm">
+        <form
+          method="POST"
+          onSubmit={submitHandler}
+          className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-[360px] max-w-sm"
+        >
           <Image
             src={Payamcharacter}
             alt="کرکتر پیام"
             className={twJoin(
               "animate-fade-up animate-duration-1000 animate-delay-500",
               "absolute bottom-[210px] left-1/2 -translate-x-1/2 w-25 -z-1",
-              "w-[150px] h-[204px]",
+              "w-[150px] h-[204px]"
             )}
           />
           <h1
             className={twJoin(
               "font-bold text-3x1 mb-7 text-center",
-              "flex gap-2 justify-center items-center ",
+              "flex gap-2 justify-center items-center "
             )}
           >
             <span className="leading-6 text-white tracking-normal text-center align-middle font-body-md mb-[-10px]  w-[320px] h-[24px]">
@@ -38,21 +117,75 @@ function Login() {
             </span>
           </h1>
 
-          <input
-            placeholder="رمز جدید"
-            className="bg-surface-0 mb-4 rounded-[10px] px-2.5 py-2 w-[320px] h-[42px]"
+          <Controller
+            name="password"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                className="mb-4"
+                name={field.name}
+                value={field.value}
+                onBlur={field.onBlur}
+                onChange={field.onChange}
+                autoComplete="new-password"
+                isDisabled={field.disabled}
+                isInvalid={fieldState.invalid}
+              >
+                <Input
+                  ref={field.ref}
+                  placeholder="رمز عبور"
+                  className="bg-surface-0 rounded-md px-2.5 py-2 w-full"
+                />
+                <Text
+                  slot="description"
+                  className={twJoin(
+                    "text-red block text-label-xs",
+                    fieldState.error && "mt-2"
+                  )}
+                >
+                  {fieldState.error?.message}
+                </Text>
+              </TextField>
+            )}
           />
-          <input
-            placeholder="تایید رمز جدید"
-            className="bg-surface-0 mb-4 rounded-[10px] px-2.5 py-2 w-[320px] h-[42px]"
+          <Controller
+            control={control}
+            name="confirmPassword"
+            render={({ field, fieldState }) => (
+              <TextField
+                className="mb-4"
+                name={field.name}
+                value={field.value}
+                onBlur={field.onBlur}
+                onChange={field.onChange}
+                autoComplete="new-password"
+                isDisabled={field.disabled}
+                isInvalid={fieldState.invalid}
+              >
+                <Input
+                  ref={field.ref}
+                  placeholder="تکرار رمز عبور"
+                  className="bg-surface-0 rounded-md px-2.5 py-2 w-full"
+                />
+                <Text
+                  slot="description"
+                  className={twJoin(
+                    "text-red block text-label-xs",
+                    fieldState.error && "mt-2"
+                  )}
+                >
+                  {fieldState.error?.message}
+                </Text>
+              </TextField>
+            )}
           />
-
+          {!!error && (
+            <p className="text-center text-label-md text-red my-1">
+              {error.trim()}
+            </p>
+          )}
           <div className="mt-0 flex gap-2 w-[320px] h-[42px] rounded-[10px]">
-            <Button
-              type="submit"
-              className="py-2 grow"
-              onClick={handleSubmitClick}
-            >
+            <Button type="submit" className="py-2 grow">
               تایید
             </Button>
           </div>
@@ -88,12 +221,18 @@ function Login() {
             کد به ایمیل شما ارسال شد
           </p>
         </div>
-        <button className="bg-indigo-300 text-black px-6 py-2 w-[320px] h-[42px]  rounded-lg hover:bg-indigo-400 transition ">
+        <button
+          onClick={() => {
+            if (sentEmail) {
+              const url = getWebmailUrl(sentEmail);
+              if (url) window.open(url, "_blank");
+            }
+          }}
+          className="bg-indigo-300 text-black px-6 py-2 w-[320px] h-[42px]  rounded-lg hover:bg-indigo-400 transition "
+        >
           رفتن به ایمیل
         </button>
       </div>
     </div>
   );
 }
-
-export default Login;
