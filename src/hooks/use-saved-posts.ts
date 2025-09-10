@@ -1,9 +1,7 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchSavedPosts, SavedPostsResponse } from '~/service/saved-posts';
-
-
+import { fetchSavedPosts } from '~/service/saved-posts';
 
 export function useFetchSavedPosts() {
   return useInfiniteQuery({
@@ -13,4 +11,3 @@ export function useFetchSavedPosts() {
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.endCursor : null),
   });
 }
-

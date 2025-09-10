@@ -18,7 +18,7 @@ export type Post = {
     avatarUrl?: string; // اختیاری
     bio?: string; // اختیاری
   } | null;
-}
+};
 export type SavedPostsResponse = {
   items: any[];
   totalCount: number;
@@ -41,9 +41,9 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
 };
 const mapSavedPostToPost = (item: any): Post => ({
   id: item.id,
-  title: item.title ?? "بدون عنوان",
+  title: item.title ?? 'بدون عنوان',
   slug: item.slug,
-  description: item.excerpt ?? "",
+  description: item.excerpt ?? '',
   clap: item.saveCount ?? 0,
   narrator: null,
   featured_image: item.featured_image
@@ -63,18 +63,16 @@ const mapSavedPostToPost = (item: any): Post => ({
     : null,
 });
 
-export const fetchSavedPosts = async (cursor: string | null = null, pageSize = 10) => {
-  const res = await axios.get<SavedPostsResponse>("/api/saved-posts", {
-    params: { cursor, pageSize },
-  });
 
-}
 export type GetPostsParams = {
   page: number;
   pageSize: number;
 };
 
 export type GetPostsResult = {
+  endCursor: string;
+  hasNextPage: boolean;
+  totalCount: number;
   data: {
     id: number;
     description: string;
@@ -131,8 +129,8 @@ export type GetPostsResult = {
  * @param params - Parameters for the request.
  * @returns A promise that resolves to the posts data.
  */
-export const getPosts = async (params: GetPostsParams) =>{
-  const res = await axios.get<GetPostsResult>("/api/posts/feed", { params });
+export const getPosts = async (params: GetPostsParams) => {
+  const res = await axios.get<GetPostsResult>('/api/posts/feed', { params });
   return {
     items: res.data.data.map(mapSavedPostToPost),
     hasNextPage: res.data.hasNextPage,

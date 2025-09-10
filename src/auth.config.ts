@@ -1,12 +1,10 @@
 import axios from 'axios';
 import { NextAuthOptions } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 async function refreshAccessToken(refreshToken: string, token: JWT) {
-  const res = await axios.post(
-    "https://cs12-back-cs12.kubarcloud.net/api/auth/refresh-token",
-    { refreshToken },
-  );
+  const res = await axios.post('https://cs12-back-cs12.kubarcloud.net/api/auth/refresh-token', { refreshToken });
 
   token.accessToken = res.data.accessToken;
   token.refreshToken = res.data.refreshToken;
@@ -16,12 +14,11 @@ async function refreshAccessToken(refreshToken: string, token: JWT) {
 }
 
 async function authorize(credentials: Record<string, string> | undefined) {
-  if (!credentials?.email || !credentials?.password || !process.env.BACKEND_URL)
-    return null;
+  if (!credentials?.email || !credentials?.password || !process.env.BACKEND_URL) return null;
 
   try {
     const res = await axios
-      .post("https://cs12-back-cs12.kubarcloud.net/api/auth/login", {
+      .post('https://cs12-back-cs12.kubarcloud.net/api/auth/login', {
         usernameOrEmail: credentials.email,
         password: credentials.password,
       })
@@ -35,7 +32,7 @@ async function authorize(credentials: Record<string, string> | undefined) {
 }
 
 const authOptions: NextAuthOptions = {
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === 'development',
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -44,33 +41,7 @@ const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password || !process.env.BACKEND_URL) return null;
-
-        const authenticationUrl = new URL('/api/auth/login', process.env.BACKEND_URL).toString();
-
-        try {
-          const res = await axios
-            .post(authenticationUrl, {
-              usernameOrEmail: credentials.email,
-              password: credentials.password,
-            })
-            .then((res) => res.data.data);
-
-          if (res.id) {
-            return {
-              id: res.id,
-              email: res.email,
-              username: res.username,
-              isProfileCompleted: res.isProfileCompleted,
-              accessToken: res.accessToken,
-              refreshToken: res.refreshToken,
-              accessTokenExpires: res.accessTokenExpires,
-            };
-          }
-          return null;
-        } catch {
-          return null;
-        }
+        return authorize(credentials);
       },
     }),
   ],

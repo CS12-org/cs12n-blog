@@ -1,42 +1,42 @@
-import ArticleCategories from '~/components/home/article-categories';
-import Posts from '~/components/home/posts';
-import WeeklyChallenge from '~/components/home/weekly-challenge';
-import { getPosts } from '~/service/posts';
+// import ArticleCategories from '~/components/home/article-categories';
+// import Posts from '~/components/home/posts';
+// import WeeklyChallenge from '~/components/home/weekly-challenge';
+// import { getPosts } from '~/service/posts';
 
-export const revalidate = 60;
+// export const revalidate = 60;
 
-type Props = {
-  searchParams: Promise<{
-    page?: string;
-    pageSize?: string;
-  }>;
-};
+// type Props = {
+//   searchParams: Promise<{
+//     page?: string;
+//     pageSize?: string;
+//   }>;
+// };
 
-async function Home(props: Props) {
-  const { page, pageSize } = await props.searchParams;
+// async function Home(props: Props) {
+//   const { page, pageSize } = await props.searchParams;
 
-  // Check if page and pageSize are numbers and not NaN
-  const parsedPage = parseInt(page ?? '1') || 1;
-  const parsedPageSize = parseInt(pageSize ?? '10') || 10;
+//   // Check if page and pageSize are numbers and not NaN
+//   const parsedPage = parseInt(page ?? '1') || 1;
+//   const parsedPageSize = parseInt(pageSize ?? '10') || 10;
 
-  const { data: posts } = await getPosts({
-    page: parsedPage,
-    pageSize: parsedPageSize,
-  });
+//   const { data: posts } = await getPosts({
+//     page: parsedPage,
+//     pageSize: parsedPageSize,
+//   });
 
-  return (
-    <div className="flex items-start gap-5">
-      <ArticleCategories />
+//   return (
+//     <div className="flex items-start gap-5">
+//       <ArticleCategories />
 
-      <div className="grow overflow-hidden">
-        <WeeklyChallenge />
+//       <div className="grow overflow-hidden">
+//         <WeeklyChallenge />
 
-        <div aria-hidden className="bg-surface-0 my-5 h-[3px] rounded-full" />
+//         <div aria-hidden className="bg-surface-0 my-5 h-[3px] rounded-full" />
 
-        <Posts page={parsedPage} pageSize={parsedPageSize} posts={posts.data} />
-      </div>
-    </div>
-  );
-}
+//         <Posts page={parsedPage} pageSize={parsedPageSize} posts={posts.data} />
+//       </div>
+//     </div>
+//   );
+// }
 
-export default Home;
+// export default Home;

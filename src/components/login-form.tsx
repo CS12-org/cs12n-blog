@@ -21,7 +21,7 @@ type FormFields = z.infer<typeof schema>;
 const DEFAULT_ERROR_MESSAGE = 'متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.';
 
 const STATUS_ERRORS: Record<string, string> = {
-  401: "ایمیل یا رمز عبور اشتباه هست",
+  401: 'ایمیل یا رمز عبور اشتباه هست',
 };
 
 function LoginForm() {
@@ -56,7 +56,7 @@ function LoginForm() {
       const errorMessage = STATUS_ERRORS[res.status.toString()];
       return setError(errorMessage || DEFAULT_ERROR_MESSAGE);
     }
-    router.replace("/");
+    router.replace('/');
   });
 
   return (
@@ -137,7 +137,7 @@ function LoginForm() {
           رمز عبورم رو فراموش کردم!
         </button>
         <div className="mt-4 flex gap-2">
-          <Button isPending={loading} type="submit" className="py-2 grow">
+          <Button isPending={loading} type="submit" className="grow py-2">
             ورود به سایت
           </Button>
           <Button type="button" variant="outline" className="px-4 py-2" onPress={() => router.push('/signup')}>
