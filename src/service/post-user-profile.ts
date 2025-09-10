@@ -1,4 +1,4 @@
-import axios from '~/lib/axios';
+import axios from "~/lib/axios";
 export type PostUserProfileReq = {
   username: string;
   fullName: string;
@@ -7,4 +7,4 @@ export type PostUserProfileReq = {
 };
 export type PostUserProfileRes = {};
 export const postUserProfile = (body: PostUserProfileReq) =>
-  axios.post<PostUserProfileRes>('/api/user-profile', body);
+  axios.post<PostUserProfileRes>("/api/user-profile", body);

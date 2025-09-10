@@ -88,9 +88,15 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
             aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
           >
             {isPlaying ? (
-              <CiPause1 strokeWidth={1} className="text-overlay-1 size-4 lg:size-6" />
+              <CiPause1
+                strokeWidth={1}
+                className="text-overlay-1 size-4 lg:size-6"
+              />
             ) : (
-              <CiPlay1 strokeWidth={1} className="text-overlay-1 size-4 lg:size-6" />
+              <CiPlay1
+                strokeWidth={1}
+                className="text-overlay-1 size-4 lg:size-6"
+              />
             )}
           </Button>
           <Button

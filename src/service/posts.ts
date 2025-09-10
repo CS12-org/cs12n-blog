@@ -1,9 +1,5 @@
-import axios from '~/lib/axios';
+import axios from "~/lib/axios";
 
-/** ----------------------------
- * Types for paginated posts
- * ---------------------------- */
-export type GetPostsParams = { page: number; pageSize: number };
 /** ----------------------------
  * Type for single post (simplified)
  * ---------------------------- */
