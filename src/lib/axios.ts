@@ -6,7 +6,7 @@ import authOptions from '~/auth.config';
 
 const axios = Axios.create({
   timeout: 30 * 1000, // 30 seconds
-  baseURL: publicConfig.NEXT_PUBLIC_API_URL,
+  baseURL: publicConfig.NEXT_PUBLIC_API_URL + '/api',
 });
 
 axios.interceptors.request.use(async (config) => {

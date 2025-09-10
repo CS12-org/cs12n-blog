@@ -63,7 +63,6 @@ const mapSavedPostToPost = (item: any): Post => ({
     : null,
 });
 
-
 export type GetPostsParams = {
   page: number;
   pageSize: number;
