@@ -1,4 +1,4 @@
-import axios from "~/lib/axios";
+import axios from '~/lib/axios';
 
 /** ----------------------------
  * Type for single post (simplified)

@@ -1,19 +1,19 @@
-import Image from "next/image";
-import PostSideBar from "~/components/posts/side-bar";
-import HighlightMenu from "~/components/posts/highlight-menu";
-import AudioPlayer from "~/components/audio-player";
-import ShareHighlightsPrompt from "~/components/free-sections/share-highlights-prompt";
-import SharingSuccessPrompt from "~/components/free-sections/sharing-success-prompt";
-import ResumeSharingNotice from "~/components/free-sections/resume-sharing-notice";
-import CommitMessegeInput from "~/components/free-sections/commit-message-input";
-import ChangeCommitMessege from "~/components/free-sections/change-commit-message";
-import SharePopoverButton from "../../../../components/posts/share-button";
-import PostAuthor from "~/components/posts/post-author";
-import PostNavigation from "~/components/posts/post-navigation";
-import PostTabs from "~/components/posts/post-tabs";
-import { getPostBySlug } from "~/service/posts";
-import ClapButton from "~/components/posts/clap-button";
-import { notFound } from "next/navigation";
+import Image from 'next/image';
+import PostSideBar from '~/components/posts/side-bar';
+import HighlightMenu from '~/components/posts/highlight-menu';
+import AudioPlayer from '~/components/audio-player';
+import ShareHighlightsPrompt from '~/components/free-sections/share-highlights-prompt';
+import SharingSuccessPrompt from '~/components/free-sections/sharing-success-prompt';
+import ResumeSharingNotice from '~/components/free-sections/resume-sharing-notice';
+import CommitMessegeInput from '~/components/free-sections/commit-message-input';
+import ChangeCommitMessege from '~/components/free-sections/change-commit-message';
+import SharePopoverButton from '../../../../components/posts/share-button';
+import PostAuthor from '~/components/posts/post-author';
+import PostNavigation from '~/components/posts/post-navigation';
+import PostTabs from '~/components/posts/post-tabs';
+import { getPostBySlug } from '~/service/posts';
+import ClapButton from '~/components/posts/clap-button';
+import { notFound } from 'next/navigation';
 
 type Props = {
   params: Promise<{
@@ -24,11 +24,11 @@ type Props = {
 export default async function PostPage(props: Props) {
   const { slug } = await props.params;
   const post = await getPostBySlug(slug);
-if(!post )return notFound()
-    return (
+  if (!post) return notFound();
+  return (
     <section className="flex items-start gap-[15px]">
       <PostSideBar className="hidden lg:flex" />
-      <section className="text-white z-10 w-full flex flex-col gap-[10px]">
+      <section className="z-10 flex w-full flex-col gap-[10px] text-white">
         <HighlightMenu containerId="highlight-area" />
 
         <section className="bg-crust mb-[20px] rounded-[10px]">
