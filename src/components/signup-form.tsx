@@ -8,7 +8,7 @@ import Button from "~/components/button";
 import { Input, Text, TextField } from "~/components/react-aria-components";
 import { twJoin } from "tailwind-merge";
 import { useRouter } from "next/navigation";
-import axios from "~/lib/axios";
+import { registerUser } from "~/service/signup";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
@@ -55,15 +55,14 @@ function SignUpForm() {
 
   const signupMutation = useMutation({
     mutationFn: async (values: SignUpFormFields) => {
-      const response = await axios.post("/api/auth/register", {
+      return await registerUser({
         email: values.email,
         password: values.password,
         confirmPassword: values.confirmPassword,
       });
-      return response.data;
     },
     onSuccess: () => {
-      router.push("/verify-your-email");
+      router.push("/verify-email");
     },
     onError: (error: AxiosError) => {
       setError(error.response?.data?.message || DEFAULT_ERROR_MESSAGE);

@@ -64,7 +64,7 @@ function Posts(props: Props) {
 
   const postList = (
     <ul className="flex flex-col items-stretch gap-5">
-      {data.map((post) => (
+      {(data ?? [])?.map((post) => (
         <li key={post.id} aria-label={post.title}>
           <Post
             slug={post.slug}

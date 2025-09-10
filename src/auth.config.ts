@@ -1,7 +1,6 @@
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import serverConfig from "~/lib/server-config";
 
 interface ExtendedUser {
   id: string;
@@ -73,7 +72,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
 
-  secret: serverConfig.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 
   session: { strategy: "jwt" },
 
