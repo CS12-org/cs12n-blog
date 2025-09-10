@@ -21,8 +21,8 @@ type Props = {
   }>;
 };
 
-export default async function PostPage({ params }: Props) {
-  const { slug } = await params;
+export default async function PostPage(props: Props) {
+  const { slug } = await props.params; 
   const post = await getPostBySlug(slug);
   if (!post) return notFound();
   return (
@@ -48,7 +48,7 @@ export default async function PostPage({ params }: Props) {
             </h1>
           </header>
 
-          {post.narrator && <AudioPlayer audioSrc={post.narrator} />}
+          {post.narrator && <AudioPlayer audioSrc={post.narrator.url} />}
 
           <article
             id="highlight-area"
@@ -78,7 +78,7 @@ export default async function PostPage({ params }: Props) {
           <section className="pt-[10px]">
             <div className="flex justify-between px-[10px] py-[10px] lg:px-[30px]">
               <SharePopoverButton />
-        <ClapButton postId={post.id} slug={post.slug} />
+        <ClapButton data={post} postId={post.id} slug={post.slug} />
 
             </div>
           </section>

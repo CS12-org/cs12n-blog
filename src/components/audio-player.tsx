@@ -8,6 +8,7 @@ import Comments from '../assets/images/comments.svg';
 import Button from './button';
 import LicenceMark from './posts/license-mark';
 
+
 export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   const audioRef = useRef<HTMLAudioElement>(null);
 

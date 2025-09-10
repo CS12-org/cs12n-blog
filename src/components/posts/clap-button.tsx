@@ -2,14 +2,20 @@
 
 import Hands from "~/assets/images/hands-celebrate.svg";
 import { useClap } from "~/hooks/use-clap";
+import type { Post } from "~/service/posts";
 
 type Props = {
   postId: number;
-  initialClap?: number;
+  slug: string;
+  data: Post;
 };
 
-export default function ClapButton({ postId, slug }: { postId: number; slug: string }) {
-  const { clap, handleClap, clickCount, maxClicks } = useClap({ postId, slug });
+export default function ClapButton({ postId, slug, data }: Props) {
+  const { clap, handleClap, clickCount, maxClicks } = useClap({
+    postId,
+    slug,
+    data,
+  });
 
   return (
     <div className="flex gap-[6px]">

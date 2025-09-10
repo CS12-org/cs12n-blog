@@ -18,11 +18,23 @@ export type GetPostsResult = {
     user: { email: string; username: string } | null;
     tags: { id: number; title: string; slug: string }[];
     category: { id: number; slug: string; title: string };
-    featured_image: { id: number; width: number; height: number; url: string } | null;
-    slide_image: { id: number; width: number; height: number; url: string }[] | null;
+    featured_image: {
+      id: number;
+      width: number;
+      height: number;
+      url: string;
+    } | null;
+    slide_image:
+      | { id: number; width: number; height: number; url: string }[]
+      | null;
   }[];
   meta: {
-    pagination: { page: number; pageSize: number; total: number; pageCount: number };
+    pagination: {
+      page: number;
+      pageSize: number;
+      total: number;
+      pageCount: number;
+    };
   };
 };
 
@@ -43,7 +55,9 @@ export type Post = {
   description: string;
   clap: number;
   createdAt: string;
-  narrator: string | null;
+  narrator: {
+    url: string;
+  } | null;
   featured_image: {
     id: number;
     documentId: string;
@@ -59,13 +73,15 @@ export type Post = {
   } | null;
   tags: { id: number; documentId: string; title: string; slug: string }[];
   category: { id: number; documentId: string; slug: string; title: string };
-  slide_image: {
-    id: number;
-    documentId: string;
-    width: number;
-    height: number;
-    url: string;
-  }[] | null;
+  slide_image:
+    | {
+        id: number;
+        documentId: string;
+        width: number;
+        height: number;
+        url: string;
+      }[]
+    | null;
 };
 export type SavedPostsResponse = {
   items: any[];
