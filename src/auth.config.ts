@@ -41,8 +41,8 @@ const authOptions: NextAuthOptions = {
           return null;
 
         const authenticationUrl = new URL(
-          process.env.BACKEND_URL,
           "/api/auth/login",
+          process.env.BACKEND_URL
         ).toString();
 
         try {
