@@ -18,10 +18,17 @@ export type Post = {
     avatarUrl?: string; // اختیاری
     bio?: string; // اختیاری
   } | null;
+}
+export type SavedPostsResponse = {
+  items: any[];
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  endCursor: string | null;
 };
 
 /**
- * Fetch a single post by slug
+ * Mapper: داده‌ی API → Post
  */
 export const getPostBySlug = async (slug: string): Promise<Post> => {
   try {
@@ -32,9 +39,45 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
     throw new Error('خطا در گرفتن پست');
   }
 };
+const mapSavedPostToPost = (item: any): Post => ({
+  id: item.id,
+  title: item.title,
+  slug: item.slug,
+  description: item.excerpt ?? "",
+  clap: item.saveCount ?? 0,
+  narrator: null,
+  featured_image: item.featured_image
+    ? {
+        width: item.featured_image.width,
+        height: item.featured_image.height,
+        url: item.featured_image.url,
+      }
+    : null,
+  user: item.user
+    ? {
+        email: item.user.email,
+        username: item.user.username,
+        avatarUrl: item.user.profile?.avatarUrl ?? undefined,
+        bio: item.user.profile?.bio ?? undefined,
+      }
+    : null,
+});
 
-// ----------------------------------------------------------------------------
+/**
+ * گرفتن پست‌های ذخیره‌شده
+ */
+export const fetchSavedPosts = async (
+  cursor: string | null
+): Promise<{
+  items: Post[];
+  hasNextPage: boolean;
+  endCursor: string | null;
+}> => {
+  const res = await axios.get<SavedPostsResponse>("/api/saved-posts", {
+    params: { cursor, pageSize: 10 },
+  });
 
+}
 export type GetPostsParams = {
   page: number;
   pageSize: number;
@@ -97,4 +140,11 @@ export type GetPostsResult = {
  * @param params - Parameters for the request.
  * @returns A promise that resolves to the posts data.
  */
-export const getPosts = (params: GetPostsParams) => axios.get<GetPostsResult>('/api/posts/feed', { params });
+export const getPosts = async (params: GetPostsParams) =>{
+  const res = await axios.get<GetPostsResult>("/api/posts/feed", { params });
+  return {
+    items: res.data.data.map(mapSavedPostToPost),
+    hasNextPage: res.data.hasNextPage,
+    endCursor: res.data.endCursor,
+  };
+};

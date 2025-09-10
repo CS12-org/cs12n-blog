@@ -1,61 +1,42 @@
-"use client";
 
-import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
-import Close from "~/assets/images/close.svg";
-import SavedPostList from "~/components/saved-posts/saved-post";
-import { useSavedPosts } from "~/hooks/use-saved-posts";
 
-export default function SavedPost() {
-  const { ref, inView } = useInView({
-    threshold: 0,
-    rootMargin: "200px",
-  });
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isPending,
-  } = useSavedPosts();
+import Save from "~/assets/images/save.svg";
+import Stopwatch from "~/assets/images/stopwatch.svg";
+import { Post } from "~/service/post";
 
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+type SavedPostListProps = {
+  posts?: Post[];
+};
 
-  const posts = data?.pages.flatMap((p) => p.items) || [];
-  const savedCount = posts.length;
+export default function SavedPostList({ posts = [] }: SavedPostListProps) {
+  if (!posts.length) {
+    return <p className="text-center text-subtext-1">هیچ پست ذخیره شده‌ای وجود ندارد.</p>;
+  }
 
   return (
     <section className="flex flex-col gap-[10px]">
-      {/* Intro Section */}
-      <section className="p-[10px] w-full gap-[10px] flex justify-between items-start bg-mantle rounded-[10px]">
-        <p className="text-body-sm text-subtext-0 w-full">
-          در اینجا پست های ذخیره شده شما نمایش داده میشود. شما میتوانید تا سقف ۱۵ پست
-          را ذخیره کنید تا بعدا مطالعه کنید. هر پست به مدت ۱۰ روز در لیست ذخیره های
-          شما باقی می ماند و پس از روز دهم حذف میشود.
-        </p>
-        <span className="bg-crust w-[23px] h-[23px] rounded-[5px] flex items-center justify-center">
-          <Close />
-        </span>
-      </section>
-
-      {/* Count */}
-      <span className="text-subtext-1 text-[12px]">
-        ({savedCount} از ۱۵)
-      </span>
-
-      {/* List */}
-      <SavedPostList posts={posts} />
-
-      {/* Loader for next page */}
-      {isFetchingNextPage && <p className="text-center">در حال بارگذاری...</p>}
-
-      {/* Observer element */}
-      {hasNextPage && <div ref={ref} style={{ height: "1px" }} />}
+      {posts.map((post) => (
+        <section
+          key={post.id}
+          className="px-[20px] py-[10px] bg-crust text-white flex justify-between rounded-[10px] items-center"
+        >
+          <h2>{post.title}</h2>
+          <section className="flex gap-[10px]">
+            <button className="bg-base rounded-full flex items-center justify-center w-[38px] h-[38px]">
+              <Stopwatch />
+            </button>
+            <button className="bg-base rounded-[5px] flex items-center justify-center  w-[38px] h-[38px]">
+              <Save
+                stroke="#8AADF4"
+                fill="#8AADF4"
+                className="h-[28px] w-[28px]"
+              />
+            </button>
+          </section>
+        </section>
+      ))}
     </section>
   );
 }
+
