@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import Hands from '~/assets/images/hands-celebrate.svg';
 import AudioPlayer from '~/components/audio-player';
 import ChangeCommitMessege from '~/components/free-sections/change-commit-message';
 import CommitMessegeInput from '~/components/free-sections/commit-message-input';
 import ResumeSharingNotice from '~/components/free-sections/resume-sharing-notice';
 import ShareHighlightsPrompt from '~/components/free-sections/share-highlights-prompt';
 import SharingSuccessPrompt from '~/components/free-sections/sharing-success-prompt';
+import ClapButton from "~/components/posts/clap-button";
 import HighlightMenu from '~/components/posts/highlight-menu';
 import PostAuthor from '~/components/posts/post-author';
 import PostNavigation from '~/components/posts/post-navigation';
@@ -28,7 +28,7 @@ export default async function PostPage({ params }: Props) {
   return (
     <section className="flex items-start gap-[15px]">
       <PostSideBar className="hidden lg:flex" />
-      <section className="z-10 flex w-full flex-col gap-[10px] text-white">
+      <section className="text-white z-10 w-full flex flex-col gap-[10px]">
         <HighlightMenu containerId="highlight-area" />
 
         <section className="bg-crust mb-[20px] rounded-[10px]">
@@ -78,12 +78,8 @@ export default async function PostPage({ params }: Props) {
           <section className="pt-[10px]">
             <div className="flex justify-between px-[10px] py-[10px] lg:px-[30px]">
               <SharePopoverButton />
-              <div className="flex gap-[6px]">
-                <span className="text-subtext-1 self-center text-[12px]">{post.clap}</span>
-                <button>
-                  <Hands className="h-[21px] w-[18px] lg:h-[28px] lg:w-[25px]" />
-                </button>
-              </div>
+        <ClapButton postId={post.id} slug={post.slug} />
+
             </div>
           </section>
         </section>
