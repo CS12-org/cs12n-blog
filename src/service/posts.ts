@@ -5,7 +5,6 @@ import axios from '~/lib/axios';
  * ---------------------------- */
 export type Post = {
   id: number;
-  documentId: string;
   title: string;
   slug: string;
   description: string;
@@ -16,7 +15,6 @@ export type Post = {
   } | null;
   featured_image: {
     id: number;
-    documentId: string;
     width: number;
     height: number;
     url: string;
@@ -27,12 +25,11 @@ export type Post = {
     avatarUrl?: string; // اختیاری
     bio?: string; // اختیاری
   } | null;
-  tags: { id: number; documentId: string; title: string; slug: string }[];
-  category: { id: number; documentId: string; slug: string; title: string };
+  tags: { id: number; title: string; slug: string }[];
+  category: { id: number; slug: string; title: string };
   slide_image:
     | {
         id: number;
-        documentId: string;
         width: number;
         height: number;
         url: string;
@@ -68,6 +65,7 @@ const mapSavedPostToPost = (item: any): Post => ({
   narrator: null,
   featured_image: item.featured_image
     ? {
+        id: item.featured_image.id,
         width: item.featured_image.width,
         height: item.featured_image.height,
         url: item.featured_image.url,
@@ -81,6 +79,10 @@ const mapSavedPostToPost = (item: any): Post => ({
         bio: item.user.profile?.bio ?? undefined,
       }
     : null,
+  tags: item.tags,
+  category: item.category,
+  slide_image: item.slide_image,
+  createdAt: item.createdAt,
 });
 
 export type GetPostsParams = {
