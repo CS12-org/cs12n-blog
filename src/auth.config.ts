@@ -42,7 +42,7 @@ const authOptions: NextAuthOptions = {
 
         const authenticationUrl = new URL(
           "/api/auth/login",
-          process.env.BACKEND_URL
+          process.env.BACKEND_URL,
         ).toString();
 
         try {
