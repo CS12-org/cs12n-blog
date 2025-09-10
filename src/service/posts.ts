@@ -41,7 +41,7 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
 };
 const mapSavedPostToPost = (item: any): Post => ({
   id: item.id,
-  title: item.title,
+  title: item.title ?? "بدون عنوان",
   slug: item.slug,
   description: item.excerpt ?? "",
   clap: item.saveCount ?? 0,
@@ -63,18 +63,9 @@ const mapSavedPostToPost = (item: any): Post => ({
     : null,
 });
 
-/**
- * گرفتن پست‌های ذخیره‌شده
- */
-export const fetchSavedPosts = async (
-  cursor: string | null
-): Promise<{
-  items: Post[];
-  hasNextPage: boolean;
-  endCursor: string | null;
-}> => {
+export const fetchSavedPosts = async (cursor: string | null = null, pageSize = 10) => {
   const res = await axios.get<SavedPostsResponse>("/api/saved-posts", {
-    params: { cursor, pageSize: 10 },
+    params: { cursor, pageSize },
   });
 
 }
@@ -146,5 +137,6 @@ export const getPosts = async (params: GetPostsParams) =>{
     items: res.data.data.map(mapSavedPostToPost),
     hasNextPage: res.data.hasNextPage,
     endCursor: res.data.endCursor,
+    totalCount: res.data.totalCount,
   };
 };
