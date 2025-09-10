@@ -2,29 +2,40 @@ import axios from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-interface ExtendedUser {
-  id: string;
-  username: string;
-  email: string;
-  accessToken: string;
-  accessTokenExpires: number;
-  refreshToken: string;
-  isProfileCompleted: boolean;
+async function refreshAccessToken(refreshToken: string, token: JWT) {
+  const res = await axios.post(
+    "https://cs12-back-cs12.kubarcloud.net/api/auth/refresh-token",
+    { refreshToken },
+  );
+
+  token.accessToken = res.data.accessToken;
+  token.refreshToken = res.data.refreshToken;
+  token.accessTokenExpires = res.data.accessTokenExpires;
+
+  return token;
 }
 
-export interface ExtendedToken {
-  accessToken: string;
-  refreshToken: string;
-  accessTokenExpires: number;
-  id: string;
-  username: string;
-  email: string;
-  isProfileCompleted: boolean;
-  error: string;
+async function authorize(credentials: Record<string, string> | undefined) {
+  if (!credentials?.email || !credentials?.password || !process.env.BACKEND_URL)
+    return null;
+
+  try {
+    const res = await axios
+      .post("https://cs12-back-cs12.kubarcloud.net/api/auth/login", {
+        usernameOrEmail: credentials.email,
+        password: credentials.password,
+      })
+      .then((res) => res.data.data);
+
+    if (!res.id) return null;
+    return res;
+  } catch {
+    return null;
+  }
 }
 
 const authOptions: NextAuthOptions = {
-  debug: true,
+  debug: process.env.NODE_ENV === "development",
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -71,26 +82,25 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        const u = user as ExtendedUser;
-
-        return {
-          ...token,
-          email: u.email,
-          username: u.username,
-          accessToken: u.accessToken,
-          refreshToken: u.refreshToken,
-          accessTokenExpires: u.accessTokenExpires,
-          isProfileCompleted: u.isProfileCompleted,
-        } as Partial<ExtendedToken>;
+        token.email = user.email;
+        token.username = user.username;
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+        token.accessTokenExpires = user.accessTokenExpires;
+        token.isProfileCompleted = user.isProfileCompleted;
+        return token;
       }
-      return token;
+
+      if (Date.now() < token.accessTokenExpires) return token;
+
+      const newTokens = await refreshAccessToken(token.refreshToken, token);
+      return newTokens;
     },
     async session({ session, token }) {
-      session.user.email = token.email as string;
-      session.user.username = token.username as string;
-      session.accessToken = token.accessToken as string;
-      session.isProfileCompleted = token.isProfileCompleted as boolean;
-
+      session.user.email = token.email;
+      session.user.username = token.username;
+      session.user.isProfileCompleted = token.isProfileCompleted;
+      session.accessToken = token.accessToken;
       return session;
     },
   },
