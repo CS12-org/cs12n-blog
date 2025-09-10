@@ -1,8 +1,8 @@
-import Axios from "axios";
-import publicConfig from "./public-config";
-import { getSession } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import authOptions from "~/auth.config";
+import Axios from 'axios';
+import publicConfig from './public-config';
+import { getSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
+import authOptions from '~/auth.config';
 
 const axios = Axios.create({
   timeout: 30 * 1000, // 30 seconds
@@ -10,9 +10,7 @@ const axios = Axios.create({
 });
 
 axios.interceptors.request.use(async (config) => {
-  const session = await (typeof window === "undefined"
-    ? getServerSession(authOptions)
-    : getSession());
+  const session = await (typeof window === 'undefined' ? getServerSession(authOptions) : getSession());
 
   if (session?.accessToken && !config.headers.Authorization)
     config.headers.Authorization = `Bearer ${session.accessToken}`;

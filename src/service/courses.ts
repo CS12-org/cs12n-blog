@@ -1,4 +1,4 @@
-import axios from "~/lib/axios";
+import axios from '~/lib/axios';
 
 type Course = {
   id: number;
@@ -16,12 +16,11 @@ type Course = {
     title: string;
     course_segment_links: {
       id: number;
-      link_type: "POST";
+      link_type: 'POST';
       title: string;
       post: { slug: string };
     }[];
   }[];
 };
 
-export const getCourse = (slug: string) =>
-  axios.get<Course>(`/api/courses/${slug}`);
+export const getCourse = (slug: string) => axios.get<Course>(`/api/courses/${slug}`);

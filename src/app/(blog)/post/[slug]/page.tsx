@@ -1,18 +1,19 @@
-import Image from "next/image";
-import Hands from "~/assets/images/hands-celebrate.svg";
-import PostSideBar from "~/components/posts/side-bar";
-import HighlightMenu from "~/components/posts/highlight-menu";
-import AudioPlayer from "~/components/audio-player";
-import ShareHighlightsPrompt from "~/components/free-sections/share-highlights-prompt";
-import SharingSuccessPrompt from "~/components/free-sections/sharing-success-prompt";
-import ResumeSharingNotice from "~/components/free-sections/resume-sharing-notice";
-import CommitMessegeInput from "~/components/free-sections/commit-message-input";
-import ChangeCommitMessege from "~/components/free-sections/change-commit-message";
-import SharePopoverButton from "../../../../components/posts/share-button";
-import PostAuthor from "~/components/posts/post-author";
-import PostNavigation from "~/components/posts/post-navigation";
-import PostTabs from "~/components/posts/post-tabs";
-import { getPostBySlug } from "~/service/posts";
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import Hands from '~/assets/images/hands-celebrate.svg';
+import AudioPlayer from '~/components/audio-player';
+import ChangeCommitMessege from '~/components/free-sections/change-commit-message';
+import CommitMessegeInput from '~/components/free-sections/commit-message-input';
+import ResumeSharingNotice from '~/components/free-sections/resume-sharing-notice';
+import ShareHighlightsPrompt from '~/components/free-sections/share-highlights-prompt';
+import SharingSuccessPrompt from '~/components/free-sections/sharing-success-prompt';
+import HighlightMenu from '~/components/posts/highlight-menu';
+import PostAuthor from '~/components/posts/post-author';
+import PostNavigation from '~/components/posts/post-navigation';
+import PostTabs from '~/components/posts/post-tabs';
+import PostSideBar from '~/components/posts/side-bar';
+import { getPostBySlug } from '~/service/posts';
+import SharePopoverButton from '../../../../components/posts/share-button';
 
 type Props = {
   params: Promise<{
@@ -23,27 +24,26 @@ type Props = {
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-
+  if (!post) return notFound();
   return (
     <section className="flex items-start gap-[15px]">
       <PostSideBar className="hidden lg:flex" />
-
-      <section className="text-white z-10 w-full flex flex-col gap-[10px]">
+      <section className="z-10 flex w-full flex-col gap-[10px] text-white">
         <HighlightMenu containerId="highlight-area" />
 
         <section className="bg-crust mb-[20px] rounded-[10px]">
-          <header className="flex flex-col w-full">
+          <header className="flex w-full flex-col">
             {post.featured_image && (
               <Image
                 alt={post.title}
                 src={post.featured_image.url}
                 width={post.featured_image.width}
                 height={post.featured_image.height}
-                className="rounded-tl-[10px] rounded-tr-[10px] w-full h-auto"
+                className="h-auto w-full rounded-tl-[10px] rounded-tr-[10px]"
               />
             )}
 
-            <h1 className="font-extrabold text-[18px] lg:text-5xl px-[10px] py-[5px] lg:px-[30px] lg:py-[25px] lg:pt-[15px] h-auto">
+            <h1 className="h-auto px-[10px] py-[5px] text-[18px] font-extrabold lg:px-[30px] lg:py-[25px] lg:pt-[15px] lg:text-5xl">
               {post.title}
             </h1>
           </header>
@@ -52,7 +52,7 @@ export default async function PostPage({ params }: Props) {
 
           <article
             id="highlight-area"
-            className="gap-[20px] flex flex-col lg:px-[30px] p-[10px] lg:py-[20px] lg:text-[16px] text-[14px]"
+            className="flex flex-col gap-[20px] p-[10px] text-[14px] lg:px-[30px] lg:py-[20px] lg:text-[16px]"
           >
             <p>{post.description}</p>
           </article>
@@ -76,14 +76,12 @@ export default async function PostPage({ params }: Props) {
           </section>
 
           <section className="pt-[10px]">
-            <div className="lg:px-[30px] px-[10px] py-[10px] flex justify-between">
+            <div className="flex justify-between px-[10px] py-[10px] lg:px-[30px]">
               <SharePopoverButton />
               <div className="flex gap-[6px]">
-                <span className="self-center text-[12px] text-subtext-1">
-                  {post.clap}
-                </span>
+                <span className="text-subtext-1 self-center text-[12px]">{post.clap}</span>
                 <button>
-                  <Hands className="lg:w-[25px] lg:h-[28px] w-[18px] h-[21px]" />
+                  <Hands className="h-[21px] w-[18px] lg:h-[28px] lg:w-[25px]" />
                 </button>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import axios from "~/lib/axios";
+import axios from '~/lib/axios';
 
 export type Post = {
   id: number;
@@ -29,7 +29,7 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
     return res.data;
   } catch (err: unknown) {
     console.log(err);
-    throw new Error("خطا در گرفتن پست");
+    throw new Error('خطا در گرفتن پست');
   }
 };
 
@@ -97,5 +97,4 @@ export type GetPostsResult = {
  * @param params - Parameters for the request.
  * @returns A promise that resolves to the posts data.
  */
-export const getPosts = (params: GetPostsParams) =>
-  axios.get<GetPostsResult>("/api/posts/feed", { params });
+export const getPosts = (params: GetPostsParams) => axios.get<GetPostsResult>('/api/posts/feed', { params });

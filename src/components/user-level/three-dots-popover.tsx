@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect, forwardRef } from "react";
-import ThreeDotts from "~/assets/images/threeDotts.svg";
-import Repead from "~/assets/images/repeat-one.svg";
-import Trash from "~/assets/images/trash.svg";
-import Survey from "~/assets/images/survey.svg";
+import { useState, useRef, useEffect, forwardRef } from 'react';
+import ThreeDotts from '~/assets/images/threeDotts.svg';
+import Repead from '~/assets/images/repeat-one.svg';
+import Trash from '~/assets/images/trash.svg';
+import Survey from '~/assets/images/survey.svg';
 
 export default function ThreeDotPopover() {
   const [isVisible, setIsVisible] = useState(false);
@@ -24,24 +24,16 @@ export default function ThreeDotPopover() {
         setIsVisible(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const ThreeDottsButton = forwardRef<
-    HTMLButtonElement,
-    { onClick: () => void }
-  >(({ onClick }, ref) => (
-    <button
-      ref={ref}
-      onClick={onClick}
-      className="p-[5px]"
-      aria-haspopup="true"
-    >
-      <ThreeDotts className="w-[22px] h-[4px]" />
+  const ThreeDottsButton = forwardRef<HTMLButtonElement, { onClick: () => void }>(({ onClick }, ref) => (
+    <button ref={ref} onClick={onClick} className="p-[5px]" aria-haspopup="true">
+      <ThreeDotts className="h-[4px] w-[22px]" />
     </button>
   ));
-  ThreeDottsButton.displayName = "ThreeDottsButton";
+  ThreeDottsButton.displayName = 'ThreeDottsButton';
 
   return (
     <div className="relative inline-block">
@@ -50,17 +42,16 @@ export default function ThreeDotPopover() {
       {isVisible && (
         <section
           ref={menuRef}
-          className="absolute bottom-full left-0 mb-[20px] bg-[#101122] w-[140px] h-auto rounded-[10px] py-[12px] px-[10px] text-[12px] text-text flex flex-col gap-[15px] z-50  justify-start "
+          className="text-text absolute bottom-full left-0 z-50 mb-[20px] flex h-auto w-[140px] flex-col justify-start gap-[15px] rounded-[10px] bg-[#101122] px-[10px] py-[12px] text-[12px]"
           role="menu"
         >
           <button className="flex gap-[7px]">
-            <Repead className="w-[20px] h-[20px] " fill="#A5ADCB" /> از سرگیری
-            دوره{" "}
+            <Repead className="h-[20px] w-[20px]" fill="#A5ADCB" /> از سرگیری دوره{' '}
           </button>
-          <button className="flex gap-[7px] items-center">
-            {" "}
-            <Trash className="w-[25px] h-[25px] stroke-subtext-0 font-bold" />
-            پاک کردن دوره{" "}
+          <button className="flex items-center gap-[7px]">
+            {' '}
+            <Trash className="stroke-subtext-0 h-[25px] w-[25px] font-bold" />
+            پاک کردن دوره{' '}
           </button>
           <button className="flex gap-[7px]">
             <Survey /> نظرسنجی

@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 interface RuleWithTest {
   test?: RegExp;
@@ -8,14 +8,12 @@ interface RuleWithTest {
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["cms.cs12.ir"], // اضافه کردن hostname CMS
+    domains: ['cms.cs12.ir'], // اضافه کردن hostname CMS
   },
 
   webpack(config) {
     const rules = config.module.rules;
-    const fileLoaderRule = rules.find((rule: RuleWithTest) =>
-      rule.test?.test?.(".svg"),
-    );
+    const fileLoaderRule = rules.find((rule: RuleWithTest) => rule.test?.test?.('.svg'));
 
     if (fileLoaderRule) {
       config.module.rules.push(
@@ -30,7 +28,7 @@ const nextConfig: NextConfig = {
           resourceQuery: {
             not: [...(fileLoaderRule.resourceQuery?.not || []), /url/],
           },
-          use: ["@svgr/webpack"],
+          use: ['@svgr/webpack'],
         },
       );
 
@@ -42,9 +40,9 @@ const nextConfig: NextConfig = {
 
   turbopack: {
     rules: {
-      "*.svg": {
-        loaders: ["@svgr/webpack"],
-        as: "*.js",
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },
@@ -52,16 +50,16 @@ const nextConfig: NextConfig = {
   rewrites: async () => {
     return [
       {
-        source: "/api/auth/:path*",
-        destination: "/api/auth/:path*",
+        source: '/api/auth/:path*',
+        destination: '/api/auth/:path*',
       },
       {
-        source: "/api/:path*",
-        destination: "https://cs12-back-cs12.kubarcloud.net/api/:path*",
+        source: '/api/:path*',
+        destination: 'https://cs12-back-cs12.kubarcloud.net/api/:path*',
       },
       {
-        source: "/uploads/:path*",
-        destination: "http://localhost:1337/uploads/:path*",
+        source: '/uploads/:path*',
+        destination: 'http://localhost:1337/uploads/:path*',
       },
     ];
   },

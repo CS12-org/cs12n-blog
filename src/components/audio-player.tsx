@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { Slider, SliderThumb, SliderTrack } from "react-aria-components";
-import { CiPause1 } from "react-icons/ci";
-import Play from "~/assets/images/play-audio.svg";
-import Save from "~/assets/images/save.svg";
-import Comments from "../assets/images/comments.svg";
-import Button from "./button";
-import LicenceMark from "./posts/license-mark";
+import { useEffect, useRef, useState } from 'react';
+import { Slider, SliderThumb, SliderTrack } from 'react-aria-components';
+import { CiPause1, CiPlay1 } from 'react-icons/ci';
+import Save from '~/assets/images/save.svg';
+import Comments from '../assets/images/comments.svg';
+import Button from './button';
+import LicenceMark from './posts/license-mark';
+
 export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -26,7 +26,7 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
 
     const newTime = Array.isArray(value) ? value[0] : value;
 
-    if (typeof newTime === "number" && Number.isFinite(newTime)) {
+    if (typeof newTime === 'number' && Number.isFinite(newTime)) {
       audioRef.current.currentTime = newTime;
       setCurrentTime(newTime);
     }
@@ -66,44 +66,44 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
       setIsPlaying(false);
     };
 
-    audioEl.addEventListener("loadedmetadata", onLoadedMetadata);
-    audioEl.addEventListener("timeupdate", onTimeUpdate);
-    audioEl.addEventListener("ended", onEnded);
+    audioEl.addEventListener('loadedmetadata', onLoadedMetadata);
+    audioEl.addEventListener('timeupdate', onTimeUpdate);
+    audioEl.addEventListener('ended', onEnded);
 
     return () => {
-      audioEl.removeEventListener("loadedmetadata", onLoadedMetadata);
-      audioEl.removeEventListener("timeupdate", onTimeUpdate);
-      audioEl.removeEventListener("ended", onEnded);
+      audioEl.removeEventListener('loadedmetadata', onLoadedMetadata);
+      audioEl.removeEventListener('timeupdate', onTimeUpdate);
+      audioEl.removeEventListener('ended', onEnded);
     };
   }, []);
 
   return (
-    <section className="flex flex-col w-full ">
-      <section className="flex justify-between items-center p-[10px] lg:px-[30px] bg-mantle lg:py-[10px]">
+    <section className="flex w-full flex-col">
+      <section className="bg-mantle flex items-center justify-between p-[10px] lg:px-[30px] lg:py-[10px]">
         <section className="flex gap-[10px]">
           <Button
             onClick={handlePlayPause}
-            className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center"
-            aria-label={isPlaying ? "Pause audio" : "Play audio"}
+            className="border-surface-0 bg-base flex h-[30px] w-[30px] items-center justify-center rounded-[10px] border-[1px] lg:h-[48px] lg:w-[48px]"
+            aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
           >
             {isPlaying ? (
-              <CiPause1 className="text-overlay-1 lg:h-[18px] lg:w-[20px] h-[20px] w-[20px] font-extrabold" />
+              <CiPause1 strokeWidth={1} className="text-overlay-1 size-4 lg:size-6" />
             ) : (
-              <Play className="text-overlay-1 lg:h-[24px] lg:w-[24px] h-[20px] w-[20px] font-extrabold" />
+              <CiPlay1 strokeWidth={1} className="text-overlay-1 size-4 lg:size-6" />
             )}
           </Button>
           <Button
-            className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-[10px] flex justify-center items-center"
+            className="border-surface-0 bg-base flex h-[30px] w-[30px] items-center justify-center rounded-[10px] border-[1px] lg:h-[48px] lg:w-[48px]"
             aria-label="Bookmark"
           >
-            <Save className="text-overlay-1 h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] font-extrabold" />
+            <Save className="text-overlay-1 h-[20px] w-[20px] font-extrabold lg:h-[24px] lg:w-[24px]" />
           </Button>
-          <span className="self-center text-sapphire font-extrabold">|</span>{" "}
+          <span className="text-sapphire self-center font-extrabold">|</span>{' '}
           <Button
-            className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border-surface-0 border-[1px] bg-base rounded-full flex justify-center items-center"
+            className="border-surface-0 bg-base flex h-[30px] w-[30px] items-center justify-center rounded-full border-[1px] lg:h-[48px] lg:w-[48px]"
             aria-label="Comments"
           >
-            <Comments className="text-overlay-1 h-[20px] w-[20px] lg:h-[29px] lg:w-[29px] font-extrabold" />
+            <Comments className="text-overlay-1 h-[20px] w-[20px] font-extrabold lg:h-[29px] lg:w-[29px]" />
           </Button>
         </section>
         <LicenceMark />
@@ -117,20 +117,17 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
           step={0.01}
           onChange={handleSeek}
           aria-label="Audio seek slider"
-          className="w-full h-1 bg-crust relative"
+          className="bg-crust relative h-1 w-full"
         >
-          <SliderTrack className="bg-base h-1 cursor-pointer relative overflow-hidden">
+          <SliderTrack className="bg-base relative h-1 cursor-pointer overflow-hidden">
             <div
-              className="absolute left-0 top-0 h-[2px]  bg-sapphire transition-all duration-150 ease-linear"
+              className="bg-sapphire absolute top-0 left-0 h-[2px] transition-all duration-150 ease-linear"
               style={{
-                width: duration ? `${(currentTime / duration) * 100}%` : "0%",
+                width: duration ? `${(currentTime / duration) * 100}%` : '0%',
               }}
             />
           </SliderTrack>
-          <SliderThumb
-            className="block w-0 h-0 bg-maroon rounded-full "
-            aria-label="Seek handle"
-          />
+          <SliderThumb className="bg-maroon block h-0 w-0 rounded-full" aria-label="Seek handle" />
         </Slider>
       </section>
 

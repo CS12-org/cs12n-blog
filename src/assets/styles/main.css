@@ -1,11 +1,11 @@
-@import "tailwindcss/theme.css";
-@import "tailwindcss/preflight.css";
-@import "tailwindcss/utilities.css";
+@import 'tailwindcss/theme.css';
+@import 'tailwindcss/preflight.css';
+@import 'tailwindcss/utilities.css';
 
-@import "tailwindcss-animated";
+@import 'tailwindcss-animated';
 
-@import "./palette.css";
-@import "./base.css";
+@import './palette.css';
+@import './base.css';
 
 @plugin "tailwindcss-react-aria-components";
 
@@ -39,7 +39,7 @@
 }
 
 @theme {
-  --font-sans: "Vazirmatn UI", sans-serif;
+  --font-sans: 'Vazirmatn UI', sans-serif;
   --text-display-lg: 56px;
   --text-display-lg--font-weight: 900;
   --text-display-md: 48px;

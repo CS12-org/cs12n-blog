@@ -1,60 +1,52 @@
-import { Button, Text } from "~/components/react-aria-components";
-import Image from "next/image";
-import Comments from "~/assets/images/comments.svg";
-import DecreaseArrow from "~/assets/images/decreaseArrow.svg";
-import Profile from "~/assets/images/farhan.jpg";
-import IncreaseArrow from "~/assets/images/increaseArrow.svg";
-import ThreeDotts from "~/assets/images/threeDotts.svg";
-import Profile2 from "~/assets/images/user-profile.png";
+import { Button, Text } from '~/components/react-aria-components';
+import Image from 'next/image';
+import Comments from '~/assets/images/comments.svg';
+import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
+import Profile from '~/assets/images/farhan.jpg';
+import IncreaseArrow from '~/assets/images/increaseArrow.svg';
+import ThreeDotts from '~/assets/images/threeDotts.svg';
+import Profile2 from '~/assets/images/user-profile.png';
 
 function ReviewMessege() {
   return (
-    <article className=" w-full flex flex-col ">
-      <header className="flex justify-between   lg:rounded-tr-full lg:rounded-br-full rounded-tr-[10px] lg:rounded-tl-[10px]  rounded-tl-[10px] p-[10px]  bg-crust">
+    <article className="flex w-full flex-col">
+      <header className="bg-crust flex justify-between rounded-tl-[10px] rounded-tr-[10px] p-[10px] lg:rounded-tl-[10px] lg:rounded-tr-full lg:rounded-br-full">
         {/* TODO: اینجا باید سمت چپ بالای هدر گردی بگیره اما خب نمیگیره */}
-        <div className="flex justify-center gap-[10px] items-center">
-          <Image
-            src={Profile}
-            alt="farhan"
-            className="rounded-full h-[25px] w-[25px]"
-          />
-          <Text className="text-[14px] font-bold text-subtext-0">فرهان</Text>
-          <Text className="font-bold text-sapphire text-[14px] bg-base px-[20px] rounded-[6px]">
-            منتور
-          </Text>
+        <div className="flex items-center justify-center gap-[10px]">
+          <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+          <Text className="text-subtext-0 text-[14px] font-bold">فرهان</Text>
+          <Text className="text-sapphire bg-base rounded-[6px] px-[20px] text-[14px] font-bold">منتور</Text>
         </div>
-        <section className="flex items-center gap-[10px] ">
+        <section className="flex items-center gap-[10px]">
           <span className="text-[12px]">2+</span>
-          <Button className="bg-teal w-[28px] h-[28px] rounded-[5px] flex justify-center items-center">
-            <IncreaseArrow className="w-[20px] h-[10px] text-crust" />
+          <Button className="bg-teal flex h-[28px] w-[28px] items-center justify-center rounded-[5px]">
+            <IncreaseArrow className="text-crust h-[10px] w-[20px]" />
           </Button>
-          <Button className="bg-maroon flex justify-center items-center w-[28px] h-[28px] rounded-[5px]">
-            <DecreaseArrow className="w-[20px] h-[10px] text-crust" />
+          <Button className="bg-maroon flex h-[28px] w-[28px] items-center justify-center rounded-[5px]">
+            <DecreaseArrow className="text-crust h-[10px] w-[20px]" />
           </Button>
-          <Button className="bg-  text-subtext-0">
+          <Button className="bg- text-subtext-0">
             <ThreeDotts />
           </Button>
         </section>
       </header>
 
-      <section className="text-[12px] bg-[#101122] lg:mx-[40px] rounded-b-[10px]  gap-y-[15px] flex flex-col  ">
+      <section className="flex flex-col gap-y-[15px] rounded-b-[10px] bg-[#101122] text-[12px] lg:mx-[40px]">
         <p className="p-[10px]">
-          مقاله‌ای که به بررسی موضوع بش‌ (۰) پرداخته، به خوبی ابعاد مختلف این
-          مفهوم را تحلیل کرده است. با این حال، برخی از نکات کلیدی نادیده گرفته
-          شده‌اند که می‌توانستند به عمق بیشتری در بحث کمک کنند. به‌طور کلی،
-          مقاله می‌تواند با ارائه مثال‌های عملی و مستندات بیشتر، جذاب‌تر و
-          آموزنده‌تر شود. نقد مقاله در مورد بش
+          مقاله‌ای که به بررسی موضوع بش‌ (۰) پرداخته، به خوبی ابعاد مختلف این مفهوم را تحلیل کرده است. با این حال، برخی
+          از نکات کلیدی نادیده گرفته شده‌اند که می‌توانستند به عمق بیشتری در بحث کمک کنند. به‌طور کلی، مقاله می‌تواند با
+          ارائه مثال‌های عملی و مستندات بیشتر، جذاب‌تر و آموزنده‌تر شود. نقد مقاله در مورد بش
         </p>
-        <section className="flex items-center text-[12px] justify-between border-b-[1px] border-t-[1px] border-base px-[10px] py-[11.5px]">
-          <div className="flex ">
-            <Button className="flex rounded-r-[5px] justify-center items-center bg-mantle gap-[6px] text-subtext-0 border-l-[1px] border-surface-1 p-[5px] px-[10px] text-text">
-              <Comments className="w-[29px] h-[29px]" />
+        <section className="border-base flex items-center justify-between border-t-[1px] border-b-[1px] px-[10px] py-[11.5px] text-[12px]">
+          <div className="flex">
+            <Button className="bg-mantle text-subtext-0 border-surface-1 text-text flex items-center justify-center gap-[6px] rounded-r-[5px] border-l-[1px] p-[5px] px-[10px]">
+              <Comments className="h-[29px] w-[29px]" />
               پاسخ ها
             </Button>
-            <Button className="flex rounded-l-[5px] justify-center items-center gap-[7px] bg-mantle text-subtext-0  p-[5px] px-[10px] text-text">
-              <div className="flex flex-col justify-center gap-[5px] text-subtext-0 ">
-                <IncreaseArrow className="w-[14px] h-[10px]" />
-                <DecreaseArrow className="w-[14px] h-[10px]  " />
+            <Button className="bg-mantle text-subtext-0 text-text flex items-center justify-center gap-[7px] rounded-l-[5px] p-[5px] px-[10px]">
+              <div className="text-subtext-0 flex flex-col justify-center gap-[5px]">
+                <IncreaseArrow className="h-[10px] w-[14px]" />
+                <DecreaseArrow className="h-[10px] w-[14px]" />
                 {/* TODO: دوستان ببینید می تونید به این آیکون ها رنگ بدید یا نه */}
               </div>
               دیدن پاورقی
@@ -62,31 +54,22 @@ function ReviewMessege() {
           </div>
 
           <section className="flex -space-x-7">
-            <div className="relative h-[38px] w-[38px] rounded-full bg-[#101122] overflow-hidden z-30">
-              <Image
-                src={Profile2}
-                alt="farhan"
-                className="h-full w-full object-cover"
-              />
+            <div className="relative z-30 h-[38px] w-[38px] overflow-hidden rounded-full bg-[#101122]">
+              <Image src={Profile2} alt="farhan" className="h-full w-full object-cover" />
 
-              <div className="absolute inset-0 rounded-full shadow-[inset_0_0_8px_#101122] pointer-events-none"></div>
+              <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_8px_#101122]"></div>
             </div>
 
-            <div className="relative h-[38px] w-[38px] rounded-full bg-[#101122] overflow-hidden z-10">
-              <Image
-                src={Profile}
-                alt="farhan"
-                className="h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 rounded-full shadow-[inset_0_0_3px_1px_#101122] pointer-events-none"></div>
+            <div className="relative z-10 h-[38px] w-[38px] overflow-hidden rounded-full bg-[#101122]">
+              <Image src={Profile} alt="farhan" className="h-full w-full object-cover" />
+              <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_3px_1px_#101122]"></div>
             </div>
           </section>
         </section>
         <ul className="px-[10px] pb-[20px] text-[10px]">
           <li>
-            <span className="text-sapphire">0 : </span> بش یک زبان شل اسکریپتی
-            در سیستم های یونیکس بیس هست که نمیدونم برای ارتباط با سیستم عامل و
-            اینجور چیزا ساخته شده
+            <span className="text-sapphire">0 : </span> بش یک زبان شل اسکریپتی در سیستم های یونیکس بیس هست که نمیدونم
+            برای ارتباط با سیستم عامل و اینجور چیزا ساخته شده
           </li>
         </ul>
       </section>

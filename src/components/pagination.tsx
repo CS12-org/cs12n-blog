@@ -4,16 +4,16 @@
  * page links, and ellipsis indicators.
  */
 
-import * as React from "react";
-import { Link } from "~/components/react-aria-components";
-import { LuChevronLeft, LuChevronRight, LuEllipsis } from "react-icons/lu";
-import twMerge from "~/lib/tw-merge";
+import * as React from 'react';
+import { Link } from '~/components/react-aria-components';
+import { LuChevronLeft, LuChevronRight, LuEllipsis } from 'react-icons/lu';
+import twMerge from '~/lib/tw-merge';
 
 /**
  * Props for the main Pagination navigation component.
  * Extends all standard HTML nav element props.
  */
-type PaginationProps = React.ComponentProps<"nav">;
+type PaginationProps = React.ComponentProps<'nav'>;
 
 /**
  * Main pagination navigation wrapper component.
@@ -37,12 +37,7 @@ function Pagination(props: PaginationProps) {
   const { className, ...other } = props;
 
   return (
-    <nav
-      role="navigation"
-      aria-label="pagination"
-      className={twMerge("flex justify-center", className)}
-      {...other}
-    />
+    <nav role="navigation" aria-label="pagination" className={twMerge('flex justify-center', className)} {...other} />
   );
 }
 
@@ -50,7 +45,7 @@ function Pagination(props: PaginationProps) {
  * Props for the PaginationContent list container.
  * Extends all standard HTML ul element props.
  */
-type PaginationContentProps = React.ComponentProps<"ul">;
+type PaginationContentProps = React.ComponentProps<'ul'>;
 
 /**
  * Container for pagination items, rendered as an unordered list.
@@ -70,16 +65,14 @@ type PaginationContentProps = React.ComponentProps<"ul">;
  */
 function PaginationContent(props: PaginationContentProps) {
   const { className, ...other } = props;
-  return (
-    <ul className={twMerge("flex items-center gap-1", className)} {...other} />
-  );
+  return <ul className={twMerge('flex items-center gap-1', className)} {...other} />;
 }
 
 /**
  * Props for individual pagination items.
  * Extends all standard HTML li element props.
  */
-type PaginationItemProps = React.ComponentProps<"li">;
+type PaginationItemProps = React.ComponentProps<'li'>;
 
 /**
  * Individual pagination item wrapper, rendered as a list item.
@@ -98,12 +91,7 @@ type PaginationItemProps = React.ComponentProps<"li">;
 function PaginationItem(props: PaginationItemProps) {
   const { className, ...other } = props;
 
-  return (
-    <li
-      className={twMerge("size-6 flex items-center justify-center", className)}
-      {...other}
-    />
-  );
+  return <li className={twMerge('flex size-6 items-center justify-center', className)} {...other} />;
 }
 
 /**
@@ -113,7 +101,7 @@ function PaginationItem(props: PaginationItemProps) {
 type PaginationLinkProps = {
   /** Whether this link represents the currently active page */
   isActive?: boolean;
-} & Omit<React.ComponentProps<typeof Link>, "className"> & {
+} & Omit<React.ComponentProps<typeof Link>, 'className'> & {
     className?: string;
   };
 
@@ -133,13 +121,7 @@ type PaginationLinkProps = {
  */
 function PaginationLink(props: PaginationLinkProps) {
   const { className, isActive, ...other } = props;
-  return (
-    <Link
-      className={className}
-      aria-current={isActive ? "page" : undefined}
-      {...other}
-    />
-  );
+  return <Link className={className} aria-current={isActive ? 'page' : undefined} {...other} />;
 }
 
 /**
@@ -164,11 +146,7 @@ function PaginationPrevious(props: PaginationPreviousProps) {
   const { className, ...other } = props;
 
   return (
-    <PaginationLink
-      aria-label="Go to previous page"
-      className={className}
-      {...other}
-    >
+    <PaginationLink aria-label="Go to previous page" className={className} {...other}>
       <span className="sr-only">قبل</span>
       <LuChevronLeft size={16} />
     </PaginationLink>
@@ -197,11 +175,7 @@ function PaginationNext(props: PaginationNextProps) {
   const { className, ...other } = props;
 
   return (
-    <PaginationLink
-      aria-label="Go to next page"
-      className={className}
-      {...other}
-    >
+    <PaginationLink aria-label="Go to next page" className={className} {...other}>
       <LuChevronRight size={16} />
       <span className="sr-only">بعد</span>
     </PaginationLink>
@@ -212,7 +186,7 @@ function PaginationNext(props: PaginationNextProps) {
  * Props for the pagination ellipsis indicator.
  * Extends all standard HTML span element props.
  */
-type PaginationEllipsisProps = React.ComponentProps<"span">;
+type PaginationEllipsisProps = React.ComponentProps<'span'>;
 
 /**
  * Ellipsis indicator for pagination.

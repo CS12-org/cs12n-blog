@@ -1,4 +1,4 @@
-import SavedPost from "~/components/saved-posts/saved-posts";
+import SavedPost from '~/components/saved-posts/saved-posts';
 
 function Page() {
   return <SavedPost />;

@@ -1,7 +1,7 @@
 // TODO: change implementation of this button to work with next js
 
-import { /*FaMoon,*/ FaSun } from "react-icons/fa6";
-import Button from "~/components/button";
+import { /*FaMoon,*/ FaSun } from 'react-icons/fa6';
+import Button from '~/components/button';
 // import { useRouteLoaderData, useSubmit } from "react-router";
 // import type { loader } from "~/root";
 
@@ -22,11 +22,7 @@ function MainThemeSwitch() {
   // };
 
   return (
-    <Button
-      variant="none"
-      isDisabled={false}
-      className="p-3 bg-base rounded-full text-overlay-1"
-    >
+    <Button variant="none" isDisabled={false} className="bg-base text-overlay-1 rounded-full p-3">
       <FaSun size={16} />
       {/* {theme === "dark" && <FaSun size={16} />} */}
       {/* {theme === "light" && <FaMoon size={16} />} */}

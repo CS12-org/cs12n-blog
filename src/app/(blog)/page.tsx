@@ -1,7 +1,7 @@
-import ArticleCategories from "~/components/home/article-categories";
-import Posts from "~/components/home/posts";
-import WeeklyChallenge from "~/components/home/weekly-challenge";
-import { getPosts } from "~/service/posts";
+import ArticleCategories from '~/components/home/article-categories';
+import Posts from '~/components/home/posts';
+import WeeklyChallenge from '~/components/home/weekly-challenge';
+import { getPosts } from '~/service/posts';
 
 export const revalidate = 60;
 
@@ -16,8 +16,8 @@ async function Home(props: Props) {
   const { page, pageSize } = await props.searchParams;
 
   // Check if page and pageSize are numbers and not NaN
-  const parsedPage = parseInt(page ?? "1") || 1;
-  const parsedPageSize = parseInt(pageSize ?? "10") || 10;
+  const parsedPage = parseInt(page ?? '1') || 1;
+  const parsedPageSize = parseInt(pageSize ?? '10') || 10;
 
   const { data: posts } = await getPosts({
     page: parsedPage,
@@ -31,7 +31,7 @@ async function Home(props: Props) {
       <div className="grow overflow-hidden">
         <WeeklyChallenge />
 
-        <div aria-hidden className="h-[3px] bg-surface-0 my-5 rounded-full" />
+        <div aria-hidden className="bg-surface-0 my-5 h-[3px] rounded-full" />
 
         <Posts page={parsedPage} pageSize={parsedPageSize} posts={posts.data} />
       </div>

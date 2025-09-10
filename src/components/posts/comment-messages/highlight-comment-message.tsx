@@ -1,43 +1,39 @@
-import Image from "next/image";
-import { Text } from "~/components/react-aria-components";
-import CommentsIcon from "~/assets/images/comments.svg";
-import DecreaseArrow from "~/assets/images/decreaseArrow.svg";
-import Profile from "~/assets/images/farhan.jpg";
-import Highlighter from "~/assets/images/highlighter.svg";
-import IncreaseArrow from "~/assets/images/increaseArrow.svg";
-import ThreeDotts from "~/assets/images/threeDotts.svg";
-import Button from "~/components/button";
+import Image from 'next/image';
+import { Text } from '~/components/react-aria-components';
+import CommentsIcon from '~/assets/images/comments.svg';
+import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
+import Profile from '~/assets/images/farhan.jpg';
+import Highlighter from '~/assets/images/highlighter.svg';
+import IncreaseArrow from '~/assets/images/increaseArrow.svg';
+import ThreeDotts from '~/assets/images/threeDotts.svg';
+import Button from '~/components/button';
 
 function HighlightCommentMessege() {
   return (
-    <article className=" w-full flex flex-col px-[20px] ">
-      <header className="flex justify-between  lg:rounded-tr-full lg:rounded-br-full rounded-tl-[10px] rouned-t-[10px] rounded-tr-[10px] p-[10px]  bg-crust">
-        <div className="flex justify-center gap-[10px] items-center">
-          <Image
-            src={Profile}
-            alt="farhan"
-            className="rounded-full h-[25px] w-[25px]"
-          />
-          <Text className="text-[14px] text-subtext-0 font-bold">فرهان</Text>
+    <article className="flex w-full flex-col px-[20px]">
+      <header className="rouned-t-[10px] bg-crust flex justify-between rounded-tl-[10px] rounded-tr-[10px] p-[10px] lg:rounded-tr-full lg:rounded-br-full">
+        <div className="flex items-center justify-center gap-[10px]">
+          <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+          <Text className="text-subtext-0 text-[14px] font-bold">فرهان</Text>
         </div>
         <div className="flex items-center gap-[10px]">
           <span className="text-[12px]">2+</span>
-          <Button className="bg-teal w-[28px] h-[28px] rounded-[5px] flex justify-center items-center">
-            <IncreaseArrow className="w-[20px] h-[20px]" />
+          <Button className="bg-teal flex h-[28px] w-[28px] items-center justify-center rounded-[5px]">
+            <IncreaseArrow className="h-[20px] w-[20px]" />
           </Button>
-          <Button className="bg-maroon flex justify-center items-center w-[28px] h-[28px] rounded-[5px]">
-            <DecreaseArrow className="w-[20px] h-[10px]" />
+          <Button className="bg-maroon flex h-[28px] w-[28px] items-center justify-center rounded-[5px]">
+            <DecreaseArrow className="h-[10px] w-[20px]" />
           </Button>
-          <Button className="bg-  text-subtext-0">
+          <Button className="bg- text-subtext-0">
             <ThreeDotts />
           </Button>
         </div>
       </header>
 
-      <section className="text-[12px] text-text bg-[#101122] lg:mx-[20px] rounded-b-[10px] py-[10px] gap-y-[15px] flex flex-col ">
-        <section className="bg-mantle pl-[10px]  w-full h-auto flex justify-between text-text py-[13px] text-[14px]  ">
+      <section className="text-text flex flex-col gap-y-[15px] rounded-b-[10px] bg-[#101122] py-[10px] text-[12px] lg:mx-[20px]">
+        <section className="bg-mantle text-text flex h-auto w-full justify-between py-[13px] pl-[10px] text-[14px]">
           <section className="flex items-center">
-            <p className="  grow pr-2.5 truncate border-r-[4px] border-sapphire ">
+            <p className="border-sapphire grow truncate border-r-[4px] pr-2.5">
               بخشی از متن که هایلایت شده آمده است اینجا
             </p>
           </section>
@@ -45,13 +41,12 @@ function HighlightCommentMessege() {
         </section>
 
         <p className="px-[10px]">
-          سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم شاید
-          بدرد دیگران هم بخوره خلاصه آره گفتم اینجا بزارم شاید به بقیه هم کمک
-          کنه
+          سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم شاید بدرد دیگران هم بخوره خلاصه آره گفتم اینجا
+          بزارم شاید به بقیه هم کمک کنه
         </p>
         <section className="flex justify-between px-[10px]">
           <Button className="bg- text-text flex items-center gap-[5px]">
-            <CommentsIcon className="w-[29px] h-[29px]" />
+            <CommentsIcon className="h-[29px] w-[29px]" />
             پاسخ ها
           </Button>
         </section>

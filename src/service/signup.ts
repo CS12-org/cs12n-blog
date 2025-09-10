@@ -1,4 +1,4 @@
-import axios from "~/lib/axios";
+import axios from '~/lib/axios';
 
 export type SignUpData = {
   email: string;
@@ -14,17 +14,12 @@ export type SignUpResponse = {
 /**
  * Register a new user
  */
-export const registerUser = async (
-  data: SignUpData,
-): Promise<SignUpResponse> => {
+export const registerUser = async (data: SignUpData): Promise<SignUpResponse> => {
   try {
-    const response = await axios.post<SignUpResponse>(
-      "/api/auth/register",
-      data,
-    );
+    const response = await axios.post<SignUpResponse>('/api/auth/register', data);
     return response.data;
   } catch (err: unknown) {
     console.log(err);
-    throw new Error("خطا در ثبت نام");
+    throw new Error('خطا در ثبت نام');
   }
 };

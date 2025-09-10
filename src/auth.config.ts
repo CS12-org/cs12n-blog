@@ -1,6 +1,6 @@
-import axios from "axios";
-import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import axios from 'axios';
+import { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 interface ExtendedUser {
   id: string;
@@ -27,23 +27,15 @@ const authOptions: NextAuthOptions = {
   debug: true,
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (
-          !credentials?.email ||
-          !credentials?.password ||
-          !process.env.BACKEND_URL
-        )
-          return null;
+        if (!credentials?.email || !credentials?.password || !process.env.BACKEND_URL) return null;
 
-        const authenticationUrl = new URL(
-          "/api/auth/login",
-          process.env.BACKEND_URL,
-        ).toString();
+        const authenticationUrl = new URL('/api/auth/login', process.env.BACKEND_URL).toString();
 
         try {
           const res = await axios
@@ -74,7 +66,7 @@ const authOptions: NextAuthOptions = {
 
   secret: process.env.NEXTAUTH_SECRET,
 
-  session: { strategy: "jwt" },
+  session: { strategy: 'jwt' },
 
   callbacks: {
     async jwt({ token, user }) {
@@ -103,8 +95,8 @@ const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/login",
-    error: "/login",
+    signIn: '/login',
+    error: '/login',
   },
 };
 

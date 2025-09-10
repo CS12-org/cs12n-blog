@@ -1,75 +1,70 @@
-import Image from "next/image";
-import { PiArrowBendDownLeftLight } from "react-icons/pi";
-import Anonymous from "~/assets/images/anonymous.svg";
-import Close from "~/assets/images/close.svg";
-import CommentsIcon from "~/assets/images/comments.svg";
-import DecreaseArrow from "~/assets/images/decreaseArrow.svg";
-import Profile from "~/assets/images/farhan.jpg";
-import IncreaseArrow from "~/assets/images/increaseArrow.svg";
-import ThreeDotts from "~/assets/images/threeDotts.svg";
-import Button from "~/components/button";
-import { Text } from "~/components/react-aria-components";
-import { TextInput } from "~/components/user-panel/text-field";
+import Image from 'next/image';
+import { PiArrowBendDownLeftLight } from 'react-icons/pi';
+import Anonymous from '~/assets/images/anonymous.svg';
+import Close from '~/assets/images/close.svg';
+import CommentsIcon from '~/assets/images/comments.svg';
+import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
+import Profile from '~/assets/images/farhan.jpg';
+import IncreaseArrow from '~/assets/images/increaseArrow.svg';
+import ThreeDotts from '~/assets/images/threeDotts.svg';
+import Button from '~/components/button';
+import { Text } from '~/components/react-aria-components';
+import { TextInput } from '~/components/user-panel/text-field';
 export default function CommentsSideBar() {
   return (
-    <section className="bg-crust rounded-[10px] px-[15px] p-[10px] w-[450px] flex flex-col gap-[10px] ">
-      <header className="flex justify-between items-center ">
-        <h1 className="font-bold text-[18px]">نظرات</h1>
+    <section className="bg-crust flex w-[450px] flex-col gap-[10px] rounded-[10px] p-[10px] px-[15px]">
+      <header className="flex items-center justify-between">
+        <h1 className="text-[18px] font-bold">نظرات</h1>
         <Close />
       </header>
-      <section className="text-[14px] gap-[5px] bg-[#101122] grid grid-rows-3 grid-cols-14   rounded-[12px] pb-[30px]  px-[10px] ">
-        <span className="flex gap-[10px] self-end items-center pb-[5px] row-start-1 row-end-1 col-start-1  col-end-6">
+      <section className="grid grid-cols-14 grid-rows-3 gap-[5px] rounded-[12px] bg-[#101122] px-[10px] pb-[30px] text-[14px]">
+        <span className="col-start-1 col-end-6 row-start-1 row-end-1 flex items-center gap-[10px] self-end pb-[5px]">
           <Anonymous />
-          <span className="font-bold text-subtext-0">نام فرد</span>
+          <span className="text-subtext-0 font-bold">نام فرد</span>
         </span>
-        <div className="row-start-2 row-end-2 col-start-1 col-end-15">
+        <div className="col-start-1 col-end-15 row-start-2 row-end-2">
           <TextInput
-            className="lg:!p-[15px]  h-[35px] p-[5px] w-full text-[12px] lg:text-[14px] placeholder:text-text text-text"
+            className="placeholder:text-text text-text h-[35px] w-full p-[5px] text-[12px] lg:!p-[15px] lg:text-[14px]"
             name="نقد و نکات"
             placeholder="کامنت خود رو بنویسید ..."
           />
         </div>
 
-        <Button className="bg-blue w-full row-start-3 row-end-3 col-start-1 mt-[5px] col-end-15  h-[35px] font-bold rounded-[10px] text-crust">
+        <Button className="bg-blue text-crust col-start-1 col-end-15 row-start-3 row-end-3 mt-[5px] h-[35px] w-full rounded-[10px] font-bold">
           ارسال نظر
         </Button>
       </section>
 
-      <section className="p-[5px] bg-surface-1 rounded-[5px] flex flex-col gap-[10px]">
-        <article className=" w-full flex flex-col w-full ">
-          <header className="flex justify-between rounded-tr-[10px] rounded-tl-[10px] px-[10px] py-[15px]  bg-base">
-            <div className="flex justify-center gap-[10px] items-center">
-              <Image
-                src={Profile}
-                alt="farhan"
-                className="rounded-full h-[25px] w-[25px]"
-              />
-              <Text className="text-[14px] text-subtext-0">فرهان</Text>
+      <section className="bg-surface-1 flex flex-col gap-[10px] rounded-[5px] p-[5px]">
+        <article className="flex w-full flex-col">
+          <header className="bg-base flex justify-between rounded-tl-[10px] rounded-tr-[10px] px-[10px] py-[15px]">
+            <div className="flex items-center justify-center gap-[10px]">
+              <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+              <Text className="text-subtext-0 text-[14px]">فرهان</Text>
             </div>
-            <div className="w-[23px] h-[23px] bg-base rounded-[3px] flex justify-center">
-              <Button className="bg-  text-subtext-0">
+            <div className="bg-base flex h-[23px] w-[23px] justify-center rounded-[3px]">
+              <Button className="bg- text-subtext-0">
                 <ThreeDotts width="18px" height="4px" />
               </Button>
             </div>
           </header>
 
-          <section className="text-[12px] text-text bg-[#101122] w-full  rounded-b-[10px] p-[10px] gap-y-[15px] flex flex-col ">
+          <section className="text-text flex w-full flex-col gap-y-[15px] rounded-b-[10px] bg-[#101122] p-[10px] text-[12px]">
             <p>
-              سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم
-              شاید بدرد دیگران هم بخوره خلاصه آره گفتم اینجا بزارم شاید به بقیه
-              هم کمک کنه
+              سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم شاید بدرد دیگران هم بخوره خلاصه آره گفتم
+              اینجا بزارم شاید به بقیه هم کمک کنه
             </p>
             <section className="flex justify-between">
               <Button className="bg- text-text flex items-center gap-[5px]">
                 <CommentsIcon />
                 پاسخ ها
               </Button>
-              <div className="flex items-center gap-[3px] items-center ">
+              <div className="flex items-center gap-[3px]">
                 <span className="text-[12px]">2+</span>
-                <Button className="bg- w-[20px] h-[20px]  text-teal rounded-[5px] flex justify-center items-center">
+                <Button className="bg- text-teal flex h-[20px] w-[20px] items-center justify-center rounded-[5px]">
                   <IncreaseArrow width="16px" height="8px" />
                 </Button>
-                <Button className="bg- text-maroon  flex justify-center items-center w-[20px] h-[20px] rounded-[5px]">
+                <Button className="bg- text-maroon flex h-[20px] w-[20px] items-center justify-center rounded-[5px]">
                   <DecreaseArrow width="16px" height="8px" />
                 </Button>
               </div>
@@ -77,44 +72,39 @@ export default function CommentsSideBar() {
           </section>
         </article>
 
-        <article className=" w-full flex flex-col w-full ">
-          <header className="flex justify-between rounded-tr-[10px] rounded-tl-[10px] px-[10px] py-[15px]  bg-base">
-            <div className="flex justify-center gap-[10px] items-center">
-              <Image
-                src={Profile}
-                alt="farhan"
-                className="rounded-full h-[25px] w-[25px]"
-              />
-              <Text className="text-[14px] text-subtext-0">فرهان</Text>
+        <article className="flex w-full flex-col">
+          <header className="bg-base flex justify-between rounded-tl-[10px] rounded-tr-[10px] px-[10px] py-[15px]">
+            <div className="flex items-center justify-center gap-[10px]">
+              <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+              <Text className="text-subtext-0 text-[14px]">فرهان</Text>
             </div>
-            <div className="w-[23px] h-[23px] bg-base rounded-[3px] flex justify-center">
-              <Button className="bg-  text-subtext-0">
+            <div className="bg-base flex h-[23px] w-[23px] justify-center rounded-[3px]">
+              <Button className="bg- text-subtext-0">
                 <ThreeDotts width="18px" height="4px" />
               </Button>
             </div>
           </header>
-          <section className="text-[12px] text-text bg-[#101122] w-full  rounded-b-[10px] py-[10px] gap-y-[15px] flex flex-col ">
-            <section className="bg-mantle  border-r-[4px]  border-sapphire w-full h-auto flex justify-between text-text py-[13px] px-[10px]  ">
+          <section className="text-text flex w-full flex-col gap-y-[15px] rounded-b-[10px] bg-[#101122] py-[10px] text-[12px]">
+            <section className="bg-mantle border-sapphire text-text flex h-auto w-full justify-between border-r-[4px] px-[10px] py-[13px]">
               <PiArrowBendDownLeftLight className="text-subtext-0 text-[20px]" />
               <p className=" ">بخشی از متن که هایلایت شده آمده است اینجا</p>
             </section>
 
             <p className="px-[10px]">
-              سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم
-              شاید بدرد دیگران هم بخوره خلاصه آره گفتم اینجا بزارم شاید به بقیه
-              هم کمک کنه
+              سلام من این هایلایت ها و نوت ها رو برای خودم نوشته بودم و گفتم شاید بدرد دیگران هم بخوره خلاصه آره گفتم
+              اینجا بزارم شاید به بقیه هم کمک کنه
             </p>
             <section className="flex justify-between px-[10px]">
               <Button className="bg- text-text flex items-center gap-[5px]">
                 <CommentsIcon />
                 پاسخ ها
               </Button>
-              <div className="flex items-center gap-[3px] items-center ">
+              <div className="flex items-center gap-[3px]">
                 <span className="text-[12px]">2+</span>
-                <Button className="bg- w-[20px] h-[20px]  text-teal rounded-[5px] flex justify-center items-center">
+                <Button className="bg- text-teal flex h-[20px] w-[20px] items-center justify-center rounded-[5px]">
                   <IncreaseArrow width="16px" height="8px" />
                 </Button>
-                <Button className="bg- text-maroon  flex justify-center items-center w-[20px] h-[20px] rounded-[5px]">
+                <Button className="bg- text-maroon flex h-[20px] w-[20px] items-center justify-center rounded-[5px]">
                   <DecreaseArrow width="16px" height="8px" />
                 </Button>
               </div>

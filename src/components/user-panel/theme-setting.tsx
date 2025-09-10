@@ -1,9 +1,5 @@
-import twMerge from "~/lib/tw-merge";
-import {
-  RadioGroup,
-  Radio,
-  type RadioGroupProps,
-} from "~/components/react-aria-components";
+import twMerge from '~/lib/tw-merge';
+import { RadioGroup, Radio, type RadioGroupProps } from '~/components/react-aria-components';
 
 interface ColorOption {
   label: string;
@@ -11,35 +7,33 @@ interface ColorOption {
   value: string;
 }
 
-interface ColorRadioGroupProps extends Omit<RadioGroupProps, "children"> {
+interface ColorRadioGroupProps extends Omit<RadioGroupProps, 'children'> {
   options: ColorOption[];
 }
 
 function MyRadioGroup({ options, ...props }: ColorRadioGroupProps) {
   return (
-    <RadioGroup {...props} className="flex flex-wrap gap-2.5 ">
+    <RadioGroup {...props} className="flex flex-wrap gap-2.5">
       {options.map((opt) => {
         return (
           <Radio
             key={opt.value}
             value={opt.value}
             className={twMerge(
-              "group flex items-center bg-mantle rounded-md border-2",
-              "border-transparent transition-all duration-200 cursor-pointer",
-              opt.value === "lavender" && "selected:border-lavender",
-              opt.value === "maroon" && "selected:border-maroon",
-              opt.value === "teal" && "selected:border-teal",
-              opt.value === "peach" && "selected:border-peach",
-              opt.value === "sky" && "selected:border-sky",
-              opt.value === "mauve" && "selected:border-mauve",
-              opt.value === "pink" && "selected:border-pink",
-              opt.value === "flamingo" && "selected:border-flamingo",
+              'group bg-mantle flex items-center rounded-md border-2',
+              'cursor-pointer border-transparent transition-all duration-200',
+              opt.value === 'lavender' && 'selected:border-lavender',
+              opt.value === 'maroon' && 'selected:border-maroon',
+              opt.value === 'teal' && 'selected:border-teal',
+              opt.value === 'peach' && 'selected:border-peach',
+              opt.value === 'sky' && 'selected:border-sky',
+              opt.value === 'mauve' && 'selected:border-mauve',
+              opt.value === 'pink' && 'selected:border-pink',
+              opt.value === 'flamingo' && 'selected:border-flamingo',
             )}
           >
-            <div
-              className={`h-3 w-3 m-2.5 rounded-bl rounded-tr ${opt.bgColorClass}`}
-            />
-            <span className="m-2.5 text-xs text-text">{opt.label}</span>
+            <div className={`m-2.5 h-3 w-3 rounded-tr rounded-bl ${opt.bgColorClass}`} />
+            <span className="text-text m-2.5 text-xs">{opt.label}</span>
           </Radio>
         );
       })}

@@ -1,11 +1,9 @@
-import Law from "~/assets/images/law.svg";
+import Law from '~/assets/images/law.svg';
 function LicenceMark() {
   return (
-    <section className="bg-base py-[5px] h-[30px] px-[10px] lg:px-[15px] border-[1px] border-surface-0 rounded-[5px] flex items-start gap-[10px]">
-      <span className="text-maroon text-[12px] lg:text-[16px] font-OxygenMono">
-        MIT
-      </span>
-      <Law className="text-sky lg:h-[20px] lg:w-[20px] w-[14px] h-[14px] " />
+    <section className="bg-base border-surface-0 flex h-[30px] items-start gap-[10px] rounded-[5px] border-[1px] px-[10px] py-[5px] lg:px-[15px]">
+      <span className="text-maroon font-OxygenMono text-[12px] lg:text-[16px]">MIT</span>
+      <Law className="text-sky h-[14px] w-[14px] lg:h-[20px] lg:w-[20px]" />
     </section>
   );
 }

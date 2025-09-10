@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const publicConfigSchema = z.object({
   NEXT_PUBLIC_API_URL: z.url().min(1),

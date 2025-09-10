@@ -1,5 +1,5 @@
 body {
-  @apply selection:bg-[#283951] selection:text-white bg-base text-text;
+  @apply bg-base text-text selection:bg-[#283951] selection:text-white;
 }
 
 button,
@@ -8,5 +8,5 @@ a {
 }
 
 * {
-  @apply focus-visible:outline-lavender focus-visible:outline-2 outline-offset-2;
+  @apply focus-visible:outline-lavender outline-offset-2 focus-visible:outline-2;
 }

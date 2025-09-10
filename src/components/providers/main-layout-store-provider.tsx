@@ -1,11 +1,8 @@
-"use client";
+'use client';
 
-import { createContext, type ReactNode, useContext, useRef } from "react";
-import { useStore } from "zustand";
-import {
-  createLayoutStore,
-  type MainLayoutStore,
-} from "~/store/main-layout-store";
+import { createContext, type ReactNode, useContext, useRef } from 'react';
+import { useStore } from 'zustand';
+import { createLayoutStore, type MainLayoutStore } from '~/store/main-layout-store';
 
 type MainLayoutStoreApi = ReturnType<typeof createLayoutStore>;
 
@@ -23,20 +20,14 @@ const MainLayoutStoreProvider = (props: MainLayoutStoreProviderProps) => {
     storeRef.current = createLayoutStore();
   }
 
-  return (
-    <MainLayoutStoreContext value={storeRef.current}>
-      {children}
-    </MainLayoutStoreContext>
-  );
+  return <MainLayoutStoreContext value={storeRef.current}>{children}</MainLayoutStoreContext>;
 };
 
 const useMainLayoutStore = <T,>(selector: (store: MainLayoutStore) => T): T => {
   const layoutStoreContext = useContext(MainLayoutStoreContext);
 
   if (!layoutStoreContext) {
-    throw new Error(
-      `useMainLayoutStore must be used within MainLayoutStoreProvider`,
-    );
+    throw new Error(`useMainLayoutStore must be used within MainLayoutStoreProvider`);
   }
 
   return useStore(layoutStoreContext, selector);

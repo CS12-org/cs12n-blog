@@ -1,15 +1,15 @@
-"use client";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import Comments from "~/assets/images/comments.svg";
-import Highlighter from "~/assets/images/highlighter.svg";
-import Notes from "~/assets/images/notes.svg";
+'use client';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import Comments from '~/assets/images/comments.svg';
+import Highlighter from '~/assets/images/highlighter.svg';
+import Notes from '~/assets/images/notes.svg';
 
 interface HighlightMenuProps {
   containerId: string;
 }
 
 export default function HighlightMenu({ containerId }: HighlightMenuProps) {
-  const [selectedText, setSelectedText] = useState("");
+  const [selectedText, setSelectedText] = useState('');
   const [coords, setCoords] = useState<{ x: number; y: number } | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -29,7 +29,7 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
 
     const firstRect = getFirstLineRect(sel);
 
-    const dir = getComputedStyle(container).direction || "ltr";
+    const dir = getComputedStyle(container).direction || 'ltr';
 
     const margin = 8;
     const scrollX = window.scrollX;
@@ -39,7 +39,7 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
     const menuW = menuBox?.width ?? 0;
 
     let x: number;
-    if (dir === "rtl") {
+    if (dir === 'rtl') {
       x = firstRect.right + scrollX - menuW;
     } else {
       x = firstRect.left + scrollX;
@@ -66,10 +66,7 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
     const handleSelectionChange = () => {
       const sel = window.getSelection();
       const hasText = !!sel && !!sel.toString().trim();
-      const inContainer =
-        !!sel &&
-        (container.contains(sel.anchorNode) ||
-          container.contains(sel.focusNode));
+      const inContainer = !!sel && (container.contains(sel.anchorNode) || container.contains(sel.focusNode));
 
       if (hasText && inContainer) {
         setSelectedText(sel!.toString());
@@ -77,22 +74,22 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
         updatePosition();
       } else {
         setIsVisible(false);
-        setSelectedText("");
+        setSelectedText('');
       }
     };
 
-    document.addEventListener("selectionchange", handleSelectionChange);
-    document.addEventListener("touchend", handleSelectionChange, {
+    document.addEventListener('selectionchange', handleSelectionChange);
+    document.addEventListener('touchend', handleSelectionChange, {
       passive: true,
     });
-    window.addEventListener("scroll", updatePosition, { passive: true });
-    window.addEventListener("resize", updatePosition);
+    window.addEventListener('scroll', updatePosition, { passive: true });
+    window.addEventListener('resize', updatePosition);
 
     return () => {
-      document.removeEventListener("selectionchange", handleSelectionChange);
-      document.removeEventListener("touchend", handleSelectionChange);
-      window.removeEventListener("scroll", updatePosition);
-      window.removeEventListener("resize", updatePosition);
+      document.removeEventListener('selectionchange', handleSelectionChange);
+      document.removeEventListener('touchend', handleSelectionChange);
+      window.removeEventListener('scroll', updatePosition);
+      window.removeEventListener('resize', updatePosition);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [containerId]);
@@ -102,33 +99,24 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
   return (
     <div
       ref={menuRef}
-      className="absolute bg-[#050615] shadow-lg rounded-[10px] p-[10px] text-[12px] text-text flex gap-[15px] z-50 border border-base border-[1px]"
+      className="text-text border-base absolute z-50 flex gap-[15px] rounded-[10px] border border-[1px] bg-[#050615] p-[10px] text-[12px] shadow-lg"
       style={{
         left: coords.x,
         top: coords.y,
-        transform: "translateY(-100%)",
+        transform: 'translateY(-100%)',
       }}
     >
-      <button
-        aria-label="هایلایت متن انتخاب شده"
-        className="flex items-center gap-[3px]"
-      >
+      <button aria-label="هایلایت متن انتخاب شده" className="flex items-center gap-[3px]">
         <Highlighter className="h-[13px] w-[13px]" />
         هایلایت
       </button>
 
-      <button
-        aria-label="کامنت روی متن انتخاب شده"
-        className="flex items-center gap-[3px]"
-      >
+      <button aria-label="کامنت روی متن انتخاب شده" className="flex items-center gap-[3px]">
         <Comments className="h-[15px] w-[15px]" />
         کامنت
       </button>
 
-      <button
-        aria-label="گذاشتن یادداشت روی متن انتخاب شده"
-        className="flex items-center gap-[3px]"
-      >
+      <button aria-label="گذاشتن یادداشت روی متن انتخاب شده" className="flex items-center gap-[3px]">
         <Notes className="h-[13px] w-[13px]" />
         یادداشت
       </button>

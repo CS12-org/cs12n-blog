@@ -1,10 +1,10 @@
-"use client";
-import { useEffect, useRef, useState } from "react";
-import CopyLink from "~/assets/images/link-round-angle.svg";
-import Linkedin from "~/assets/images/linkedin.svg";
-import Share from "~/assets/images/share3circle.svg";
-import Telegram from "~/assets/images/telegram.svg";
-import Twitter from "~/assets/images/twitterx.svg";
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import CopyLink from '~/assets/images/link-round-angle.svg';
+import Linkedin from '~/assets/images/linkedin.svg';
+import Share from '~/assets/images/share3circle.svg';
+import Telegram from '~/assets/images/telegram.svg';
+import Twitter from '~/assets/images/twitterx.svg';
 
 export default function SharePopoverButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -24,8 +24,8 @@ export default function SharePopoverButton() {
         setIsVisible(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -34,7 +34,7 @@ export default function SharePopoverButton() {
       <button
         ref={buttonRef}
         onClick={toggleMenu}
-        className="lg:h-[48px] lg:w-[48px] h-[30px] w-[30px] border border-surface-0 bg-base rounded-[10px] flex justify-center items-center"
+        className="border-surface-0 bg-base flex h-[30px] w-[30px] items-center justify-center rounded-[10px] border lg:h-[48px] lg:w-[48px]"
         aria-haspopup="true"
         aria-expanded={isVisible}
       >
@@ -45,23 +45,15 @@ export default function SharePopoverButton() {
       {isVisible && (
         <div
           ref={menuRef}
-          className="absolute bottom-full -right-1/4 mb-2 bg-[#050615] shadow-lg rounded-[10px] py-[10px] px-[20px] text-[12px] text-text flex gap-[15px] z-50 border border-base"
+          className="text-text border-base absolute -right-1/4 bottom-full z-50 mb-2 flex gap-[15px] rounded-[10px] border bg-[#050615] px-[20px] py-[10px] text-[12px] shadow-lg"
           role="menu"
         >
-          <button
-            className="flex items-center gap-[3px]"
-            role="menuitem"
-            aria-label="هایلایت متن انتخاب شده"
-          >
-            <Telegram className="lg:h-[28px] lg:w-[28px] w-[24px] h-[24px]" />
+          <button className="flex items-center gap-[3px]" role="menuitem" aria-label="هایلایت متن انتخاب شده">
+            <Telegram className="h-[24px] w-[24px] lg:h-[28px] lg:w-[28px]" />
           </button>
 
-          <button
-            className="flex items-center gap-[3px]"
-            role="menuitem"
-            aria-label="کامنت روی متن انتخاب شده"
-          >
-            <CopyLink className="lg:h-[28px] lg:w-[28px] w-[24px] h-[24px]" />
+          <button className="flex items-center gap-[3px]" role="menuitem" aria-label="کامنت روی متن انتخاب شده">
+            <CopyLink className="h-[24px] w-[24px] lg:h-[28px] lg:w-[28px]" />
           </button>
 
           <button
@@ -69,7 +61,7 @@ export default function SharePopoverButton() {
             role="menuitem"
             aria-label="گذاشتن یادداشت روی متن انتخاب شده"
           >
-            <Linkedin className="lg:h-[28px] lg:w-[28px] w-[24px] h-[24px]" />
+            <Linkedin className="h-[24px] w-[24px] lg:h-[28px] lg:w-[28px]" />
           </button>
 
           <button className="flex" role="menuitem" aria-label="خواندن کامنت‌ها">

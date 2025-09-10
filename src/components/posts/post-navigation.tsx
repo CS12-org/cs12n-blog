@@ -1,29 +1,29 @@
-import { Text } from "~/components/react-aria-components";
-import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import Button from "~/components/button";
+import { Text } from '~/components/react-aria-components';
+import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
+import Button from '~/components/button';
 
 function PostNavigation() {
   return (
-    <section className=" flex text-text divide-x-2 divide-dashed divide-surface-2  w-full">
-      <div className="grid grid-rows-2 grid-cols-7 justify-start gap-y-[10px] w-full bg-crust rounded-r-[10px] lg:pr-[50px] pr-[10px] py-[10px] lg:py-[20px] ">
-        <Button className="h-[40px] w-[40px] row-start-1 row-end-1 col-start-1 col-end-1 bg-mauve rounded-full flex items-center justify-center self-center">
+    <section className="text-text divide-surface-2 flex w-full divide-x-2 divide-dashed">
+      <div className="bg-crust grid w-full grid-cols-7 grid-rows-2 justify-start gap-y-[10px] rounded-r-[10px] py-[10px] pr-[10px] lg:py-[20px] lg:pr-[50px]">
+        <Button className="bg-mauve col-start-1 col-end-1 row-start-1 row-end-1 flex h-[40px] w-[40px] items-center justify-center self-center rounded-full">
           <FaArrowRightLong className="text-[25px] text-[#351955]" />
         </Button>
-        <Text className="row-start-1 row-end-1 lg:col-start-2 lg:col-end-3 col-start-3 font-extrabold lg:text-[20px] text-[16px] self-center justify-self-start self-center ">
+        <Text className="col-start-3 row-start-1 row-end-1 self-center justify-self-start text-[16px] font-extrabold lg:col-start-2 lg:col-end-3 lg:text-[20px]">
           بعدی
         </Text>
-        <Text className="lg:text-[16px] truncate text-[12px] row-start-2  row-end-2 h-auto col-start-1 col-end-7 bg-mantle rounded-[5px] border-r-[3px] border-sapphire  lg:py-[5px] p-[5px]  self-center">
+        <Text className="bg-mantle border-sapphire col-start-1 col-end-7 row-start-2 row-end-2 h-auto self-center truncate rounded-[5px] border-r-[3px] p-[5px] text-[12px] lg:py-[5px] lg:text-[16px]">
           قسمت سوم : بش اسکریپت درک فایل سیستم
         </Text>
       </div>
-      <div className="grid grid-rows-2 grid-cols-7 justify-end gap-y-[10px] w-full bg-crust rounded-l-[10px] lg:pl-[50px] pl-[10px] py-[10px] lg:py-[20px]">
-        <Button className="h-[40px] row-start-1 row-end-1 lg:col-start-7 col-start-6 justify-self-end  self-center col-end-8 w-[40px]  bg-mauve rounded-full flex items-center justify-center ">
+      <div className="bg-crust grid w-full grid-cols-7 grid-rows-2 justify-end gap-y-[10px] rounded-l-[10px] py-[10px] pl-[10px] lg:py-[20px] lg:pl-[50px]">
+        <Button className="bg-mauve col-start-6 col-end-8 row-start-1 row-end-1 flex h-[40px] w-[40px] items-center justify-center self-center justify-self-end rounded-full lg:col-start-7">
           <FaArrowLeftLong className="text-[25px] text-[#351955]" />
         </Button>
-        <Text className="row-start-1 row-end-1 lg:col-start-6 lg:col-end-7 col-start-4 col-end-6 justify-self-end font-extrabold lg:text-[20px] text-[16px] self-center  ">
+        <Text className="col-start-4 col-end-6 row-start-1 row-end-1 self-center justify-self-end text-[16px] font-extrabold lg:col-start-6 lg:col-end-7 lg:text-[20px]">
           قبلی
         </Text>
-        <Text className="lg:text-[16px] truncate text-[12px] h-auto row-start-2  row-end-2 col-start-2 col-end-8 bg-mantle rounded-[5px] border-l-[3px] border-sapphire  lg:py-[5px] p-[5px] self-center">
+        <Text className="bg-mantle border-sapphire col-start-2 col-end-8 row-start-2 row-end-2 h-auto self-center truncate rounded-[5px] border-l-[3px] p-[5px] text-[12px] lg:py-[5px] lg:text-[16px]">
           قسمت اول : بش اسکریپت کامند های اولیه
         </Text>
       </div>

@@ -1,36 +1,36 @@
-"use client";
+'use client';
 
-import { BiMessageAltDetail } from "react-icons/bi";
-import { CiBookmark } from "react-icons/ci";
-import { RiUser3Fill } from "react-icons/ri";
-import { TbNotes } from "react-icons/tb";
-import ResponsiveSideBar from "../responsive-side-bar";
+import { BiMessageAltDetail } from 'react-icons/bi';
+import { CiBookmark } from 'react-icons/ci';
+import { RiUser3Fill } from 'react-icons/ri';
+import { TbNotes } from 'react-icons/tb';
+import ResponsiveSideBar from '../responsive-side-bar';
 
 const groups = [
   {
-    slug: "/user-panel",
+    slug: '/user-panel',
     icon: RiUser3Fill,
-    title: "اطلاعات اولیه کاربر",
+    title: 'اطلاعات اولیه کاربر',
   },
   {
-    slug: "/user-panel/saved-posts",
+    slug: '/user-panel/saved-posts',
     icon: CiBookmark,
-    title: "پست های سیو شده",
+    title: 'پست های سیو شده',
   },
   {
-    slug: "/user-panel/notes",
+    slug: '/user-panel/notes',
     icon: TbNotes,
-    title: "یادداشت ها و هایلایت ها",
+    title: 'یادداشت ها و هایلایت ها',
   },
   {
-    slug: "/user-panel/comments",
+    slug: '/user-panel/comments',
     icon: BiMessageAltDetail,
-    title: "نظرات و پرسش و پاسخ",
+    title: 'نظرات و پرسش و پاسخ',
   },
   {
-    slug: "/user-panel/user-level",
+    slug: '/user-panel/user-level',
     icon: BiMessageAltDetail,
-    title: "؟درچه سطحی هستم",
+    title: '؟درچه سطحی هستم',
   },
 ];
 

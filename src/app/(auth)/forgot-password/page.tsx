@@ -1,9 +1,9 @@
-"use client";
-import Image from "next/image";
-import { twJoin } from "tailwind-merge";
-import Mohammadhoseincharacter from "~/assets/images/mohammad-hossein-character.png";
-import Button from "~/components/button";
-import { useState } from "react";
+'use client';
+import Image from 'next/image';
+import { twJoin } from 'tailwind-merge';
+import Mohammadhoseincharacter from '~/assets/images/mohammad-hossein-character.png';
+import Button from '~/components/button';
+import { useState } from 'react';
 
 // TODO: refactor
 function Login() {
@@ -15,39 +15,30 @@ function Login() {
 
   if (!isHasSent)
     return (
-      <main className="min-h-dvh flex flex-col items-center">
-        <form className="relative flex flex-col items-stretch my-auto bg-crust rounded-2xl p-5 w-[360px]">
+      <main className="flex min-h-dvh flex-col items-center">
+        <form className="bg-crust relative my-auto flex w-[360px] flex-col items-stretch rounded-2xl p-5">
           <Image
             src={Mohammadhoseincharacter}
             alt="کرکتر محمد حسین"
             className={twJoin(
-              "animate-fade-up animate-duration-1000 animate-delay-500",
-              "absolute bottom-[165px] left-1/2 -translate-x-1/2 w-25 -z-1",
-              "w-[150px]",
+              'animate-fade-up animate-duration-1000 animate-delay-500',
+              'absolute bottom-[165px] left-1/2 -z-1 w-25 -translate-x-1/2',
+              'w-[150px]',
             )}
           />
-          <h1
-            className={twJoin(
-              "font-bold text-3x1 mb-6 text-center",
-              "flex gap-2 justify-center items-center ",
-            )}
-          >
-            <span className="leading-6 text-white tracking-normal text-center align-middle font-body-md w-[320px] h-[24px]">
+          <h1 className={twJoin('text-3x1 mb-6 text-center font-bold', 'flex items-center justify-center gap-2')}>
+            <span className="font-body-md h-[24px] w-[320px] text-center align-middle leading-6 tracking-normal text-white">
               کد تغییر رمز رو دریافت کن
             </span>
           </h1>
 
           <input
             placeholder="ایمیل خود را وارد کنید"
-            className="bg-surface-0 mb- px-2.5 py-2 w-[320px] h-[42px] rounded-[10px]"
+            className="bg-surface-0 mb- h-[42px] w-[320px] rounded-[10px] px-2.5 py-2"
           />
 
-          <div className="mt-4 flex gap-2 w-[320px] h-[42px] border rounded-[10px]">
-            <Button
-              type="submit"
-              className="py-2 grow "
-              onClick={handleSubmitClick}
-            >
+          <div className="mt-4 flex h-[42px] w-[320px] gap-2 rounded-[10px] border">
+            <Button type="submit" className="grow py-2" onClick={handleSubmitClick}>
               تایید
             </Button>
           </div>
@@ -56,14 +47,14 @@ function Login() {
     );
 
   return (
-    <div className="p-4 mt=30rem my-auto mt-70 w[360px] h-[175px]">
-      <div className="bg-gray-900 text-white p-4 rounded-lg h-[115] w-[340px] max-w-sm mx-auto flex flex-col items-center space-y-4">
-        <div className="flex items-center space-x-10 justify-center w-[320px] h-[28px]">
+    <div className="mt=30rem w[360px] my-auto mt-70 h-[175px] p-4">
+      <div className="mx-auto flex h-[115] w-[340px] max-w-sm flex-col items-center space-y-4 rounded-lg bg-gray-900 p-4 text-white">
+        <div className="flex h-[28px] w-[320px] items-center justify-center space-x-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 28 28"
             fill="currentColor"
-            className="w-[28px] h-[28px] text-green-400"
+            className="h-[28px] w-[28px] text-green-400"
           >
             <g clipPath="url(#clip0_1162_6345)">
               <path
@@ -79,11 +70,9 @@ function Login() {
               </clipPath>
             </defs>
           </svg>
-          <p className=" text-white w[175px] h-[24px] ml-18">
-            کد به ایمیل شما ارسال شد
-          </p>
+          <p className="w[175px] ml-18 h-[24px] text-white">کد به ایمیل شما ارسال شد</p>
         </div>
-        <button className="bg-indigo-300 text-black px-6 py-2 w-full  rounded-lg hover:bg-indigo-400 transition ">
+        <button className="w-full rounded-lg bg-indigo-300 px-6 py-2 text-black transition hover:bg-indigo-400">
           رفتن به ایمیل
         </button>
       </div>
