@@ -127,14 +127,14 @@ export default function UserPanelForm() {
                 alt="User Profile"
                 className="border-lavender h-24 w-24 rounded-2xl border-4"
               />
-              <ColorSelect
+              {/* <ColorSelect
                 selectedColor={selectedThemeColor!}
                 onSelectionChange={(key) => {
                   setSelectedThemeColor(key as string);
                   // Optional: Save to API or form state
                   console.log('Selected color:', key);
                 }}
-              />
+              /> */}
               <Button
                 onClick={() => setIsOpenAvatarModal(true)}
                 className="bg-lavender absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5"
