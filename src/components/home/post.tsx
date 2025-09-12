@@ -7,12 +7,12 @@ import { Link } from '~/components/react-aria-components';
 const colors = ['text-peach', 'text-mauve', 'text-yellow'];
 
 type Props = {
-  title: string;
-  claps: number;
-  description: string;
   slug: string;
-  tags: { id: number; title: string; slug: string }[];
-  image: { url: string; width: number; height: number };
+  claps: number;
+  title: string;
+  image?: string;
+  description: string;
+  tags: { id: string; title: string; slug: string }[];
 };
 
 function Post(props: Props) {
@@ -20,11 +20,13 @@ function Post(props: Props) {
 
   return (
     <article className="bg-crust overflow-hidden rounded-xl">
-      <header>
-        <Link href={`/post/${slug}`} className="block w-full">
-          <Image alt={title} src={image.url} width={image.width} height={image.height} className="h-auto w-full" />
-        </Link>
-      </header>
+      {image && (
+        <header>
+          <Link href={`/post/${slug}`} className="block w-full">
+            <Image alt={title} src={image} width={660} height={276} className="h-auto w-full" />
+          </Link>
+        </header>
+      )}
       <main>
         <Link href={`/post/${slug}`}>
           <h3 className="text-headline-md lg:text-headline-lg truncate px-2.5 pt-4 pb-2.5">{title}</h3>
