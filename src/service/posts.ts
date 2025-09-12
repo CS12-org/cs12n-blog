@@ -68,59 +68,32 @@ export type GetPostsParams = {
   pageSize: number;
 };
 
-export type GetPostsResult = {
-  endCursor: string;
-  hasNextPage: boolean;
-  totalCount: number;
-  data: {
-    id: number;
-    description: string;
-    title: string;
-    content: string;
-    clap: number;
-    slug: string;
+export interface GetPostsResult {
+  items: {
+    id: string;
     createdAt: string;
-    narrator: {
-      url: string;
-    } | null;
+    featuredImage?: string;
+    title: string;
+    slug: string;
+    contentText: string;
+    status: string;
     user: {
-      email: string;
-      username: string;
-    } | null;
-    tags: {
-      id: number;
-      title: string;
-      slug: string;
-    }[];
-    category: {
-      id: number;
-      slug: string;
-      title: string;
+      id: string;
+      profile: {
+        user: string;
+        fullName: null | string;
+        bio: null | string;
+        avatarUrl: null | string;
+        coverUrl: null | string;
+        website: null | string;
+      };
     };
-    featured_image: {
-      id: number;
-      width: number;
-      height: number;
-      url: string;
-    };
-    slide_image:
-      | {
-          id: number;
-          width: number;
-          height: number;
-          url: string;
-        }[]
-      | null;
+    tags: { id: string }[];
+    isSavedByCurrentUser: boolean;
+    averageRating: unknown;
   }[];
-  meta: {
-    pagination: {
-      page: number;
-      pageSize: number;
-      total: number;
-      pageCount: number;
-    };
-  };
-};
+  total: number;
+}
 
 /**
  * Fetches posts from the API.
@@ -128,12 +101,6 @@ export type GetPostsResult = {
  * @param params - Parameters for the request.
  * @returns A promise that resolves to the posts data.
  */
-export const getPosts = async (params: GetPostsParams) => {
-  const res = await axios.get<GetPostsResult>('/api/posts/feed', { params });
-  return {
-    items: res.data.data.map(mapSavedPostToPost),
-    hasNextPage: res.data.hasNextPage,
-    endCursor: res.data.endCursor,
-    totalCount: res.data.totalCount,
-  };
+export const getPosts = (params: GetPostsParams) => {
+  return axios.get<GetPostsResult>('/api/posts/feed', { params });
 };
