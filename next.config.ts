@@ -8,7 +8,18 @@ interface RuleWithTest {
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['cms.cs12.ir'], // اضافه کردن hostname CMS
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.cs12.ir',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cs12-mino-api-cs12.kubarcloud.net',
+        pathname: '/**',
+      },
+    ],
   },
 
   webpack(config) {
