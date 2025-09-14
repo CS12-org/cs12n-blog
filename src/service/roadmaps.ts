@@ -22,8 +22,8 @@ type Roadmap = {
   };
 };
 
-export const getRoadmaps = () => axios.get<Omit<Roadmap, 'description'>[]>('/api/roadmaps');
+export const getRoadmaps = () => axios.get<Omit<Roadmap, 'description'>[]>('/roadmaps');
 
 type GetRoadmapResult = Roadmap & { courses: Course[] };
 
-export const getRoadmap = (slug: string) => axios.get<GetRoadmapResult>('/api/roadmaps/' + slug);
+export const getRoadmap = (slug: string) => axios.get<GetRoadmapResult>('/roadmaps/' + slug);
