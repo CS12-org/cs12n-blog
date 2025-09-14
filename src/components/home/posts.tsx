@@ -67,10 +67,10 @@ function Posts(props: Props) {
             title={post.title}
             image={post.featuredImage}
             description={post.contentText}
-            tags={post.tags.map((tag, index) => ({
+            tags={post.tags.map((tag) => ({
               id: tag.id,
-              slug: tag.id,
-              title: 'tag ' + index,
+              slug: tag.slug,
+              title: tag.name,
             }))}
           />
         </li>

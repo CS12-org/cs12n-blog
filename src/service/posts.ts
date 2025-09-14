@@ -88,7 +88,7 @@ export interface GetPostsResult {
         website: null | string;
       };
     };
-    tags: { id: string }[];
+    tags: { id: string; name: string; slug: string }[];
     isSavedByCurrentUser: boolean;
     averageRating: unknown;
   }[];
@@ -102,5 +102,5 @@ export interface GetPostsResult {
  * @returns A promise that resolves to the posts data.
  */
 export const getPosts = (params: GetPostsParams) => {
-  return axios.get<GetPostsResult>('/api/posts/feed', { params });
+  return axios.get<GetPostsResult>('/posts/feed', { params });
 };
