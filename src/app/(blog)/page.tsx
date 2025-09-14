@@ -26,7 +26,7 @@ async function Home(props: Props) {
 
   return (
     <div className="flex items-start gap-5">
-      <ArticleCategories />
+      {/* <ArticleCategories /> */}
 
       <div className="grow overflow-hidden">
         <WeeklyChallenge />
