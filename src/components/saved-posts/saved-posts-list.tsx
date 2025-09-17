@@ -51,11 +51,7 @@ export default function SavedPost() {
             <button className="bg-base flex h-9 w-9 items-center justify-center rounded-full">
               <Stopwatch />
             </button>
-     <SaveButton
-         postId={post.id}
-         isSavedByCurrentUser={post.isSavedByCurrentUser}
-      />
-
+            <SaveButton postId={post.id} isSavedByCurrentUser={post.isSavedByCurrentUser} />
           </section>
         </section>
       ))}

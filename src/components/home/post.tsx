@@ -8,7 +8,7 @@ import SaveButton from '../saved-posts/save-button';
 const colors = ['text-peach', 'text-mauve', 'text-yellow'];
 
 type Props = {
-  id: string; 
+  id: string;
   slug: string;
   claps: number;
   title: string;
@@ -19,7 +19,7 @@ type Props = {
 };
 
 function Post(props: Props) {
-const { id, title, tags, description, image, slug, isSavedByCurrentUser } = props;
+  const { id, title, tags, description, image, slug, isSavedByCurrentUser } = props;
 
   return (
     <article className="bg-crust overflow-hidden rounded-xl">
@@ -70,10 +70,7 @@ const { id, title, tags, description, image, slug, isSavedByCurrentUser } = prop
           </Button> */}
 
           <p className="mr-auto text-white">3 دقیقه</p>
-           <SaveButton
-            postId={id}
-            isSavedByCurrentUser={isSavedByCurrentUser}
-          />
+          <SaveButton postId={id} isSavedByCurrentUser={isSavedByCurrentUser} />
         </div>
       </footer>
     </article>
