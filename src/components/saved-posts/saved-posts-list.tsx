@@ -8,6 +8,7 @@ import Save from '~/assets/images/save.svg';
 import Stopwatch from '~/assets/images/stopwatch.svg';
 import { useFetchSavedPosts } from '~/hooks/use-saved-posts';
 import { SavedPostsResponse } from '~/service/saved-posts';
+import SaveButton from './save-button';
 
 export default function SavedPost() {
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
@@ -50,9 +51,11 @@ export default function SavedPost() {
             <button className="bg-base flex h-9 w-9 items-center justify-center rounded-full">
               <Stopwatch />
             </button>
-            <button className="bg-base flex h-9 w-9 items-center justify-center rounded-md">
-              <Save stroke="#8AADF4" fill="#8AADF4" className="h-7 w-7" />
-            </button>
+     <SaveButton
+         postId={post.id}
+         isSavedByCurrentUser={post.isSavedByCurrentUser}
+      />
+
           </section>
         </section>
       ))}
