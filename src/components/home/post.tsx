@@ -4,19 +4,22 @@ import Comments from '~/assets/images/comments.svg';
 import Save from '~/assets/images/save.svg';
 import Button from '~/components/button';
 import { Link } from '~/components/react-aria-components';
+import SaveButton from '../saved-posts/save-button';
 const colors = ['text-peach', 'text-mauve', 'text-yellow'];
 
 type Props = {
+  id: string;
   slug: string;
   claps: number;
   title: string;
   image?: string;
   description: string;
   tags: { id: string; title: string; slug: string }[];
+  isSavedByCurrentUser: boolean;
 };
 
 function Post(props: Props) {
-  const { title, tags, description, image, slug } = props;
+  const { id, title, tags, description, image, slug, isSavedByCurrentUser } = props;
 
   return (
     <article className="bg-crust overflow-hidden rounded-xl">
@@ -67,9 +70,7 @@ function Post(props: Props) {
           </Button> */}
 
           <p className="mr-auto text-white">3 دقیقه</p>
-          <Button variant="none">
-            <Save className="text-overlay-1 h-[27px] w-[27px]" />
-          </Button>
+          <SaveButton postId={id} isSavedByCurrentUser={isSavedByCurrentUser} />
         </div>
       </footer>
     </article>

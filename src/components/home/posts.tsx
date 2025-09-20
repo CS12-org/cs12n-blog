@@ -62,11 +62,13 @@ function Posts(props: Props) {
       {data.map((post: GetPostsResult['items'][number]) => (
         <li key={post.id} aria-label={post.title}>
           <Post
+            id={post.id}
             slug={post.slug}
             claps={1}
             title={post.title}
             image={post.featuredImage}
             description={post.contentText}
+            isSavedByCurrentUser={post.isSavedByCurrentUser}
             tags={post.tags.map((tag) => ({
               id: tag.id,
               slug: tag.slug,
