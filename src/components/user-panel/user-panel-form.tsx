@@ -2,7 +2,6 @@
 
 import { Button, TextField } from 'react-aria-components';
 import Image from 'next/image';
-import Cs12Logo from '~/assets/images/cs12-logo.svg';
 import PlusSign from '~/assets/images/plus-sign.svg';
 import Profile from '~/assets/images/user-profile.png';
 import { Text } from '~/components/react-aria-components';
@@ -12,17 +11,23 @@ import MyRadioGroup from '~/components/user-panel/theme-setting';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Input } from 'react-aria-components';
 import { twJoin } from 'tailwind-merge';
 import z from 'zod';
-import { putUserProfile } from '~/service/put-user-profile copy';
-import { getServerSession } from 'next-auth';
-import authOptions from '~/auth.config';
+import { putUserProfile } from '~/service/put-user-profile';
+import Accordion from '~/components/shared/Accordion';
+import { useSession } from 'next-auth/react';
+import { TbEdit } from 'react-icons/tb';
+import UploadImageModal from '~/components/shared/upload-image-modal';
+import { getUserProfile, GetUserProfileRes } from '~/service/get-user-profile';
+import { useMutation } from '@tanstack/react-query';
+import ColorSelect from '~/components/user-panel/ColorSelect';
 
 const schema = z.object({
   info: z.string().max(200),
   fullName: z.string().min(1),
+  website: z.string(),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -30,132 +35,237 @@ const DEFAULT_ERROR_MESSAGE = 'متأسفانه، یک خطای غیرمنتظر
 
 export default function UserPanelForm() {
   const router = useRouter();
+  const [selectedThemeColor, setSelectedThemeColor] = useState<string | null>(null);
+  const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { control, handleSubmit } = useForm<FormFields>({
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [userProfileData, setUserProfileData] = useState<GetUserProfileRes | null>(null);
+  const { data: session } = useSession();
+  const { control, handleSubmit, reset } = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
       fullName: '',
       info: '',
+      website: '',
     },
   });
-  const submitHandler = handleSubmit(async (values) => {
-    setError(null);
-    // const session = await getServerSession(authOptions);
-    // const userName = session?.user?.username 
-    const res = await putUserProfile({
-      bio: values?.info,
-      fullName: values?.fullName,
-      username: '',
-      website: '',
-    });
-    if (res?.status === 200) {
-      router.push('/');
-    } else {
-      setError(res?.statusText || DEFAULT_ERROR_MESSAGE);
+  const fetchProfile = useCallback(async () => {
+    if (!session?.user?.username) {
+      setLoading(false);
+      return;
     }
+    try {
+      setLoading(true);
+      setFetchError(null);
+      const profileData = await getUserProfile({});
+      const { fullName, bio, website } = profileData;
+      setUserProfileData(profileData);
+      reset({
+        fullName: fullName || '',
+        info: bio || '',
+        website: website || '',
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : DEFAULT_ERROR_MESSAGE;
+      setFetchError(message);
+      console.error('Fetch profile failed:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [session, reset]);
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
+
+  const updateMutation = useMutation({
+    mutationFn: async (values: FormFields) => {
+      return await putUserProfile({
+        bio: values.info,
+        fullName: values.fullName,
+        username: session?.user?.username ?? '',
+        website: values.website,
+      });
+    },
+    onSuccess: (res) => {
+      setError(null);
+      fetchProfile();
+      console.log('Profile updated and refetched');
+    },
+    onError: (err: any) => {
+      setError(err.response?.statusText || err.message || DEFAULT_ERROR_MESSAGE);
+    },
   });
+
+  const submitHandler = handleSubmit((values) => {
+    updateMutation.mutate(values);
+  });
+
   return (
     <main>
-      <form onSubmit={submitHandler} className='flex flex-col gap-2.5 w-full text-subtext-1'>
-        <header className='flex justify-between items-center'>
-          <h1 className='font-extrabold text-xl'>اطلاعات اولیه پروفایل</h1>
-          <Button
-            type='submit'
-            className='bg-sapphire text-sm h-[36px] w-[39px] text-crust rounded'
-          >
-            ثبت
-          </Button>
-        </header>
-
-        {/* user information */}
-        <section className='bg-crust rounded-xl flex flex-col w-full'>
-          <figure className='grid grid-cols-6 grid-rows-1 content-center items-center'>
-            <div className='rounded-tr-xl bg-mantle w-29.5 h-full flex items-center rounded-bl-[100px] shadow-[_-1px_3px_5px_rgba(0,0,0,0.3)]'>
-              <Cs12Logo className='mr-1.5' />
-            </div>
-            <Image
-              width={80}
-              height={80}
-              src={Profile}
-              alt='User Profile'
-              className='w-20 h-20 row-start-1 col-start-2 col-end-3 mr-[25px] justify-self-start rounded-tr-[40px] rounded-bl-[40px] rounded-tl-3xl rounded-br-3xl'
-            />
-            <figcaption className='col-start-3 col-end-7 flex flex-col gap-y-2 m-2.5'>
-              <Controller
-                name='fullName'
-                control={control}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    name={field.name}
-                    value={field.value}
-                    onBlur={field.onBlur}
-                    autoComplete='name'
-                    onChange={field.onChange}
-                    isDisabled={field.disabled}
-                    isInvalid={fieldState.invalid}
-                  >
-                    <Input
-                      ref={field.ref}
-                      placeholder='نام خود را وارد کنید'
-                      className=' rounded-md px-2.5 py-2 w-full bg-mantle h-13 text-xl font-extrabold'
-                    />
-                    <Text
-                      slot='description'
-                      className={twJoin('text-red block text-label-xs', fieldState.error && 'mt-2')}
-                    >
-                      {fieldState.error?.message}
-                    </Text>
-                  </TextField>
-                )}
-              />
-              <Controller
-                name='info'
-                control={control}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    className='mb-4'
-                    name={field.name}
-                    value={field.value}
-                    onBlur={field.onBlur}
-                    onChange={field.onChange}
-                    isDisabled={field.disabled}
-                    isInvalid={fieldState.invalid}
-                    autoComplete='current-info'
-                  >
-                    <Input
-                      ref={field.ref}
-                      placeholder='توضیح کوتاهی از خود بنویسید. در حد ۲۰۰ کارکتر.'
-                      className='bg-mantle rounded-md px-2.5 py-2 w-full'
-                    />
-                    <Text
-                      slot='description'
-                      className={twJoin('text-red block text-label-xs', fieldState.error && 'mt-2')}
-                    >
-                      {fieldState.error?.message}
-                    </Text>
-                  </TextField>
-                )}
-              />
-
-              {/* <h2 className='p-2 w-full rounded-md content-center bg-mantle h-13 text-xl font-extrabold'>
-        سارا امیری
-      </h2>
-      <form className='w-full'>
-        <TextInput
-          name='توضیح کوتاه از فرد'
-          placeholder='توضیح کوتاهی از خود بنویسید. در حد 200 کارکتر'
-          className='w-full'
+      {loading && <div className="flex items-center justify-center pb-4">در حال بارگذاری پروفایل...</div>}
+      {fetchError && <div className="text-red p-4">خطا در بارگذاری: {fetchError}</div>}
+      {/* Avatar Upload Modal */}
+      {isOpenAvatarModal && (
+        <UploadImageModal
+          currentImageUrl={userProfileData?.avatarUrl ?? ''}
+          OnCloseModal={() => {
+            setIsOpenAvatarModal(false);
+          }}
         />
-      </form> */}
+      )}
+
+      <form onSubmit={submitHandler} className="text-subtext-1 flex w-full flex-col gap-2.5">
+        {/* user information */}
+        <Accordion title="اطلاعات کاربر" openAccordion={true}>
+          <figure className="grid grid-cols-1 md:grid-cols-[100px_1fr]">
+            <div className="relative mt-2.5 h-24 w-24 justify-self-center">
+              <Image
+                width={100}
+                height={100}
+                src={userProfileData?.avatarUrl ?? Profile}
+                alt="User Profile"
+                className="border-lavender h-24 w-24 rounded-2xl border-4"
+              />
+              <ColorSelect
+                selectedColor={selectedThemeColor!}
+                onSelectionChange={(key) => {
+                  setSelectedThemeColor(key as string);
+                  // Optional: Save to API or form state
+                  console.log('Selected color:', key);
+                }}
+              />
+              <Button
+                onClick={() => setIsOpenAvatarModal(true)}
+                className="bg-lavender absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5"
+              >
+                <TbEdit size={20} color="#fff" className="m-0.5" />
+              </Button>
+            </div>
+            <figcaption className="m-2.5 flex flex-col gap-y-2">
+              <Input
+                disabled={true}
+                value={session?.user?.username}
+                placeholder={'نام کاربری'}
+                className="bg-mantle w-full rounded-md px-2.5 py-2"
+              />
+              <Input
+                disabled={true}
+                value={session?.user?.email}
+                placeholder={' ایمیل'}
+                className="bg-mantle w-full rounded-md px-2.5 py-2"
+              />
+              <Controller
+                name="fullName"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    name={field.name}
+                    value={field.value}
+                    onBlur={field.onBlur}
+                    autoComplete="name"
+                    onChange={field.onChange}
+                    isDisabled={field.disabled}
+                    isInvalid={fieldState.invalid}
+                  >
+                    <Input
+                      ref={field.ref}
+                      placeholder="نام خود را وارد کنید"
+                      className="bg-mantle w-full rounded-md px-2.5 py-2"
+                    />
+                    <Text
+                      slot="description"
+                      className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}
+                    >
+                      {fieldState.error?.message}
+                    </Text>
+                  </TextField>
+                )}
+              />
+              <Controller
+                name="website"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    name={field.name}
+                    value={field.value}
+                    onBlur={field.onBlur}
+                    autoComplete="website"
+                    onChange={field.onChange}
+                    isDisabled={field.disabled}
+                    isInvalid={fieldState.invalid}
+                  >
+                    <Input
+                      ref={field.ref}
+                      placeholder="وبسایت خود را وارد کنید"
+                      className="bg-mantle w-full rounded-md px-2.5 py-2"
+                    />
+                    <Text
+                      slot="description"
+                      className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}
+                    >
+                      {fieldState.error?.message}
+                    </Text>
+                  </TextField>
+                )}
+              />
+
+              <Controller
+                name="info"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    className="mb-4"
+                    name={field.name}
+                    value={field.value}
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    isDisabled={field.disabled}
+                    isInvalid={fieldState.invalid}
+                    autoComplete="current-info"
+                  >
+                    <Input
+                      ref={field.ref}
+                      placeholder="توضیح کوتاهی از خود بنویسید. در حد ۲۰۰ کارکتر."
+                      className="bg-mantle w-full rounded-md px-2.5 py-2"
+                    />
+                    <Text
+                      slot="description"
+                      className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}
+                    >
+                      {fieldState.error?.message}
+                    </Text>
+                  </TextField>
+                )}
+              />
+              <div className="flex w-full justify-end gap-2">
+                <Button
+                  onClick={() => router.push('/forgot-password')}
+                  className="bg-red text-crust flex w-fit items-center justify-center rounded-md px-3 py-1 text-sm"
+                >
+                  تغییر رمز عبور
+                </Button>
+                <Button
+                  type="submit"
+                  className={twJoin(
+                    'bg-blue text-crust flex w-fit items-center justify-center rounded-md px-3 py-1 text-sm',
+                    updateMutation.isPending && 'opacity-10',
+                  )}
+                  isDisabled={updateMutation.isPending}
+                >
+                  {updateMutation.isPending ? 'در حال ثبت...' : 'ثبت'}{' '}
+                </Button>
+              </div>
             </figcaption>
           </figure>
-        </section>
+        </Accordion>
+
         {/* user profile color setting */}
-        <section className='flex flex-col gap-y-2.5 bg-crust p-5 rounded-xl'>
-          <h2 className='text-xs font-bold'>تنظیمات رنگ قسمت سمت راست پروفایل :</h2>
-          <div className='flex flex-wrap gap-[5px]'>
+        <section className="bg-crust flex flex-col gap-y-2.5 rounded-xl p-5">
+          <h2 className="text-xs font-bold">تنظیمات رنگ قسمت سمت راست پروفایل :</h2>
+          <div className="flex flex-wrap gap-[5px]">
             <MyRadioGroup
-              name='theme-color'
+              name="theme-color"
               options={[
                 {
                   label: 'lavender',
@@ -179,106 +289,83 @@ export default function UserPanelForm() {
         </section>
 
         {/* user skills */}
-        <section className='flex flex-col w-full gap-2'>
-          <article className='flex items-center gap-x-2.5 bg-crust p-2 rounded-xl'>
-            <Button className='h-8 w-8 bg-mantle flex justify-center items-center rounded-md'>
-              <PlusSign />
-            </Button>
-            <Text className='bg-mantle p-2 w-full rounded-md h-9 text-xs'>
-              زبان ها و تکنولوژی هایی که بلد هستید رو وارد کنید. (به زبان انگلیسی) : مثال c
-              programming language
-            </Text>
-          </article>
+        <Accordion title="skills">
+          <section className="flex w-full flex-col gap-2">
+            <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
+              <Button className="bg-mantle flex h-8 w-8 items-center justify-center rounded-md">
+                <PlusSign />
+              </Button>
+              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
+                زبان ها و تکنولوژی هایی که بلد هستید رو وارد کنید. (به زبان انگلیسی) : مثال c programming language
+              </Text>
+            </article>
 
-          <article className='flex items-center gap-x-2.5 bg-crust p-2 rounded-xl'>
-            <Button className='h-8 w-8 bg-mantle flex justify-center items-center rounded-md'>
-              <PlusSign />
-            </Button>
-            <Text className='bg-mantle p-2 w-full rounded-md h-9 text-xs'>
-              لینک سوشال میدیا هایی که دارید رو اینجا بزارید.
-            </Text>
-          </article>
+            <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
+              <Button className="bg-mantle flex h-8 w-8 items-center justify-center rounded-md">
+                <PlusSign />
+              </Button>
+              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
+                لینک سوشال میدیا هایی که دارید رو اینجا بزارید.
+              </Text>
+            </article>
 
-          <article className='flex items-center gap-x-2.5 bg-crust p-2 rounded-xl w-full'>
-            <form className='w-full'>
-              <TextInput
-                name='نظر در مورد سایت'
-                placeholder='نظرتون رو در مورد این سایت بنویسید. (بعد از ۲۰ روز در این قسمت امکان نوشتن هست)'
-                className='w-full'
-              />
-            </form>
-          </article>
-        </section>
+            <article className="bg-crust flex w-full items-center gap-x-2.5 rounded-xl p-2">
+              <form className="w-full">
+                <TextInput
+                  name="نظر در مورد سایت"
+                  placeholder="نظرتون رو در مورد این سایت بنویسید. (بعد از ۲۰ روز در این قسمت امکان نوشتن هست)"
+                  className="w-full"
+                />
+              </form>
+            </article>
+          </section>
+        </Accordion>
 
         {/* setting */}
-        <section>
-          <h2 className='font-extrabold text-xl'>تنظیمات</h2>
-          <fieldset className='bg-crust rounded-xl p-2 w-full flex flex-col gap-y-2.5'>
-            <SettingCheckboxOption value='sss'>
-              آیا ۱۰ تا از آخرین نظراتتون در صفحه پروفایلتون توسط دیگران دیده شود؟
-            </SettingCheckboxOption>
-            <SettingCheckboxOption value='sss1'>
-              آیا قسمت زبانهایی که بلدید در صفحه پروفایلتون توسط دیگران دیده شود؟
-            </SettingCheckboxOption>
-            <SettingCheckboxOption value='sss2'>
-              آیا قسمت هایلایتها و یادداشتهای شیر شده توسط شما در قسمت پروفایلتون قابل مشاهده باشد؟
-            </SettingCheckboxOption>
-            <SettingCheckboxOption value='sss3'>
-              آیا قسمت سوشال مدیای شما در پروفایلتون قابل مشاهده توسط دیگران باشد؟
-            </SettingCheckboxOption>
-            <SettingCheckboxOption value='sss4'>
-              آیا تصویر پروفایل شما برای دیگران قابل مشاهده باشد؟
-            </SettingCheckboxOption>
-            <SettingCheckboxOption value='ss5'>
-              آیا امتیاز و جایگاه شما در چالشهای هفتگی قابل مشاهده باشد؟
-            </SettingCheckboxOption>
-            <SettingCheckboxOption value='sss6'>
-              آیا صفحه پروفایل برای شما ساخته شود؟
-            </SettingCheckboxOption>
-          </fieldset>
-        </section>
-
-        {/* requests */}
-        <section>
-          <h2 className='font-extrabold text-xl'>درخواست ها</h2>
-          <article className='flex items-center gap-x-2.5 bg-crust p-2 rounded-xl'>
-            <Text className='bg-mantle p-2 w-full rounded-md h-9 text-xs'>
-              شما یک کاربر عادی هستید برای تبدیل شدن به منتور درخواست بدید.
-            </Text>
-          </article>
-        </section>
-
-        {/* reset password */}
-        <section>
-          <h2 className='font-extrabold text-xl'>تنظیمات اولیه</h2>
-          <form className='flex flex-col gap-2.5'>
-            <fieldset className='grid grid-cols-4 gap-2.5 bg-crust p-2 rounded-xl'>
-              <div className='col-start-1 col-end-3'>
-                <TextInput name='نام کاربری' placeholder='نام کاربری' />
-              </div>
-              <div className='col-start-3 col-end-5'>
-                <TextInput name='رمز عبور' placeholder='رمز عبور' />
-              </div>
-              <div className='col-span-4'>
-                <TextInput name='ایمیل' placeholder='ایمیل' />
-              </div>
-              <div className='col-span-4'>
-                <Button className='bg-crust border-red border-2 w-full p-2 h-9 text-red text-xs'>
-                  تغییر رمز عبور
-                </Button>
+        <Accordion title="Setting">
+          {' '}
+          <section>
+            <h2 className="text-xl font-extrabold">تنظیمات</h2>
+            <fieldset className="bg-crust flex w-full flex-col gap-y-2.5 rounded-xl p-2">
+              <SettingCheckboxOption value="sss">
+                آیا ۱۰ تا از آخرین نظراتتون در صفحه پروفایلتون توسط دیگران دیده شود؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss1">
+                آیا قسمت زبانهایی که بلدید در صفحه پروفایلتون توسط دیگران دیده شود؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss2">
+                آیا قسمت هایلایتها و یادداشتهای شیر شده توسط شما در قسمت پروفایلتون قابل مشاهده باشد؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss3">
+                آیا قسمت سوشال مدیای شما در پروفایلتون قابل مشاهده توسط دیگران باشد؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss4">
+                آیا تصویر پروفایل شما برای دیگران قابل مشاهده باشد؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="ss5">
+                آیا امتیاز و جایگاه شما در چالشهای هفتگی قابل مشاهده باشد؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss6">آیا صفحه پروفایل برای شما ساخته شود؟</SettingCheckboxOption>
+              <div className="col-span-3">
+                <Button className="bg-maroon h-9 w-full p-2">بازگشت به تنظیمات پیشفرض</Button>
               </div>
             </fieldset>
+          </section>
+        </Accordion>
 
-            <div className='grid grid-cols-11 gap-2.5 text-xs font-bold text-crust'>
-              <div className='col-span-8'>
-                <Button className='bg-sapphire w-full p-2 h-9'>ثبت</Button>
-              </div>
-              <div className='col-span-3'>
-                <Button className='bg-maroon w-full p-2 h-9'>بازگشت به تنظیمات پیشفرض</Button>
-              </div>
-            </div>
-          </form>
-        </section>
+        {/* requests */}
+        <Accordion title="Requests">
+          <section>
+            <h2 className="text-xl font-extrabold">درخواست ها</h2>
+            <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
+              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
+                شما یک کاربر عادی هستید برای تبدیل شدن به منتور درخواست بدید.
+              </Text>
+            </article>
+          </section>
+        </Accordion>
+
+        {/* reset password */}
       </form>
     </main>
   );
