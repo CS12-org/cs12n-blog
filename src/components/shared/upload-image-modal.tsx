@@ -1,13 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { Button, FileTrigger, Text } from 'react-aria-components';
 import Cropper from 'react-easy-crop';
 import { twJoin } from 'tailwind-merge';
 import Profile from '~/assets/images/user-profile.png';
-import { postUploadAvatar } from '~/service/post-upload-avatar';
 
 type UploadImageModalProps = {
   currentImageUrl: string;
@@ -16,6 +12,7 @@ type UploadImageModalProps = {
   imageSize: { w: number; h: number };
   onUpload: (file: File) => void;
   isPending: boolean;
+  errorMessage?: string;
 };
 
 function getCroppedImg(imageSrc: string, crop: any): Promise<Blob> {
@@ -42,6 +39,7 @@ export default function UploadImageModal({
   imageSize = { w: 100, h: 100 },
   onUpload,
   isPending,
+  errorMessage = '',
 }: UploadImageModalProps) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -49,7 +47,6 @@ export default function UploadImageModal({
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
   const [croppedBlob, setCroppedBlob] = useState<null | Blob>(null);
   const [croppedPreview, setCroppedPreview] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const DEFAULT_ERROR_MESSAGE = 'متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.';
 
   const handleFileSelect = (files: FileList | null) => {
@@ -143,10 +140,12 @@ export default function UploadImageModal({
                 onClick={handleUpload}
               >
                 {isPending ? 'در حال آپلود...' : 'آپلود'}
-              </Button>{' '}
-              <Text slot="description" className={twJoin('text-red text-label-xs block', error && 'mt-2')}>
-                {error}
-              </Text>
+              </Button>
+              {!isPending && (
+                <Text slot="description" className={twJoin('text-red text-label-xs block', errorMessage && 'mt-2')}>
+                  {errorMessage}
+                </Text>
+              )}
             </div>
           )}
         </div>

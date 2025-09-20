@@ -20,10 +20,9 @@ import { useSession } from 'next-auth/react';
 import { TbEdit } from 'react-icons/tb';
 import UploadImageModal from '~/components/shared/upload-image-modal';
 import { getUserProfile, GetUserProfileRes } from '~/service/get-user-profile';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { postUploadAvatar } from '~/service/post-upload-avatar';
 import Accordion from '~/components/user-panel/accordion';
-import ColorSelect from '~/components/user-panel/color-select';
 
 const schema = z.object({
   info: z.string().max(200),
@@ -37,11 +36,8 @@ const DEFAULT_ERROR_MESSAGE = 'متأسفانه، یک خطای غیرمنتظر
 export default function UserPanelForm() {
   const router = useRouter();
   const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedThemeColor, setSelectedThemeColor] = useState<string | null>(null);
-  const [fetchError, setFetchError] = useState<string | null>(null);
-  const [userProfileData, setUserProfileData] = useState<GetUserProfileRes | null>(null);
   const { data: session } = useSession();
+  const [errorMessage, setErrorMessage] = useState('');
   const { control, handleSubmit, reset } = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -50,35 +46,23 @@ export default function UserPanelForm() {
       website: '',
     },
   });
-  const { isPending, mutateAsync: fetchProfileMutation } = useMutation({
-    mutationFn: async () => {
+  const queryClient = useQueryClient();
+  const {
+    data: userProfileData,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ['userProfile', session?.user?.username],
+    queryFn: async () => {
       if (!session?.user?.username) {
         throw new Error('No username available');
       }
-      return await getUserProfile({});
+      return await getUserProfile({ username: session.user.username });
     },
-    onSuccess: (profileData) => {
-      setFetchError(null);
-      setUserProfileData(profileData);
-      const { fullName, bio, website } = profileData;
-      reset({
-        fullName: fullName || '',
-        info: bio || '',
-        website: website || '',
-      });
-    },
-    onError: (err: any) => {
-      const message = err instanceof Error ? err.message : DEFAULT_ERROR_MESSAGE;
-      setFetchError(message);
-      console.error('Fetch profile failed:', err);
-    },
+    enabled: !!session?.user?.username, // only run when username is available
   });
-  // Trigger fetchProfile when session is available
-  useEffect(() => {
-    if (session?.user?.username) {
-      fetchProfileMutation();
-    }
-  }, [session?.user?.username]);
   const updateMutation = useMutation({
     mutationFn: async (values: FormFields) => {
       return await putUserProfile({
@@ -89,11 +73,10 @@ export default function UserPanelForm() {
       });
     },
     onSuccess: () => {
-      setError(null);
-      fetchProfileMutation();
+      queryClient.invalidateQueries({ queryKey: ['userProfile', session?.user?.username] });
     },
     onError: (err: any) => {
-      setError(err.response?.statusText || err.message || DEFAULT_ERROR_MESSAGE);
+      setErrorMessage(err.response?.statusText || err.message || DEFAULT_ERROR_MESSAGE);
     },
   });
 
@@ -107,22 +90,31 @@ export default function UserPanelForm() {
       return await postUploadAvatar({ image: file });
     },
     onSuccess: () => {
-      setError(null);
       setIsOpenAvatarModal(false);
-      fetchProfileMutation();
+      queryClient.invalidateQueries({ queryKey: ['userProfile', session?.user?.username] });
     },
     onError: (error: any) => {
-      setError(error?.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+      setErrorMessage(error?.response?.data?.message || DEFAULT_ERROR_MESSAGE);
     },
   });
+  useEffect(() => {
+    if (userProfileData) {
+      reset({
+        fullName: userProfileData.fullName || '',
+        info: userProfileData.bio || '',
+        website: userProfileData.website || '',
+      });
+    }
+  }, [userProfileData, reset]);
   return (
     <main>
-      {isPending && <div className="flex items-center justify-center pb-4">در حال بارگذاری پروفایل...</div>}
-      {fetchError && <div className="text-red p-4">خطا در بارگذاری: {fetchError}</div>}
+      {isLoading && <div className="flex items-center justify-center pb-4">در حال بارگذاری پروفایل...</div>}
+      {isError && <div className="text-red p-4">خطا در بارگذاری: {(error as Error).message}</div>}
       {/* Avatar Upload Modal */}
       {isOpenAvatarModal && (
         <UploadImageModal
           title="آپلود تصویر پروفایل"
+          errorMessage={errorMessage}
           currentImageUrl={userProfileData?.avatarUrl ?? ''}
           imageSize={{ w: 100, h: 100 }}
           isPending={uploadMutation?.isPending}
