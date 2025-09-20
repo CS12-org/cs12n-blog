@@ -9,7 +9,14 @@ import { twJoin } from 'tailwind-merge';
 import Profile from '~/assets/images/user-profile.png';
 import { postUploadAvatar } from '~/service/post-upload-avatar';
 
-type UploadImageModalProps = { currentImageUrl: string; OnCloseModal: () => void };
+type UploadImageModalProps = {
+  currentImageUrl: string;
+  OnCloseModal: () => void;
+  title: string;
+  imageSize: { w: number; h: number };
+  onUpload: (file: File) => void;
+  isPending: boolean;
+};
 
 function getCroppedImg(imageSrc: string, crop: any): Promise<Blob> {
   return new Promise((resolve) => {
@@ -28,7 +35,14 @@ function getCroppedImg(imageSrc: string, crop: any): Promise<Blob> {
   });
 }
 
-export default function UploadImageModal({ currentImageUrl, OnCloseModal }: UploadImageModalProps) {
+export default function UploadImageModal({
+  currentImageUrl,
+  OnCloseModal,
+  title = 'آپلود عکس',
+  imageSize = { w: 100, h: 100 },
+  onUpload,
+  isPending,
+}: UploadImageModalProps) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -65,24 +79,11 @@ export default function UploadImageModal({ currentImageUrl, OnCloseModal }: Uplo
     setCroppedPreview(previewUrl);
     setCroppedBlob(blob);
   };
-  // Inside UploadImageModal component:
-  const uploadMutation = useMutation({
-    mutationFn: async (blob: Blob) => {
-      const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
-      return await postUploadAvatar({ image: file });
-    },
-    onSuccess: () => {
-      setError(null);
-      OnCloseModal();
-    },
-    onError: (error: any) => {
-      setError(error?.response?.data?.message || DEFAULT_ERROR_MESSAGE);
-    },
-  });
 
   const handleUpload = () => {
     if (!croppedBlob) return;
-    uploadMutation.mutate(croppedBlob);
+    const file = new File([croppedBlob], 'avatar.jpg', { type: 'image/jpeg' });
+    onUpload(file);
   };
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -90,13 +91,13 @@ export default function UploadImageModal({ currentImageUrl, OnCloseModal }: Uplo
         <button className="text-red absolute top-2 right-2 text-xl" onClick={OnCloseModal} aria-label="بستن">
           ×
         </button>
-        <h3 className="mb-4 text-lg font-bold">آپلود تصویر پروفایل</h3>
+        <h3 className="mb-4 text-lg font-bold">{title}</h3>
         {!imageSrc && (
           <div className="flex flex-col gap-2">
             <Image
-              width={100}
-              height={100}
-              src={currentImageUrl?.trim() === '' ? Profile : currentImageUrl || Profile} // See issue #2 for why || Profile
+              width={imageSize?.w}
+              height={imageSize?.h}
+              src={currentImageUrl?.trim() === '' ? Profile : currentImageUrl || Profile}
               alt="User Profile"
               className="border-lavender h-24 w-24 rounded-2xl border-4"
             />
@@ -137,11 +138,11 @@ export default function UploadImageModal({ currentImageUrl, OnCloseModal }: Uplo
           {croppedPreview && (
             <div className="flex flex-col">
               <Button
-                isDisabled={uploadMutation.isPending}
-                className={twJoin('bg-blue text-crust rounded px-4 py-2 w-fit m-auto', uploadMutation.isPending && 'opacity-10')}
+                isDisabled={isPending}
+                className={twJoin('bg-blue text-crust m-auto w-fit rounded px-4 py-2', isPending && 'opacity-10')}
                 onClick={handleUpload}
               >
-                {uploadMutation.isPending ? 'در حال آپلود...' : 'آپلود'}
+                {isPending ? 'در حال آپلود...' : 'آپلود'}
               </Button>{' '}
               <Text slot="description" className={twJoin('text-red text-label-xs block', error && 'mt-2')}>
                 {error}

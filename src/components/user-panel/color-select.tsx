@@ -28,30 +28,22 @@ interface ColorSelectProps {
   className?: string;
 }
 
-export default function ColorSelect({
-  selectedColor,
-  onSelectionChange,
-  label = 'Choose a color',
-  className = '',
-}: ColorSelectProps) {
+export default function ColorSelect({ selectedColor, onSelectionChange, className = '' }: ColorSelectProps) {
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
-      <Label className="text-sm font-medium text-gray-700">{label}</Label>
       <Select
         selectedKey={selectedColor}
         onSelectionChange={onSelectionChange}
         className="w-full" // Adjust width as needed
       >
         <Button className="flex w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-          <SelectValue className="flex items-center gap-2">
-            {(item) => (
-              <>
-                {/* <span
-                  className={`h-4 w-4 rounded ${item ? colorOptions.find((opt) =>opt?.value===item?.selectedItem)?.bgColorClass || 'bg-gray-300' : 'bg-gray-300'}`}
-                /> */}
-                {item || 'Select a color'}
-              </>
-            )}
+          <SelectValue>
+            {({ defaultChildren, selectedItem, selectedText }) => {
+              // const color = colorOptions.find((opt) => opt?.value === selectedItem)?.bgColorClass;
+              console.log(selectedText, 'selectedItem');
+
+              return <span className={`h-4 w-4 rounded`} />;
+            }}
           </SelectValue>
           <FaChevronDown className="h-4 w-4 text-gray-400" aria-hidden="true" />
         </Button>

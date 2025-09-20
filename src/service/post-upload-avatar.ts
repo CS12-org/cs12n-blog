@@ -10,7 +10,6 @@ export const postUploadAvatar = async (req: PostUploadAvatarReq): Promise<PostUp
     const response = await axios.post<PostUploadAvatarRes>('/user-profile/upload-avatar', formData);
     return response.data;
   } catch (err: unknown) {
-    console.log(err);
     throw new Error('خطا در آپلود پروفایل');
   }
 };

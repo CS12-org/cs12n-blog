@@ -11,18 +11,19 @@ import MyRadioGroup from '~/components/user-panel/theme-setting';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from 'react-aria-components';
 import { twJoin } from 'tailwind-merge';
 import z from 'zod';
 import { putUserProfile } from '~/service/put-user-profile';
-import Accordion from '~/components/shared/Accordion';
 import { useSession } from 'next-auth/react';
 import { TbEdit } from 'react-icons/tb';
 import UploadImageModal from '~/components/shared/upload-image-modal';
 import { getUserProfile, GetUserProfileRes } from '~/service/get-user-profile';
 import { useMutation } from '@tanstack/react-query';
-import ColorSelect from '~/components/user-panel/ColorSelect';
+import { postUploadAvatar } from '~/service/post-upload-avatar';
+import Accordion from '~/components/user-panel/accordion';
+import ColorSelect from '~/components/user-panel/color-select';
 
 const schema = z.object({
   info: z.string().max(200),
@@ -35,10 +36,9 @@ const DEFAULT_ERROR_MESSAGE = 'متأسفانه، یک خطای غیرمنتظر
 
 export default function UserPanelForm() {
   const router = useRouter();
-  const [selectedThemeColor, setSelectedThemeColor] = useState<string | null>(null);
   const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [selectedThemeColor, setSelectedThemeColor] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [userProfileData, setUserProfileData] = useState<GetUserProfileRes | null>(null);
   const { data: session } = useSession();
@@ -50,34 +50,35 @@ export default function UserPanelForm() {
       website: '',
     },
   });
-  const fetchProfile = useCallback(async () => {
-    if (!session?.user?.username) {
-      setLoading(false);
-      return;
-    }
-    try {
-      setLoading(true);
+  const { isPending, mutateAsync: fetchProfileMutation } = useMutation({
+    mutationFn: async () => {
+      if (!session?.user?.username) {
+        throw new Error('No username available');
+      }
+      return await getUserProfile({});
+    },
+    onSuccess: (profileData) => {
       setFetchError(null);
-      const profileData = await getUserProfile({});
-      const { fullName, bio, website } = profileData;
       setUserProfileData(profileData);
+      const { fullName, bio, website } = profileData;
       reset({
         fullName: fullName || '',
         info: bio || '',
         website: website || '',
       });
-    } catch (err) {
+    },
+    onError: (err: any) => {
       const message = err instanceof Error ? err.message : DEFAULT_ERROR_MESSAGE;
       setFetchError(message);
       console.error('Fetch profile failed:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, [session, reset]);
+    },
+  });
+  // Trigger fetchProfile when session is available
   useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
-
+    if (session?.user?.username) {
+      fetchProfileMutation();
+    }
+  }, [session?.user?.username]);
   const updateMutation = useMutation({
     mutationFn: async (values: FormFields) => {
       return await putUserProfile({
@@ -87,10 +88,9 @@ export default function UserPanelForm() {
         website: values.website,
       });
     },
-    onSuccess: (res) => {
+    onSuccess: () => {
       setError(null);
-      fetchProfile();
-      console.log('Profile updated and refetched');
+      fetchProfileMutation();
     },
     onError: (err: any) => {
       setError(err.response?.statusText || err.message || DEFAULT_ERROR_MESSAGE);
@@ -100,15 +100,33 @@ export default function UserPanelForm() {
   const submitHandler = handleSubmit((values) => {
     updateMutation.mutate(values);
   });
-
+  // Inside UploadImageModal component:
+  const uploadMutation = useMutation({
+    mutationFn: async (blob: Blob) => {
+      const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+      return await postUploadAvatar({ image: file });
+    },
+    onSuccess: () => {
+      setError(null);
+      setIsOpenAvatarModal(false);
+      fetchProfileMutation();
+    },
+    onError: (error: any) => {
+      setError(error?.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+    },
+  });
   return (
     <main>
-      {loading && <div className="flex items-center justify-center pb-4">در حال بارگذاری پروفایل...</div>}
+      {isPending && <div className="flex items-center justify-center pb-4">در حال بارگذاری پروفایل...</div>}
       {fetchError && <div className="text-red p-4">خطا در بارگذاری: {fetchError}</div>}
       {/* Avatar Upload Modal */}
       {isOpenAvatarModal && (
         <UploadImageModal
+          title="آپلود تصویر پروفایل"
           currentImageUrl={userProfileData?.avatarUrl ?? ''}
+          imageSize={{ w: 100, h: 100 }}
+          isPending={uploadMutation?.isPending}
+          onUpload={(file) => uploadMutation.mutate(file)}
           OnCloseModal={() => {
             setIsOpenAvatarModal(false);
           }}
@@ -131,8 +149,6 @@ export default function UserPanelForm() {
                 selectedColor={selectedThemeColor!}
                 onSelectionChange={(key) => {
                   setSelectedThemeColor(key as string);
-                  // Optional: Save to API or form state
-                  console.log('Selected color:', key);
                 }}
               /> */}
               <Button
@@ -149,6 +165,7 @@ export default function UserPanelForm() {
                 placeholder={'نام کاربری'}
                 className="bg-mantle w-full rounded-md px-2.5 py-2"
               />
+
               <Input
                 disabled={true}
                 value={session?.user?.email}
@@ -287,9 +304,21 @@ export default function UserPanelForm() {
             />
           </div>
         </section>
-
+        {/*social media  */}
+        <Accordion title="شبکه های اجتماعی">
+          <section className="flex w-full flex-col gap-2">
+            <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
+              <Button className="bg-mantle flex h-8 w-8 items-center justify-center rounded-md">
+                <PlusSign />
+              </Button>
+              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
+                لینک سوشال میدیا هایی که دارید رو اینجا بزارید.
+              </Text>
+            </article>
+          </section>
+        </Accordion>
         {/* user skills */}
-        <Accordion title="skills">
+        <Accordion title="مهارت ها">
           <section className="flex w-full flex-col gap-2">
             <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
               <Button className="bg-mantle flex h-8 w-8 items-center justify-center rounded-md">
@@ -299,33 +328,12 @@ export default function UserPanelForm() {
                 زبان ها و تکنولوژی هایی که بلد هستید رو وارد کنید. (به زبان انگلیسی) : مثال c programming language
               </Text>
             </article>
-
-            <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
-              <Button className="bg-mantle flex h-8 w-8 items-center justify-center rounded-md">
-                <PlusSign />
-              </Button>
-              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
-                لینک سوشال میدیا هایی که دارید رو اینجا بزارید.
-              </Text>
-            </article>
-
-            <article className="bg-crust flex w-full items-center gap-x-2.5 rounded-xl p-2">
-              <form className="w-full">
-                <TextInput
-                  name="نظر در مورد سایت"
-                  placeholder="نظرتون رو در مورد این سایت بنویسید. (بعد از ۲۰ روز در این قسمت امکان نوشتن هست)"
-                  className="w-full"
-                />
-              </form>
-            </article>
           </section>
         </Accordion>
 
         {/* setting */}
-        <Accordion title="Setting">
-          {' '}
+        <Accordion title="تنظیمات">
           <section>
-            <h2 className="text-xl font-extrabold">تنظیمات</h2>
             <fieldset className="bg-crust flex w-full flex-col gap-y-2.5 rounded-xl p-2">
               <SettingCheckboxOption value="sss">
                 آیا ۱۰ تا از آخرین نظراتتون در صفحه پروفایلتون توسط دیگران دیده شود؟
@@ -347,16 +355,17 @@ export default function UserPanelForm() {
               </SettingCheckboxOption>
               <SettingCheckboxOption value="sss6">آیا صفحه پروفایل برای شما ساخته شود؟</SettingCheckboxOption>
               <div className="col-span-3">
-                <Button className="bg-maroon h-9 w-full p-2">بازگشت به تنظیمات پیشفرض</Button>
+                <Button className="bg-red text-crust flex w-full items-center justify-center rounded-md px-3 py-1 text-sm">
+                  بازگشت به تنظیمات پیشفرض
+                </Button>
               </div>
             </fieldset>
           </section>
         </Accordion>
 
         {/* requests */}
-        <Accordion title="Requests">
+        <Accordion title="درخواست ها">
           <section>
-            <h2 className="text-xl font-extrabold">درخواست ها</h2>
             <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
               <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
                 شما یک کاربر عادی هستید برای تبدیل شدن به منتور درخواست بدید.
@@ -365,7 +374,20 @@ export default function UserPanelForm() {
           </section>
         </Accordion>
 
-        {/* reset password */}
+        {/* survay  */}
+        <Accordion title="نظرسنجی">
+          <section className="flex w-full flex-col gap-2">
+            <article className="bg-crust flex w-full items-center gap-x-2.5 rounded-xl p-2">
+              <form className="w-full">
+                <TextInput
+                  name="نظر در مورد سایت"
+                  placeholder="نظرتون رو در مورد این سایت بنویسید. (بعد از ۲۰ روز در این قسمت امکان نوشتن هست)"
+                  className="w-full"
+                />
+              </form>
+            </article>
+          </section>
+        </Accordion>
       </form>
     </main>
   );
