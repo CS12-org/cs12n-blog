@@ -21,15 +21,12 @@ export default function SaveButton({ postId, isSavedByCurrentUser }: SaveButtonP
       return;
     }
 
-    try {
-      if (isSaved) {
-        await unsaveMutation.mutate({ postId });
-        setIsSaved(false);
-      } else {
-        await saveMutation.mutate({ postId });
-        setIsSaved(true);
-      }
-    } finally {
+    if (isSaved) {
+      await unsaveMutation.mutate({ postId });
+      setIsSaved(false);
+    } else {
+      await saveMutation.mutate({ postId });
+      setIsSaved(true);
     }
   };
 
