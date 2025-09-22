@@ -1,0 +1,76 @@
+'use client';
+
+import { useEditor, EditorContent } from '@tiptap/react';
+import Bold from '@tiptap/extension-bold';
+import Document from '@tiptap/extension-document';
+import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
+import Italic from '@tiptap/extension-italic';
+import { all, createLowlight } from 'lowlight';
+import Blockquote from '@tiptap/extension-blockquote';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import { GrBlockQuote } from 'react-icons/gr';
+import { FaCode } from 'react-icons/fa6';
+import { FaItalic } from 'react-icons/fa6';
+import { HiOutlineBold } from 'react-icons/hi2';
+import { TextEditorButton } from './text-editor-button';
+import { FC } from 'react';
+
+type TextEditorInputProps = { content?: string; placeHolder?: string };
+
+const TextEditorInput: FC<TextEditorInputProps> = ({ content = '', placeHolder = 'کامنت خود رو بنویسید ...' }) => {
+  const lowlight = createLowlight(all);
+  const editor = useEditor({
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      Bold,
+      Italic,
+      Blockquote,
+      CodeBlockLowlight.configure({
+        lowlight,
+      }),
+    ],
+    content: `${content?.trim() === '' ? `<p> ${placeHolder} </p>` : content}`,
+    immediatelyRender: false,
+    shouldRerenderOnTransaction: true,
+  });
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      <EditorContent editor={editor} />
+      <div className="flex gap-2 self-end">
+        <TextEditorButton
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          className={editor.isActive('blockquote') ? 'text-sapphire' : ''}
+        >
+          <GrBlockQuote />
+        </TextEditorButton>
+        <TextEditorButton
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          className={editor.isActive('codeBlock') ? 'text-sapphire' : ''}
+        >
+          <FaCode />
+        </TextEditorButton>
+        <TextEditorButton
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          className={editor.isActive('italic') ? 'text-sapphire' : ''}
+        >
+          <FaItalic />
+        </TextEditorButton>
+        <TextEditorButton
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          className={editor.isActive('bold') ? 'text-sapphire' : ''}
+        >
+          <HiOutlineBold />
+        </TextEditorButton>
+      </div>
+    </div>
+  );
+};
+
+export default TextEditorInput;
