@@ -39,7 +39,7 @@ function Login() {
   });
   const forgotPasswordMutation = useMutation({
     mutationFn: async (values: ForgotPasswordFormFields) => {
-      const response = await axios.post('/api/auth/forgot-password', {
+      const response = await axios.post('/auth/forgot-password', {
         email: values.email,
       });
       return response.data;
@@ -76,6 +76,8 @@ function Login() {
         >
           <Image
             src="/mohammad-hossein-character.png"
+            width={150}
+            height={150}
             alt="کرکتر محمد حسین"
             className={twJoin(
               'animate-fade-up animate-duration-1000 animate-delay-500',
@@ -116,7 +118,7 @@ function Login() {
           />
 
           <div className="mt-4 flex h-[42px] w-[320px] gap-2 rounded-[10px] border">
-            <Button type="submit" className="grow py-2">
+            <Button isDisabled={forgotPasswordMutation.isPending} type="submit" className="grow py-2">
               تایید
             </Button>
           </div>
