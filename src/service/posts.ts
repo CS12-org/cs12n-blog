@@ -75,6 +75,7 @@ export interface GetPostsResult {
     featuredImage?: string;
     title: string;
     slug: string;
+    claps: number;
     contentText: string;
     status: string;
     user: {

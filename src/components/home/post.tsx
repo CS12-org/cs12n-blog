@@ -5,6 +5,7 @@ import Save from '~/assets/images/save.svg';
 import Button from '~/components/button';
 import { Link } from '~/components/react-aria-components';
 import SaveButton from '../saved-posts/save-button';
+import { FaHandsClapping } from 'react-icons/fa6';
 const colors = ['text-peach', 'text-mauve', 'text-yellow'];
 
 type Props = {
@@ -19,7 +20,7 @@ type Props = {
 };
 
 function Post(props: Props) {
-  const { id, title, tags, description, image, slug, isSavedByCurrentUser } = props;
+  const { id, title, tags, description, image, slug, isSavedByCurrentUser, claps } = props;
 
   return (
     <article className="bg-crust overflow-hidden rounded-xl">
@@ -63,11 +64,11 @@ function Post(props: Props) {
             <Comments className="text-overlay-1 h-[29px] w-[29px]" />
             <span className="text-white">نظرات</span>
           </Button>
-          {/* 
+
           <Button className="flex items-center gap-1.5" variant="none">
             <FaHandsClapping size={20} className="text-overlay-1" />
             <span className="pt-1.5 text-white">{claps}</span>
-          </Button> */}
+          </Button>
 
           <p className="mr-auto text-white">3 دقیقه</p>
           <SaveButton postId={id} isSavedByCurrentUser={isSavedByCurrentUser} />
