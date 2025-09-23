@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Input, Text, TextField } from 'react-aria-components';
 import { Controller, useForm } from 'react-hook-form';
@@ -26,7 +27,8 @@ interface AxiosError {
 type ForgotPasswordFormFields = z.infer<typeof ForgotPasswordSchema>;
 
 function Login() {
-  const [isHasSent, setHasSent] = useState(true);
+  const [isHasSent, setHasSent] = useState(false);
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [sentEmail, setSentEmail] = useState<string | null>(null);
   const { control, handleSubmit } = useForm<ForgotPasswordFormFields>({
