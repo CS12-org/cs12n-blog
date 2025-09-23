@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Close from '~/assets/images/close.svg';
 import ExcalamationMark from '~/assets/images/excalamation.svg';
-import Profile from '~/assets/images/farhan.jpg';
 import Button from '~/components/button';
 import { Text } from '~/components/react-aria-components';
 
@@ -16,7 +15,7 @@ export default function NotesSideBar() {
       <article className="flex w-full flex-col">
         <header className="bg-mantle flex justify-between rounded-tl-[10px] rounded-tr-[10px] p-[10px]">
           <div className="flex items-center justify-center gap-[10px]">
-            <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+            <Image src="/farhan.jpg" alt="farhan" width={25} height={25} className="h-[25px] w-[25px] rounded-full" />
             <Text className="text-subtext-0 text-[14px]">یادداشت ۱</Text>
           </div>
           <div className="bg-base flex h-[23px] w-[23px] justify-center rounded-[3px]">

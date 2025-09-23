@@ -3,7 +3,6 @@
 import { Button, TextField } from 'react-aria-components';
 import Image from 'next/image';
 import PlusSign from '~/assets/images/plus-sign.svg';
-import Profile from '~/assets/images/user-profile.png';
 import { Text } from '~/components/react-aria-components';
 import { SettingCheckboxOption } from '~/components/user-panel/setting-checkbox';
 import { TextInput } from '~/components/user-panel/text-field';
@@ -133,7 +132,7 @@ export default function UserPanelForm() {
               <Image
                 width={100}
                 height={100}
-                src={userProfileData?.avatarUrl ?? Profile}
+                src={userProfileData?.avatarUrl ?? '/user-profile.png'}
                 alt="User Profile"
                 className="border-lavender h-24 w-24 rounded-2xl border-4"
               />

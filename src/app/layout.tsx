@@ -23,7 +23,6 @@ const metadata: Metadata = {
 async function RootLayout(props: RootLayoutProps) {
   const { children } = props;
   const session = await getServerSession(authOptions);
-
   return (
     <html lang="fa" dir="rtl" className={`${vazirmatn.variable} dark`}>
       <body className={`${vazirmatn.className} antialiased`}>

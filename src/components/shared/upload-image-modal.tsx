@@ -3,7 +3,6 @@ import { useState, useCallback } from 'react';
 import { Button, FileTrigger, Text } from 'react-aria-components';
 import Cropper from 'react-easy-crop';
 import { twJoin } from 'tailwind-merge';
-import Profile from '~/assets/images/user-profile.png';
 
 type UploadImageModalProps = {
   currentImageUrl: string;
@@ -94,7 +93,7 @@ export default function UploadImageModal({
             <Image
               width={imageSize?.w}
               height={imageSize?.h}
-              src={currentImageUrl?.trim() === '' ? Profile : currentImageUrl || Profile}
+              src={currentImageUrl?.trim() === '' ? '/user-profile.png' : currentImageUrl || '/user-profile.png'}
               alt="User Profile"
               className="border-lavender h-24 w-24 rounded-2xl border-4"
             />

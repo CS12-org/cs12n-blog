@@ -10,22 +10,11 @@ import { twJoin } from 'tailwind-merge';
 import z from 'zod';
 import Button from '~/components/button';
 import axios from '~/lib/axios';
-const ChangePasswordSchema = z
-  .object({
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
-  })
-  .superRefine((values, ctx) => {
-    if (values.password !== values.confirmPassword)
-      ctx.addIssue({
-        code: 'custom',
-        message: 'تکرار رمز عبور با رمز عبور یکسان نیست',
-        path: ['confirmPassword'],
-      });
-  });
+import { queue } from '../providers/react-aria-client-provider';
 
-type ChangePasswordFormFields = z.infer<typeof ChangePasswordSchema>;
-
+const ForgotPasswordSchema = z.object({
+  email: z.string(),
+});
 const DEFAULT_ERROR_MESSAGE = 'متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.';
 
 interface AxiosError {
@@ -35,38 +24,36 @@ interface AxiosError {
     };
   };
 }
-// TODO: refactor
-export default function ChangePassword() {
+type ForgotPasswordFormFields = z.infer<typeof ForgotPasswordSchema>;
+
+export default function ForgotPasswordForm() {
   const [isHasSent, setHasSent] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [sentEmail, setSentEmail] = useState<string | null>(null);
-  const { control, handleSubmit } = useForm<ChangePasswordFormFields>({
-    resolver: zodResolver(ChangePasswordSchema),
+  const { control, handleSubmit } = useForm<ForgotPasswordFormFields>({
+    resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
-      password: '',
-      confirmPassword: '',
+      email: '',
     },
   });
-
-  const ChangePasswordMutation = useMutation({
-    mutationFn: async (values: ChangePasswordFormFields) => {
-      const response = await axios.post('/api/auth/register', {
-        password: values.password,
-        confirmPassword: values.confirmPassword,
+  const forgotPasswordMutation = useMutation({
+    mutationFn: async (values: ForgotPasswordFormFields) => {
+      const response = await axios.post('/auth/forgot-password', {
+        email: values.email,
       });
       return response.data;
     },
-    onSuccess: (res) => {
+    onSuccess: () => {
       setHasSent(true);
-      setSentEmail(res?.data?.email);
     },
     onError: (error: AxiosError) => {
-      setError(error.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+      queue.add(
+        {
+          title: error.response?.data?.message || DEFAULT_ERROR_MESSAGE,
+          description: 'Great success.',
+        },
+        { timeout: 3000 },
+      );
     },
-  });
-
-  const submitHandler = handleSubmit((values) => {
-    ChangePasswordMutation.mutate(values);
   });
   // Helper to get webmail URL
   const getWebmailUrl = (email: string) => {
@@ -79,32 +66,37 @@ export default function ChangePassword() {
     // Add more providers as needed
     return `https://mail.${domain}/`;
   };
-
+  const submitHandler = handleSubmit((values) => {
+    setSentEmail(values.email);
+    forgotPasswordMutation.mutate(values);
+  });
   if (!isHasSent)
     return (
       <main className="flex min-h-dvh flex-col items-center">
         <form
           method="POST"
           onSubmit={submitHandler}
-          className="bg-crust relative my-auto flex w-[360px] max-w-sm flex-col items-stretch rounded-2xl p-5"
+          className="bg-crust relative my-auto flex w-[360px] flex-col items-stretch rounded-2xl p-5"
         >
           <Image
-            src="/payam-character.png"
-            alt="کرکتر پیام"
+            src="/mohammad-hossein-character.png"
+            width={150}
+            height={150}
+            alt="کرکتر محمد حسین"
             className={twJoin(
               'animate-fade-up animate-duration-1000 animate-delay-500',
-              'absolute bottom-[210px] left-1/2 -z-1 w-25 -translate-x-1/2',
-              'h-[204px] w-[150px]',
+              'absolute bottom-[165px] left-1/2 -z-1 w-25 -translate-x-1/2',
+              'w-[150px]',
             )}
           />
-          <h1 className={twJoin('text-3x1 mb-7 text-center font-bold', 'flex items-center justify-center gap-2')}>
-            <span className="font-body-md mb-[-10px] h-[24px] w-[320px] text-center align-middle leading-6 tracking-normal text-white">
-              تغییر رمز عبور
+          <h1 className={twJoin('text-3x1 mb-6 text-center font-bold', 'flex items-center justify-center gap-2')}>
+            <span className="font-body-md h-[24px] w-[320px] text-center align-middle leading-6 tracking-normal text-white">
+              کد تغییر رمز رو دریافت کن
             </span>
           </h1>
 
           <Controller
-            name="password"
+            name="email"
             control={control}
             render={({ field, fieldState }) => (
               <TextField
@@ -112,35 +104,14 @@ export default function ChangePassword() {
                 name={field.name}
                 value={field.value}
                 onBlur={field.onBlur}
+                autoComplete="email"
                 onChange={field.onChange}
-                autoComplete="new-password"
-                isDisabled={field.disabled}
-                isInvalid={fieldState.invalid}
-              >
-                <Input ref={field.ref} placeholder="رمز عبور" className="bg-surface-0 w-full rounded-md px-2.5 py-2" />
-                <Text slot="description" className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}>
-                  {fieldState.error?.message}
-                </Text>
-              </TextField>
-            )}
-          />
-          <Controller
-            control={control}
-            name="confirmPassword"
-            render={({ field, fieldState }) => (
-              <TextField
-                className="mb-4"
-                name={field.name}
-                value={field.value}
-                onBlur={field.onBlur}
-                onChange={field.onChange}
-                autoComplete="new-password"
                 isDisabled={field.disabled}
                 isInvalid={fieldState.invalid}
               >
                 <Input
                   ref={field.ref}
-                  placeholder="تکرار رمز عبور"
+                  placeholder="ایمیل خود را وارد کنید"
                   className="bg-surface-0 w-full rounded-md px-2.5 py-2"
                 />
                 <Text slot="description" className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}>
@@ -149,9 +120,9 @@ export default function ChangePassword() {
               </TextField>
             )}
           />
-          {!!error && <p className="text-label-md text-red my-1 text-center">{error.trim()}</p>}
-          <div className="mt-0 flex h-[42px] w-[320px] gap-2 rounded-[10px]">
-            <Button type="submit" className="grow py-2">
+
+          <div className="mt-4 flex h-[42px] w-[320px] gap-2 rounded-[10px] border">
+            <Button isDisabled={forgotPasswordMutation.isPending} type="submit" className="grow py-2">
               تایید
             </Button>
           </div>
@@ -186,13 +157,14 @@ export default function ChangePassword() {
           <p className="w[175px] ml-18 h-[24px] text-white">کد به ایمیل شما ارسال شد</p>
         </div>
         <button
+          className="w-full rounded-lg bg-indigo-300 px-6 py-2 text-black transition hover:bg-indigo-400"
+          type="button"
           onClick={() => {
             if (sentEmail) {
               const url = getWebmailUrl(sentEmail);
               if (url) window.open(url, '_blank');
             }
           }}
-          className="h-[42px] w-[320px] rounded-lg bg-indigo-300 px-6 py-2 text-black transition hover:bg-indigo-400"
         >
           رفتن به ایمیل
         </button>

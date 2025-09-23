@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { Text } from '~/components/react-aria-components';
 import CommentsIcon from '~/assets/images/comments.svg';
 import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import Profile from '~/assets/images/farhan.jpg';
 import Highlighter from '~/assets/images/highlighter.svg';
 import IncreaseArrow from '~/assets/images/increaseArrow.svg';
 import ThreeDotts from '~/assets/images/threeDotts.svg';
@@ -13,7 +12,7 @@ function HighlightCommentMessege() {
     <article className="flex w-full flex-col px-[20px]">
       <header className="rouned-t-[10px] bg-crust flex justify-between rounded-tl-[10px] rounded-tr-[10px] p-[10px] lg:rounded-tr-full lg:rounded-br-full">
         <div className="flex items-center justify-center gap-[10px]">
-          <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+          <Image src="/farhan.jpg" alt="farhan" width={25} height={25} className="h-[25px] w-[25px] rounded-full" />
           <Text className="text-subtext-0 text-[14px] font-bold">فرهان</Text>
         </div>
         <div className="flex items-center gap-[10px]">

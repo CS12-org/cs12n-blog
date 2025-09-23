@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import { twJoin } from 'tailwind-merge';
-import Cs12ChallengeImg from '~/assets/images/cs12-challenge.png';
-import Cs12ChallengeLogo from '~/assets/images/cs12challengelogo.png';
 import RunnintPerson from '~/assets/images/running-with-obstacles.svg';
 import Oclock from '~/assets/images/time-oclock.svg';
 import { Link } from '~/components/react-aria-components';
@@ -20,7 +18,13 @@ function WeeklyChallenge() {
 
       <main className="px-6 lg:px-10">
         <Link href="#" className="w-full">
-          <Image alt="weekly challenge" src={Cs12ChallengeImg} className="mb-4.5 w-full rounded-2xl" />
+          <Image
+            alt="weekly challenge"
+            src="/cs12-challenge.png"
+            className="mb-4.5 w-full rounded-2xl"
+            width={800}
+            height={400}
+          />
         </Link>
 
         <div className="mb-4.5 flex items-center justify-between">
@@ -42,7 +46,7 @@ function WeeklyChallenge() {
           <Image
             width={46}
             height={46}
-            src={Cs12ChallengeLogo}
+            src="/cs12challengelogo.png"
             alt="weekly challenge logo"
             className="size-11.5 rounded-md"
           />
