@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Button from '~/components/button';
 import Image from 'next/image';
-import FarhanCharacter from '~/assets/images/farhan-character.png';
 import { twJoin } from 'tailwind-merge';
 import axios from '~/lib/axios';
 
@@ -57,8 +56,10 @@ export default function VerifyEmailForm() {
     <main className="flex min-h-dvh flex-col items-center px-6">
       <form className="bg-crust relative my-auto flex w-full max-w-sm flex-col items-stretch rounded-2xl p-5">
         <Image
-          src={FarhanCharacter}
+          src="/farhan-character.png"
           alt="فرهان"
+          width={100}
+          height={100}
           className={twJoin(
             'animate-fade-up animate-duration-1000 animate-delay-500',
             'absolute bottom-full left-1/2 -z-1 w-25 -translate-x-1/2',

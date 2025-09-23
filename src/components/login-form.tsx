@@ -7,7 +7,6 @@ import { Input, Label, Text, TextField } from '~/components/react-aria-component
 import { Controller, useForm } from 'react-hook-form';
 import { twJoin } from 'tailwind-merge';
 import { z } from 'zod';
-import SamanCharacter from '~/assets/images/saman-character.png';
 import Button from '~/components/button';
 import Image from 'next/image';
 
@@ -66,8 +65,10 @@ function LoginForm() {
         className="bg-crust relative my-auto flex w-full max-w-sm flex-col items-stretch rounded-2xl p-5"
       >
         <Image
-          src={SamanCharacter}
+          src="/saman-character.png"
           alt="کرکتر سامان"
+          width={100}
+          height={100}
           className={twJoin(
             'animate-fade-up animate-duration-1000 animate-delay-500',
             'absolute bottom-full left-1/2 -z-1 h-auto w-25 -translate-x-1/2',

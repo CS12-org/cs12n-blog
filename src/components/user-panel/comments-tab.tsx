@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { Text } from '~/components/react-aria-components';
 import CommentsIcon from '~/assets/images/comments.svg';
 import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import Profile from '~/assets/images/farhan.jpg';
 import Close from '~/assets/images/close.svg';
 import { TextInput } from '~/components/user-panel/text-field';
 
@@ -24,7 +23,7 @@ export default function CommentsTabUserPanel() {
       <article className="flex w-full flex-col px-[20px]">
         <header className="bg-crust flex justify-between rounded-tl-[10px] rounded-tr-[10px] p-[10px]">
           <div className="flex items-center justify-center gap-[10px]">
-            <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+            <Image src="/farhan.jpg" alt="farhan" width={25} height={25} className="h-[25px] w-[25px] rounded-full" />
             <Text className="text-subtext-0 text-[14px] font-bold">فرهان</Text>
           </div>
           <div className="flex items-center gap-[10px]">
@@ -61,7 +60,7 @@ export default function CommentsTabUserPanel() {
       <article className="flex w-full flex-col px-[20px]">
         <header className="bg-crust flex justify-between rounded-tl-[10px] rounded-tr-[10px] p-[10px]">
           <div className="flex items-center justify-center gap-[10px]">
-            <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+            <Image src="/farhan.jpg" alt="farhan" width={25} height={25} className="h-[25px] w-[25px] rounded-full" />
             <Text className="text-subtext-0 text-[14px] font-bold">فرهان</Text>
           </div>
           <div className="flex items-center gap-[10px]">

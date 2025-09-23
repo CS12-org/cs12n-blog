@@ -4,7 +4,6 @@ import Anonymous from '~/assets/images/anonymous.svg';
 import Close from '~/assets/images/close.svg';
 import CommentsIcon from '~/assets/images/comments.svg';
 import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import Profile from '~/assets/images/farhan.jpg';
 import IncreaseArrow from '~/assets/images/increaseArrow.svg';
 import ThreeDotts from '~/assets/images/threeDotts.svg';
 import Button from '~/components/button';
@@ -39,7 +38,7 @@ export default function CommentsSideBar() {
         <article className="flex w-full flex-col">
           <header className="bg-base flex justify-between rounded-tl-[10px] rounded-tr-[10px] px-[10px] py-[15px]">
             <div className="flex items-center justify-center gap-[10px]">
-              <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+              <Image src="/farhan.jpg" alt="farhan" width={25} height={25} className="h-[25px] w-[25px] rounded-full" />
               <Text className="text-subtext-0 text-[14px]">فرهان</Text>
             </div>
             <div className="bg-base flex h-[23px] w-[23px] justify-center rounded-[3px]">
@@ -75,7 +74,7 @@ export default function CommentsSideBar() {
         <article className="flex w-full flex-col">
           <header className="bg-base flex justify-between rounded-tl-[10px] rounded-tr-[10px] px-[10px] py-[15px]">
             <div className="flex items-center justify-center gap-[10px]">
-              <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+              <Image src="/farhan.jpg" alt="farhan" width={25} height={25} className="h-[25px] w-[25px] rounded-full" />
               <Text className="text-subtext-0 text-[14px]">فرهان</Text>
             </div>
             <div className="bg-base flex h-[23px] w-[23px] justify-center rounded-[3px]">

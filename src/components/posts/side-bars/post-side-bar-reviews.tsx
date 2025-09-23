@@ -2,13 +2,10 @@ import Image from 'next/image';
 import Close from '~/assets/images/close.svg';
 import CommentsIcon from '~/assets/images/comments.svg';
 import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import Profile from '~/assets/images/farhan.jpg';
 import IncreaseArrow from '~/assets/images/increaseArrow.svg';
 import ThreeDotts from '~/assets/images/threeDotts.svg';
 import Button from '~/components/button';
 import { Text } from '~/components/react-aria-components';
-
-import Profile2 from '~/assets/images/user-profile.png';
 
 export default function ReviewsSideBar() {
   return (
@@ -22,7 +19,7 @@ export default function ReviewsSideBar() {
         <article className="flex w-full flex-col">
           <header className="bg-base flex justify-between rounded-tl-[10px] rounded-tr-[10px] px-[10px] py-[15px]">
             <div className="flex items-center justify-center gap-[10px]">
-              <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+              <Image src="/farhan.jpg" alt="farhan" width={25} height={25} className="h-[25px] w-[25px] rounded-full" />
               <Text className="text-subtext-0 text-[14px]">فرهان</Text>
             </div>
             <div className="bg-base flex h-[23px] w-[23px] justify-center rounded-[3px]">
@@ -38,11 +35,17 @@ export default function ReviewsSideBar() {
               <div className="flex">
                 <Image
                   // TODO: اطراف این عکس ها هم باید بلری بشه حالت محو شده بگیره
-                  src={Profile}
+                  src="/farhan.jpg"
                   alt="farhan"
                   className="z-0 mx-[-20px] h-[38px] w-[38px] rounded-full object-cover"
                 />
-                <Image src={Profile2} alt="farhan" className="h-[38px] w-[38px] rounded-full object-cover" />
+                <Image
+                  src="/user-profile.png"
+                  alt="farhan"
+                  width={38}
+                  height={38}
+                  className="h-[38px] w-[38px] rounded-full object-cover"
+                />
               </div>
             </section>
             <Text className="font-bold">متن نقد:</Text>

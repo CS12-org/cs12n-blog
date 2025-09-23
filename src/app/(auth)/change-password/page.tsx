@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
-import Payamcharacter from '~/assets/images/payam-character.png';
 import Button from '~/components/button';
 import Image from 'next/image';
 
@@ -19,7 +18,7 @@ function Login() {
       <main className="flex min-h-dvh flex-col items-center">
         <form className="bg-crust relative my-auto flex w-[360px] max-w-sm flex-col items-stretch rounded-2xl p-5">
           <Image
-            src={Payamcharacter}
+            src="/payam-character.png"
             alt="کرکتر پیام"
             className={twJoin(
               'animate-fade-up animate-duration-1000 animate-delay-500',

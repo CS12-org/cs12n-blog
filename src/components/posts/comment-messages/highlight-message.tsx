@@ -2,7 +2,6 @@ import { Text } from '~/components/react-aria-components';
 import Image from 'next/image';
 import Comments from '~/assets/images/comments.svg';
 import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import Profile from '~/assets/images/farhan.jpg';
 import Highlighter from '~/assets/images/highlighter.svg';
 import IncreaseArrow from '~/assets/images/increaseArrow.svg';
 import Notes from '~/assets/images/notes.svg';
@@ -14,7 +13,7 @@ function HighlightMessege() {
     <article className="flex w-full flex-col">
       <header className="bg-crust flex justify-between rounded-l-[10px] rounded-r-[24px] p-[10px]">
         <div className="flex items-center justify-center gap-[10px]">
-          <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+          <Image src="/farhan.jpg" alt="farhan" width={25} height={25} className="h-[25px] w-[25px] rounded-full" />
           <Text className="text-[14px] font-bold">فرهان</Text>
         </div>
         <div className="flex items-center gap-[10px]">

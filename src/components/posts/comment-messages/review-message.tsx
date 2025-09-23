@@ -2,10 +2,8 @@ import { Button, Text } from '~/components/react-aria-components';
 import Image from 'next/image';
 import Comments from '~/assets/images/comments.svg';
 import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import Profile from '~/assets/images/farhan.jpg';
 import IncreaseArrow from '~/assets/images/increaseArrow.svg';
 import ThreeDotts from '~/assets/images/threeDotts.svg';
-import Profile2 from '~/assets/images/user-profile.png';
 
 function ReviewMessege() {
   return (
@@ -13,7 +11,7 @@ function ReviewMessege() {
       <header className="bg-crust flex justify-between rounded-tl-[10px] rounded-tr-[10px] p-[10px] lg:rounded-tl-[10px] lg:rounded-tr-full lg:rounded-br-full">
         {/* TODO: اینجا باید سمت چپ بالای هدر گردی بگیره اما خب نمیگیره */}
         <div className="flex items-center justify-center gap-[10px]">
-          <Image src={Profile} alt="farhan" className="h-[25px] w-[25px] rounded-full" />
+          <Image src="/farhan.jpg" alt="farhan" width={25} height={25} className="h-[25px] w-[25px] rounded-full" />
           <Text className="text-subtext-0 text-[14px] font-bold">فرهان</Text>
           <Text className="text-sapphire bg-base rounded-[6px] px-[20px] text-[14px] font-bold">منتور</Text>
         </div>
@@ -55,13 +53,19 @@ function ReviewMessege() {
 
           <section className="flex -space-x-7">
             <div className="relative z-30 h-[38px] w-[38px] overflow-hidden rounded-full bg-[#101122]">
-              <Image src={Profile2} alt="farhan" className="h-full w-full object-cover" />
+              <Image
+                src="/user-profile.png"
+                alt="farhan"
+                width={38}
+                height={38}
+                className="h-full w-full object-cover"
+              />
 
               <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_8px_#101122]"></div>
             </div>
 
             <div className="relative z-10 h-[38px] w-[38px] overflow-hidden rounded-full bg-[#101122]">
-              <Image src={Profile} alt="farhan" className="h-full w-full object-cover" />
+              <Image src="/farhan.jpg" alt="farhan" width={38} height={38} className="h-full w-full object-cover" />
               <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_3px_1px_#101122]"></div>
             </div>
           </section>

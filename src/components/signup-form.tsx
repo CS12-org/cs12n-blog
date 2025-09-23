@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import FarhanCharacter from '~/assets/images/farhan-character.png';
 import Button from '~/components/button';
 import { Input, Text, TextField } from '~/components/react-aria-components';
 import { twJoin } from 'tailwind-merge';
@@ -80,8 +79,10 @@ function SignUpForm() {
         className="bg-crust relative my-auto flex w-full max-w-sm flex-col items-stretch rounded-2xl p-5"
       >
         <Image
-          src={FarhanCharacter}
+          src="/farhan-character.png"
           alt="کرکتر فرهان"
+          width={100}
+          height={100}
           className={twJoin(
             'animate-fade-up animate-duration-1000 animate-delay-500',
             'absolute bottom-full left-1/2 -z-1 w-25 -translate-x-1/2',
