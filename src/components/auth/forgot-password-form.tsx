@@ -10,7 +10,7 @@ import { twJoin } from 'tailwind-merge';
 import z from 'zod';
 import Button from '~/components/button';
 import axios from '~/lib/axios';
-import { queue } from '../providers/react-aria-client-provider';
+import { queue } from '../providers/react-aria-toast-provider';
 
 const ForgotPasswordSchema = z.object({
   email: z.string(),

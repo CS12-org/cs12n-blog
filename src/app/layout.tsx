@@ -6,6 +6,7 @@ import QueryProvider from '~/components/providers/query-provider';
 import NextAuthProvider from '~/components/providers/session-provider';
 import authOptions from '~/auth.config';
 import { getServerSession } from 'next-auth';
+import ReactAriaToastProvider from '~/components/providers/react-aria-toast-provider';
 
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 
@@ -27,6 +28,7 @@ async function RootLayout(props: RootLayoutProps) {
     <html lang="fa" dir="rtl" className={`${vazirmatn.variable} dark`}>
       <body className={`${vazirmatn.className} antialiased`}>
         <ReactAriaClientProvider>
+          <ReactAriaToastProvider />
           <NextAuthProvider session={session}>
             <QueryProvider>{children}</QueryProvider>
           </NextAuthProvider>
