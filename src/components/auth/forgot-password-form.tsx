@@ -124,10 +124,25 @@ export default function ForgotPasswordForm() {
               </TextField>
             )}
           />
-
+          {error && (
+            <p className='text-center text-label-md text-red my-1'>
+              {error?.trim() === '' ? 'ایمیل شما تایید نشد یا منقضی شده است.' : error}
+            </p>
+          )}
           <div className='mt-4 flex gap-2 w-[320px] h-[42px] border rounded-[10px]'>
-            <Button type='submit' className='py-2 grow '>
-              تایید
+            <Button
+              type='submit'
+              className='py-2 grow '
+              isDisabled={forgotPasswordMutation.isPending}
+            >
+              {forgotPasswordMutation.isPending ? (
+                <span className='flex items-center justify-center'>
+                  <span className='inline-block me-1 w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2'></span>
+                  در حال ارسال...
+                </span>
+              ) : (
+                'تایید'
+              )}
             </Button>
           </div>
         </form>
