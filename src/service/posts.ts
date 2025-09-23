@@ -76,6 +76,7 @@ export interface GetPostsResult {
     title: string;
     slug: string;
     claps: number;
+    userClaps?: number;
     contentText: string;
     status: string;
     user: {
