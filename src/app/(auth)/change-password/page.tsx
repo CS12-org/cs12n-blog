@@ -1,15 +1,16 @@
 'use client';
 
+import { useState } from 'react';
+import { twJoin } from 'tailwind-merge';
+import Button from '~/components/button';
+import Image from 'next/image';
+import { Controller, useForm } from 'react-hook-form';
+import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import Image from 'next/image';
-import { useState } from 'react';
-import { Input, Text, TextField } from 'react-aria-components';
-import { Controller, useForm } from 'react-hook-form';
-import { twJoin } from 'tailwind-merge';
-import z from 'zod';
-import Button from '~/components/button';
 import axios from '~/lib/axios';
+import { useRouter } from 'next/navigation';
+import { Input, Text, TextField } from 'react-aria-components';
 const ChangePasswordSchema = z
   .object({
     password: z.string().min(8),
@@ -37,6 +38,8 @@ interface AxiosError {
 }
 // TODO: refactor
 export default function ChangePassword() {
+  const router = useRouter();
+
   const [isHasSent, setHasSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sentEmail, setSentEmail] = useState<string | null>(null);
