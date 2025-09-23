@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
+import Payamcharacter from '~/assets/images/payam-character.png';
 import Button from '~/components/button';
 import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
@@ -9,7 +10,7 @@ import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import axios from '~/lib/axios';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Input, Text, TextField } from 'react-aria-components';
 const ChangePasswordSchema = z
   .object({
@@ -36,13 +37,12 @@ interface AxiosError {
     };
   };
 }
-// TODO: refactor
-export default function ChangePassword() {
+export default function ChangePasswordForm() {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
   const [isHasSent, setHasSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [sentEmail, setSentEmail] = useState<string | null>(null);
   const { control, handleSubmit } = useForm<ChangePasswordFormFields>({
     resolver: zodResolver(ChangePasswordSchema),
     defaultValues: {
@@ -53,7 +53,8 @@ export default function ChangePassword() {
 
   const ChangePasswordMutation = useMutation({
     mutationFn: async (values: ChangePasswordFormFields) => {
-      const response = await axios.post('/api/auth/register', {
+      const response = await axios.post('/api/auth/reset-password', {
+        token,
         password: values.password,
         confirmPassword: values.confirmPassword,
       });
@@ -61,27 +62,15 @@ export default function ChangePassword() {
     },
     onSuccess: (res) => {
       setHasSent(true);
-      setSentEmail(res?.data?.email);
     },
     onError: (error: AxiosError) => {
-      setError(error.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+      setError((error.response?.data?.message as any)?.message || DEFAULT_ERROR_MESSAGE);
     },
   });
 
   const submitHandler = handleSubmit((values) => {
     ChangePasswordMutation.mutate(values);
   });
-  // Helper to get webmail URL
-  const getWebmailUrl = (email: string) => {
-    const domain = email.split('@')[1]?.toLowerCase();
-    if (!domain) return null;
-    if (domain === 'gmail.com') return 'https://mail.google.com/';
-    if (domain === 'yahoo.com') return 'https://mail.yahoo.com/';
-    if (domain === 'outlook.com' || domain === 'hotmail.com' || domain === 'live.com')
-      return 'https://outlook.live.com/';
-    // Add more providers as needed
-    return `https://mail.${domain}/`;
-  };
 
   if (!isHasSent)
     return (
@@ -92,7 +81,7 @@ export default function ChangePassword() {
           className="bg-crust relative my-auto flex w-[360px] max-w-sm flex-col items-stretch rounded-2xl p-5"
         >
           <Image
-            src="/payam-character.png"
+            src={Payamcharacter}
             alt="کرکتر پیام"
             className={twJoin(
               'animate-fade-up animate-duration-1000 animate-delay-500',
@@ -106,58 +95,84 @@ export default function ChangePassword() {
             </span>
           </h1>
 
-          <Controller
-            name="password"
-            control={control}
-            render={({ field, fieldState }) => (
-              <TextField
-                className="mb-4"
-                name={field.name}
-                value={field.value}
-                onBlur={field.onBlur}
-                onChange={field.onChange}
-                autoComplete="new-password"
-                isDisabled={field.disabled}
-                isInvalid={fieldState.invalid}
+          {!error && (
+            <>
+              <Controller
+                name="password"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    className="mb-4"
+                    name={field.name}
+                    value={field.value}
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    autoComplete="new-password"
+                    isDisabled={field.disabled}
+                    isInvalid={fieldState.invalid}
+                  >
+                    <Input
+                      ref={field.ref}
+                      placeholder="رمز عبور"
+                      className="bg-surface-0 w-full rounded-md px-2.5 py-2"
+                    />
+                    <Text
+                      slot="description"
+                      className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}
+                    >
+                      {fieldState.error?.message}
+                    </Text>
+                  </TextField>
+                )}
+              />
+              <Controller
+                control={control}
+                name="confirmPassword"
+                render={({ field, fieldState }) => (
+                  <TextField
+                    className="mb-4"
+                    name={field.name}
+                    value={field.value}
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    autoComplete="new-password"
+                    isDisabled={field.disabled}
+                    isInvalid={fieldState.invalid}
+                  >
+                    <Input
+                      ref={field.ref}
+                      placeholder="تکرار رمز عبور"
+                      className="bg-surface-0 w-full rounded-md px-2.5 py-2"
+                    />
+                    <Text
+                      slot="description"
+                      className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}
+                    >
+                      {fieldState.error?.message}
+                    </Text>
+                  </TextField>
+                )}
+              />
+            </>
+          )}
+          {!!error ? (
+            <>
+              <p className="text-label-md text-red my-1 text-center">{(error as any)?.message}</p>
+              <button
+                type="button"
+                onClick={() => router.push('/forgot-password')}
+                className="mt-2 w-full rounded-lg bg-indigo-300 px-6 py-2 text-black transition hover:bg-indigo-400"
               >
-                <Input ref={field.ref} placeholder="رمز عبور" className="bg-surface-0 w-full rounded-md px-2.5 py-2" />
-                <Text slot="description" className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}>
-                  {fieldState.error?.message}
-                </Text>
-              </TextField>
-            )}
-          />
-          <Controller
-            control={control}
-            name="confirmPassword"
-            render={({ field, fieldState }) => (
-              <TextField
-                className="mb-4"
-                name={field.name}
-                value={field.value}
-                onBlur={field.onBlur}
-                onChange={field.onChange}
-                autoComplete="new-password"
-                isDisabled={field.disabled}
-                isInvalid={fieldState.invalid}
-              >
-                <Input
-                  ref={field.ref}
-                  placeholder="تکرار رمز عبور"
-                  className="bg-surface-0 w-full rounded-md px-2.5 py-2"
-                />
-                <Text slot="description" className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}>
-                  {fieldState.error?.message}
-                </Text>
-              </TextField>
-            )}
-          />
-          {!!error && <p className="text-label-md text-red my-1 text-center">{error.trim()}</p>}
-          <div className="mt-0 flex h-[42px] w-[320px] gap-2 rounded-[10px]">
-            <Button type="submit" className="grow py-2">
-              تایید
-            </Button>
-          </div>
+                بازگشت به بازیابی رمز عبور
+              </button>
+            </>
+          ) : (
+            <div className="mt-0 flex h-[42px] w-[320px] gap-2 rounded-[10px]">
+              <Button type="submit" className="grow py-2">
+                تایید
+              </Button>
+            </div>
+          )}
         </form>
       </main>
     );
@@ -186,18 +201,13 @@ export default function ChangePassword() {
               </clipPath>
             </defs>
           </svg>
-          <p className="w[175px] ml-18 h-[24px] text-white">کد به ایمیل شما ارسال شد</p>
+          <p className="w[175px] ml-18 h-[24px] text-white">رمز عبور شما تغییر کرد</p>
         </div>
         <button
-          onClick={() => {
-            if (sentEmail) {
-              const url = getWebmailUrl(sentEmail);
-              if (url) window.open(url, '_blank');
-            }
-          }}
+          onClick={() => router.push('/login')}
           className="h-[42px] w-[320px] rounded-lg bg-indigo-300 px-6 py-2 text-black transition hover:bg-indigo-400"
         >
-          رفتن به ایمیل
+          بازگشت به خانه
         </button>
       </div>
     </div>
