@@ -33,6 +33,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animated": "^2.0.0",
     "tailwindcss-react-aria-components": "^2.0.0",
+    "use-debounce": "^10.0.6",
     "zod": "^4.0.14",
     "zustand": "^5.0.7"
   },

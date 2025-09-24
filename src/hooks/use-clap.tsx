@@ -4,10 +4,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '~/lib/axios';
 import { useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
+import { GetPostsResult } from '~/service/posts';
 
 interface PostClapData {
-  claps: number;
-  userClapCount: number;
+  count: number;
 }
 
 interface UseClapProps {
@@ -21,8 +21,8 @@ export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
   const [localClickCount, setLocalClickCount] = useState(0);
 
   const mutation = useMutation({
-    mutationFn: async () => {
-      const res = await axios.post<PostClapData>(`/clap`);
+    mutationFn: async (value: { count: number }) => {
+      const res = await axios.post<PostClapData>(`/clap`, { postId, count: value.count });
       return res.data;
     },
     onMutate: () => {
@@ -30,13 +30,14 @@ export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
 
       const previous = queryClient.getQueryData<PostClapData>(['post', postId]);
 
-      queryClient.setQueryData<PostClapData>(['post', postId], (old) => {
-        if (!old) return { claps: 1, userClapCount: 1 };
-        return {
-          claps: (old.claps ?? 0) + 1,
-          userClapCount: (old.userClapCount ?? 0) + 1,
-        };
-      });
+      // queryClient.setQueriesData<GetPostsResult['items']>({ exact: false, queryKey: ['posts'] }, (old) => {
+      //   return old?.map((post: GetPostsResult['items'][number]) => {
+      //     if (post.id === postId) {
+      //       return { ...post, claps: data.count };
+      //     }
+      //     return post;
+      //   });
+      // });
 
       setLocalClickCount((prev) => prev + 1);
       return previous;
@@ -45,29 +46,39 @@ export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
       if (context) queryClient.setQueryData(['post', postId], context);
       setLocalClickCount((prev) => Math.max(0, prev - 1));
     },
-    onSuccess: (data) => {
-      queryClient.setQueryData<PostClapData>(['post', postId], data);
+    onSuccess: (data: PostClapData) => {
+      console.log(data, data.count);
+      console.log(data.count);
+      // queryClient.setQueryData<PostClapData>(['post', postId],  data);
+      queryClient.setQueriesData<GetPostsResult['items']>({ exact: false, queryKey: ['posts'] }, (old) => {
+        return old?.map((post: GetPostsResult['items'][number]) => {
+          if (post.id === postId) {
+            return { ...post, claps: data.count };
+          }
+          return post;
+        });
+      });
       setLocalClickCount(0);
     },
   });
 
-  const handleClap = () => {
+  const handleClap = (count: number) => {
     if (status !== 'authenticated') {
       signIn();
       return;
     }
 
-    const data = queryClient.getQueryData<PostClapData>(['post', postId]);
-    const currentUserClap = (data?.userClapCount ?? 0) + localClickCount;
+    // const data = queryClient.getQueryData<PostClapData>(['post', postId]);
+    const currentUserClap = (data?.count ?? 0) + localClickCount;
 
     if (currentUserClap >= maxClicks) return;
 
-    if (!mutation.isPending) mutation.mutate();
+    if (!mutation.isPending) mutation.mutate({ count });
   };
 
   const data = queryClient.getQueryData<PostClapData>(['post', postId]);
-  const clap = (data?.claps ?? 0) + localClickCount;
-  const userClapCount = (data?.userClapCount ?? 0) + localClickCount;
+  const clap = (data?.count ?? 0) + localClickCount;
+  const userClapCount = (data?.count ?? 0) + localClickCount;
 
   return {
     clap,

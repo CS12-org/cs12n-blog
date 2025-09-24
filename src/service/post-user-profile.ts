@@ -6,5 +6,4 @@ export type PostUserProfileReq = {
   website: string;
 };
 export type PostUserProfileRes = {};
-export const postUserProfile = (body: PostUserProfileReq) =>
-  axios.post<PostUserProfileRes>('/api/user-profile', body);
+export const postUserProfile = (body: PostUserProfileReq) => axios.post<PostUserProfileRes>('/api/user-profile', body);

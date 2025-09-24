@@ -1,28 +1,28 @@
-import Image from "next/image";
-import { twMerge } from "tailwind-merge";
-import Comments from "~/assets/images/comments.svg";
-import SaveButton from "../saved-posts/save-button";
-import Button from "~/components/button";
-import { Link } from "~/components/react-aria-components";
-import { FaHandsClapping } from "react-icons/fa6";
-import ClapButton from "../posts/clap-button";
+import Image from 'next/image';
+import { twMerge } from 'tailwind-merge';
+import Comments from '~/assets/images/comments.svg';
+import SaveButton from '../saved-posts/save-button';
+import Button from '~/components/button';
+import { Link } from '~/components/react-aria-components';
+import { FaHandsClapping } from 'react-icons/fa6';
+import ClapButton from '../posts/clap-button';
 
-const colors = ["text-peach", "text-mauve", "text-yellow"];
+const colors = ['text-peach', 'text-mauve', 'text-yellow'];
 
 type Props = {
   id: string;
   slug: string;
-  clap: number;
+  claps: number;
   title: string;
   image?: string;
   description: string;
   tags: { id: string; title: string; slug: string }[];
   isSavedByCurrentUser: boolean;
+  clapUserCount: number;
 };
 
 export default function Post(props: Props) {
-  const { id, title, tags, description, image, slug, isSavedByCurrentUser, clap } = props;
-
+  const { id, title, tags, description, image, slug, isSavedByCurrentUser, claps } = props;
   return (
     <article className="bg-crust overflow-hidden rounded-xl">
       {image && (
@@ -35,9 +35,7 @@ export default function Post(props: Props) {
 
       <main>
         <Link href={`/post/${slug}`}>
-          <h3 className="text-headline-md lg:text-headline-lg truncate px-2.5 pt-4 pb-2.5">
-            {title}
-          </h3>
+          <h3 className="text-headline-md lg:text-headline-lg truncate px-2.5 pt-4 pb-2.5">{title}</h3>
         </Link>
 
         <div className="bg-mantle flex items-stretch py-2.5">
@@ -53,10 +51,10 @@ export default function Post(props: Props) {
               key={item.id}
               className={twMerge(
                 colors[(index - 1) % colors.length],
-                "first-of-type:bg-surface-2 first-of-type:text-text",
-                "first-of-type:rounded first-of-type:px-2.5",
-                "first-of-type:py-0.5 hover:brightness-110",
-                "transition-[filter] active:brightness-90"
+                'first-of-type:bg-surface-2 first-of-type:text-text',
+                'first-of-type:rounded first-of-type:px-2.5',
+                'first-of-type:py-0.5 hover:brightness-110',
+                'transition-[filter] active:brightness-90',
               )}
             >
               <Link href={`/tags/${item.slug}`}>{item.title}</Link>
@@ -69,7 +67,7 @@ export default function Post(props: Props) {
             <Comments className="text-overlay-1 h-[29px] w-[29px]" />
             <span className="text-white">نظرات</span>
           </Button>
- <ClapButton postId={id} maxClicks={5} />
+          <ClapButton postId={id} maxClicks={5} count={claps} userClapCount={props.clapUserCount} />
           <p className="mr-auto text-white">3 دقیقه</p>
           <SaveButton postId={id} isSavedByCurrentUser={isSavedByCurrentUser} />
         </div>

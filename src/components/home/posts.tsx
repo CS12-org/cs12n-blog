@@ -65,6 +65,7 @@ function Posts(props: Props) {
             id={post.id}
             slug={post.slug}
             claps={post.claps}
+            clapUserCount={post.userClapCount ?? 0}
             title={post.title}
             image={post.featuredImage}
             description={post.contentText}

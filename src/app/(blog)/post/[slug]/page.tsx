@@ -79,7 +79,7 @@ export default async function PostPage({ params }: Props) {
           <section className="pt-[10px]">
             <div className="flex justify-between px-[10px] py-[10px] lg:px-[30px]">
               <SharePopoverButton />
-        <ClapButton postId={post.id} slug={post.slug} />
+              <ClapButton postId={post.id} userClapCount={0} count={0} />
             </div>
           </section>
         </section>

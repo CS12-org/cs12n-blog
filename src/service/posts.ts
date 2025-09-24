@@ -1,10 +1,10 @@
 import axios from '~/lib/axios';
 
 export type Post = {
-  id: number;
+  id: string;
   title: string;
   clap: number;
-    userClapCount: number;
+  userClapCount: number;
   slug: string;
   description: string;
   narrator: string | null;
@@ -45,7 +45,7 @@ const mapSavedPostToPost = (item: any): Post => ({
   title: item.title ?? 'بدون عنوان',
   slug: item.slug,
   description: item.excerpt ?? '',
-  clap: item.claps ?? 0,            
+  clap: item.claps ?? 0,
   userClapCount: item.userClapCount ?? 0,
   narrator: null,
   featured_image: item.featuredImage
@@ -78,7 +78,7 @@ export interface GetPostsResult {
     title: string;
     slug: string;
     claps: number;
-    userClaps?: number;
+    userClapCount?: number;
     contentText: string;
     status: string;
     user: {

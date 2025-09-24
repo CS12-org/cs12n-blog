@@ -7,8 +7,11 @@ type EditButtonProps = {
 
 export default function EditButton({ onClick }: EditButtonProps) {
   return (
-    <Button onClick={onClick} className="bg-blue px-3 py-1 rounded-md text-crust text-sm flex items-center justify-between ">
-    ویرایش
+    <Button
+      onClick={onClick}
+      className="bg-blue text-crust flex items-center justify-between rounded-md px-3 py-1 text-sm"
+    >
+      ویرایش
     </Button>
   );
 }
