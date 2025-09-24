@@ -4,6 +4,7 @@ export type Post = {
   id: number;
   title: string;
   clap: number;
+    userClapCount: number;
   slug: string;
   description: string;
   narrator: string | null;
@@ -44,19 +45,20 @@ const mapSavedPostToPost = (item: any): Post => ({
   title: item.title ?? 'بدون عنوان',
   slug: item.slug,
   description: item.excerpt ?? '',
-  clap: item.saveCount ?? 0,
+  clap: item.claps ?? 0,            
+  userClapCount: item.userClapCount ?? 0,
   narrator: null,
-  featured_image: item.featured_image
+  featured_image: item.featuredImage
     ? {
-        width: item.featured_image.width,
-        height: item.featured_image.height,
-        url: item.featured_image.url,
+        width: item.featuredImage.width,
+        height: item.featuredImage.height,
+        url: item.featuredImage.url,
       }
     : null,
   user: item.user
     ? {
-        email: item.user.email,
-        username: item.user.username,
+        email: item.user.email ?? '',
+        username: item.user.username ?? '',
         avatarUrl: item.user.profile?.avatarUrl ?? undefined,
         bio: item.user.profile?.bio ?? undefined,
       }

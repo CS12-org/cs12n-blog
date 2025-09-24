@@ -1,93 +1,79 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "~/lib/axios";
-import { useState } from "react";
+'use client';
 
-export type Post = {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
-  clap: number;           // مجموع کل کلب
-  userClapCount: number;  // کلب‌های زده شده توسط کاربر
-  user?: {
-    username: string;
-    email: string;
-    avatarUrl?: string;
-  };
-};
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import axios from '~/lib/axios';
+import { useState } from 'react';
+import { useSession, signIn } from 'next-auth/react';
 
-type Props = {
-  postId: number;
-  slug: string;
-  data?: Post;
-};
+interface PostClapData {
+  claps: number;
+  userClapCount: number;
+}
 
-export function useClap({ postId, slug, data }: Props) {
+interface UseClapProps {
+  postId: string;
+  maxClicks?: number;
+}
+
+export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
+  const { status } = useSession();
   const queryClient = useQueryClient();
-  const [clickCount, setClickCount] = useState(0);
-  const maxClicks = 5;
+  const [localClickCount, setLocalClickCount] = useState(0);
 
-  // گرفتن اطلاعات پست
-  const { data: post, isLoading } = useQuery<Post>({
-    queryKey: ["post", slug],
-    initialData: data,
-    queryFn: async () => {
-      const res = await axios.get<Post>(`/api/posts/get-by-slug/${slug}`);
-      return {
-        ...res.data,
-        clap: res.data.clap ?? 0,
-        userClapCount: res.data.userClapCount ?? 0,
-      };
-    },
-  });
-
-  // mutation برای ثبت کلب
   const mutation = useMutation({
-    mutationFn: async (count: number) => {
-      const res = await axios.post("/api/posts/clap", {
-        postId,
-        count,
-      });
+    mutationFn: async () => {
+      const res = await axios.post<PostClapData>(`/clap`);
       return res.data;
     },
-    onMutate: async () => {
-      setClickCount((prev) => prev + 1);
+    onMutate: () => {
+      if (status !== 'authenticated') return;
 
-      // optimistic update
-      const prevData = queryClient.getQueryData<Post>(["post", slug]);
-      queryClient.setQueryData<Post>(["post", slug], (old) => {
-        if (!old) return old;
-        if (old.userClapCount >= maxClicks) return old;
+      const previous = queryClient.getQueryData<PostClapData>(['post', postId]);
+
+      queryClient.setQueryData<PostClapData>(['post', postId], (old) => {
+        if (!old) return { claps: 1, userClapCount: 1 };
         return {
-          ...old,
-          clap: old.clap + 1,
-          userClapCount: old.userClapCount + 1,
+          claps: (old.claps ?? 0) + 1,
+          userClapCount: (old.userClapCount ?? 0) + 1,
         };
       });
 
-      return prevData;
+      setLocalClickCount((prev) => prev + 1);
+      return previous;
     },
     onError: (_err, _vars, context) => {
-      setClickCount((prev) => prev - 1);
-      if (context) queryClient.setQueryData(["post", slug], context);
+      if (context) queryClient.setQueryData(['post', postId], context);
+      setLocalClickCount((prev) => Math.max(0, prev - 1));
     },
-    onSuccess: (newData) => {
-      queryClient.setQueryData(["post", slug], newData);
+    onSuccess: (data) => {
+      queryClient.setQueryData<PostClapData>(['post', postId], data);
+      setLocalClickCount(0);
     },
   });
 
   const handleClap = () => {
-    if ((post?.userClapCount ?? 0) < maxClicks) {
-      mutation.mutate(1);
+    if (status !== 'authenticated') {
+      signIn();
+      return;
     }
+
+    const data = queryClient.getQueryData<PostClapData>(['post', postId]);
+    const currentUserClap = (data?.userClapCount ?? 0) + localClickCount;
+
+    if (currentUserClap >= maxClicks) return;
+
+    if (!mutation.isPending) mutation.mutate();
   };
 
+  const data = queryClient.getQueryData<PostClapData>(['post', postId]);
+  const clap = (data?.claps ?? 0) + localClickCount;
+  const userClapCount = (data?.userClapCount ?? 0) + localClickCount;
+
   return {
-    clap: post?.clap ?? 0,
-    userClapCount: post?.userClapCount ?? 0,
-    handleClap,
-    isLoading,
+    clap,
+    userClapCount,
     maxClicks,
-    clickCount,
+    handleClap,
+    isMutating: mutation.isPending,
   };
 }
