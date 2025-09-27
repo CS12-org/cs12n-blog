@@ -8,6 +8,7 @@ import { GetPostsResult } from '~/service/posts';
 
 interface PostClapData {
   count: number;
+  totalCount: number;
 }
 
 interface UseClapProps {
@@ -27,18 +28,7 @@ export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
     },
     onMutate: () => {
       if (status !== 'authenticated') return;
-
       const previous = queryClient.getQueryData<PostClapData>(['post', postId]);
-
-      // queryClient.setQueriesData<GetPostsResult['items']>({ exact: false, queryKey: ['posts'] }, (old) => {
-      //   return old?.map((post: GetPostsResult['items'][number]) => {
-      //     if (post.id === postId) {
-      //       return { ...post, claps: data.count };
-      //     }
-      //     return post;
-      //   });
-      // });
-
       setLocalClickCount((prev) => prev + 1);
       return previous;
     },
@@ -47,13 +37,10 @@ export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
       setLocalClickCount((prev) => Math.max(0, prev - 1));
     },
     onSuccess: (data: PostClapData) => {
-      console.log(data, data.count);
-      console.log(data.count);
-      // queryClient.setQueryData<PostClapData>(['post', postId],  data);
       queryClient.setQueriesData<GetPostsResult['items']>({ exact: false, queryKey: ['posts'] }, (old) => {
         return old?.map((post: GetPostsResult['items'][number]) => {
           if (post.id === postId) {
-            return { ...post, claps: data.count };
+            return { ...post, claps: data.totalCount };
           }
           return post;
         });
