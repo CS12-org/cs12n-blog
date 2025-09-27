@@ -13,7 +13,7 @@
     "check-format": "prettier --check .",
     "check-lint": "eslint . --cache",
     "fix-lint": "eslint . --fix",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
