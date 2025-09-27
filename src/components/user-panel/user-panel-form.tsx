@@ -366,6 +366,9 @@ export default function UserPanelForm() {
         </Accordion>
 
         {/* survay  */}
+
+        {/* TODO: In HTML, <form> cannot be a descendant of <form>. This will
+        cause a hydration error. */}
         <Accordion title="نظرسنجی">
           <section className="flex w-full flex-col gap-2">
             <article className="bg-crust flex w-full items-center gap-x-2.5 rounded-xl p-2">

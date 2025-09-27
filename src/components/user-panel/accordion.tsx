@@ -12,6 +12,7 @@ interface AccordionProps {
   actionButton?: ReactNode;
 }
 
+// TODO: Use react aria components
 const Accordion: React.FC<AccordionProps> = ({
   title,
   actionButton,
