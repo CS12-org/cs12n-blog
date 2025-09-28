@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 import Comments from '~/assets/images/comments.svg';
-import Save from '~/assets/images/save.svg';
+import SaveButton from '../saved-posts/save-button';
 import Button from '~/components/button';
 import { Link } from '~/components/react-aria-components';
-import SaveButton from '../saved-posts/save-button';
+import { FaHandsClapping } from 'react-icons/fa6';
+import ClapButton from '../posts/clap-button';
+
 const colors = ['text-peach', 'text-mauve', 'text-yellow'];
 
 type Props = {
@@ -16,11 +18,11 @@ type Props = {
   description: string;
   tags: { id: string; title: string; slug: string }[];
   isSavedByCurrentUser: boolean;
+  clapUserCount: number;
 };
 
-function Post(props: Props) {
-  const { id, title, tags, description, image, slug, isSavedByCurrentUser } = props;
-
+export default function Post(props: Props) {
+  const { id, title, tags, description, image, slug, isSavedByCurrentUser, claps } = props;
   return (
     <article className="bg-crust overflow-hidden rounded-xl">
       {image && (
@@ -30,6 +32,7 @@ function Post(props: Props) {
           </Link>
         </header>
       )}
+
       <main>
         <Link href={`/post/${slug}`}>
           <h3 className="text-headline-md lg:text-headline-lg truncate px-2.5 pt-4 pb-2.5">{title}</h3>
@@ -40,6 +43,7 @@ function Post(props: Props) {
           <p className="text-subtext-0 grow truncate px-2.5">{description}</p>
         </div>
       </main>
+
       <footer className="text-body-xs px-[10px] pt-7 pb-5">
         <ul className="mb-4 flex items-baseline gap-2.5">
           {tags.map((item, index) => (
@@ -63,12 +67,7 @@ function Post(props: Props) {
             <Comments className="text-overlay-1 h-[29px] w-[29px]" />
             <span className="text-white">نظرات</span>
           </Button>
-          {/* 
-          <Button className="flex items-center gap-1.5" variant="none">
-            <FaHandsClapping size={20} className="text-overlay-1" />
-            <span className="pt-1.5 text-white">{claps}</span>
-          </Button> */}
-
+          <ClapButton postId={id} maxClicks={5} count={claps} userClapCount={props.clapUserCount} />
           <p className="mr-auto text-white">3 دقیقه</p>
           <SaveButton postId={id} isSavedByCurrentUser={isSavedByCurrentUser} />
         </div>
@@ -76,5 +75,3 @@ function Post(props: Props) {
     </article>
   );
 }
-
-export default Post;

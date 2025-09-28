@@ -14,6 +14,7 @@ import PostTabs from '~/components/posts/post-tabs';
 import PostSideBar from '~/components/posts/side-bar';
 import { getPostBySlug } from '~/service/posts';
 import SharePopoverButton from '../../../../components/posts/share-button';
+import ClapButton from '~/components/posts/clap-button';
 
 type Props = {
   params: Promise<{
@@ -78,12 +79,7 @@ export default async function PostPage({ params }: Props) {
           <section className="pt-[10px]">
             <div className="flex justify-between px-[10px] py-[10px] lg:px-[30px]">
               <SharePopoverButton />
-              <div className="flex gap-[6px]">
-                <span className="text-subtext-1 self-center text-[12px]">{post.clap}</span>
-                <button>
-                  <Hands className="h-[21px] w-[18px] lg:h-[28px] lg:w-[25px]" />
-                </button>
-              </div>
+              <ClapButton postId={post.id} userClapCount={0} count={0} />
             </div>
           </section>
         </section>
