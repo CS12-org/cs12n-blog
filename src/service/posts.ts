@@ -15,10 +15,11 @@ export type Post = {
   user: {
     email: string;
     username: string;
-    avatarUrl?: string; // اختیاری
-    bio?: string; // اختیاری
+    avatarUrl?: string;
+    bio?: string;
   } | null;
 };
+
 export type SavedPostsResponse = {
   items: any[];
   totalCount: number;
@@ -27,9 +28,6 @@ export type SavedPostsResponse = {
   endCursor: string | null;
 };
 
-/**
- * Mapper: داده‌ی API → Post
- */
 export const getPostBySlug = async (slug: string): Promise<Post> => {
   try {
     const res = await axios.get(`/api/posts/get-by-slug/${slug}`);
@@ -39,6 +37,7 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
     throw new Error('خطا در گرفتن پست');
   }
 };
+
 const mapSavedPostToPost = (item: any): Post => ({
   id: item.id,
   title: item.title ?? 'بدون عنوان',
@@ -95,12 +94,60 @@ export interface GetPostsResult {
   total: number;
 }
 
-/**
- * Fetches posts from the API.
- *
- * @param params - Parameters for the request.
- * @returns A promise that resolves to the posts data.
- */
 export const getPosts = (params: GetPostsParams) => {
   return axios.get<GetPostsResult>('/posts/feed', { params });
 };
+
+export interface SearchPostsResult {
+  items: {
+    id: string;
+    title: string;
+    slug: string;
+    contentText: string;
+    featuredImage?: string;
+    isSavedByCurrentUser: boolean;
+    tags: { id: string; name: string; slug: string }[];
+  }[];
+}
+
+export const searchPosts = async (query: string): Promise<SearchPostsResult> => {
+  try {
+    const res = await axios.get<SearchPostsResult>('/api/posts/search', {
+      params: { query },
+    });
+    return res.data;
+  } catch (err: unknown) {
+    console.error(err);
+    throw new Error('خطا در جست‌وجوی پست‌ها');
+  }
+};
+
+/**
+ * Mapper: SearchPostsResult item → GetPostsResult item
+ * برای همخوانی تایپ‌ها با Posts
+ */
+export const mapSearchItemToPostItem = (
+  item: SearchPostsResult['items'][number]
+): GetPostsResult['items'][number] => ({
+  id: item.id,
+  createdAt: new Date().toISOString(), // placeholder
+  featuredImage: item.featuredImage ?? undefined,
+  title: item.title,
+  slug: item.slug,
+  contentText: item.contentText,
+  status: 'published', // placeholder
+  user: {
+    id: '0',
+    profile: {
+      user: 'unknown',
+      fullName: null,
+      bio: null,
+      avatarUrl: null,
+      coverUrl: null,
+      website: null,
+    },
+  },
+  tags: item.tags,
+  isSavedByCurrentUser: item.isSavedByCurrentUser,
+  averageRating: null,
+});
