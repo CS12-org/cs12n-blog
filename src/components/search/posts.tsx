@@ -2,7 +2,6 @@
 
 import { useMemo } from 'react';
 import Post from '~/components/home/post';
-import { type GetPostsResult } from '~/service/posts';
 import {
   Pagination,
   PaginationContent,
@@ -16,13 +15,33 @@ import {
 type Props = {
   page: number;
   pageSize: number;
-  totalPosts?: number;
-  posts: GetPostsResult['items'];
+  totalPosts: number;
+  posts: {
+    id: string;
+    createdAt: string;
+    featuredImage?: string;
+    title: string;
+    slug: string;
+    contentText: string;
+    status: string;
+    user: {
+      id: string;
+      profile: {
+        user: string;
+        fullName: string | null;
+        bio: string | null;
+        avatarUrl: string | null;
+        coverUrl: string | null;
+        website: string | null;
+      };
+    };
+    tags: { id: string; name: string; slug: string }[];
+    isSavedByCurrentUser: boolean;
+    averageRating: unknown;
+  }[];
 };
 
-export default function Posts(props: Props) {
-  const { page, pageSize, posts, totalPosts = 0 } = props;
-
+export default function Posts({ page, pageSize, posts, totalPosts }: Props) {
   const totalPages = useMemo(() => Math.ceil(totalPosts / pageSize), [totalPosts, pageSize]);
 
   const pageNumbers = useMemo(() => {
@@ -45,7 +64,7 @@ export default function Posts(props: Props) {
 
   const postList = (
     <ul className="flex flex-col items-stretch gap-5">
-      {posts.map((post: GetPostsResult['items'][number]) => (
+      {posts.map((post) => (
         <li key={post.id} aria-label={post.title}>
           <Post
             id={post.id}
@@ -77,8 +96,8 @@ export default function Posts(props: Props) {
             <PaginationPrevious isDisabled={page <= 1} href={`?page=${page - 1}`} />
           </PaginationItem>
 
-          {pageNumbers.map((pageNum, index) => (
-            <PaginationItem key={index}>
+          {pageNumbers.map((pageNum, idx) => (
+            <PaginationItem key={idx}>
               {pageNum === '...' && <PaginationEllipsis />}
               {pageNum !== '...' && (
                 <PaginationLink href={`?page=${pageNum}`} isActive={page === pageNum} isDisabled={page === pageNum}>

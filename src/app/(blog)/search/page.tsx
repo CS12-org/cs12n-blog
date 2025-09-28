@@ -1,12 +1,12 @@
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import Main from '~/layout/main';
-import Posts from '~/components/search/posts';
+import Posts from '~/components/home/posts';
 import { searchPosts, mapSearchItemToPostItem } from '~/service/posts';
 
 interface SearchPageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
+
+export const revalidate = 60;
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const query = typeof searchParams.query === 'string' ? searchParams.query : '';
@@ -18,28 +18,30 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   try {
     const res = await searchPosts(query);
 
-    const mappedItems = res.items.map(mapSearchItemToPostItem);
-
-    // Pagination سمت فرانت
+    // Pagination سمت سرور
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
-    const paginatedItems = mappedItems.slice(start, end);
+    const paginatedItems = res.items.slice(start, end).map(mapSearchItemToPostItem);
 
     return (
-      <Main>
+      <section>
         <div aria-hidden className="bg-surface-0 my-5 h-[3px] rounded-full" />
-        <Suspense fallback={<p>در حال بارگذاری نتایج...</p>}>
-          <Posts
-            page={page}
-            pageSize={pageSize}
-            totalPosts={mappedItems.length}
-            posts={paginatedItems}
-          />
-        </Suspense>
-      </Main>
+        <Posts
+          page={page}
+          pageSize={pageSize}
+          totalPosts={res.items.length}
+          posts={paginatedItems}
+        />
+      </section>
     );
   } catch (error) {
     console.error('Search page error:', error);
-    return notFound();
+
+    // Fallback: صفحه بدون خطا رندر شود
+    return (
+      <section>
+        <p className="text-center text-text mt-10">هیچ نتیجه‌ای پیدا نشد.</p>
+      </section>
+    );
   }
 }

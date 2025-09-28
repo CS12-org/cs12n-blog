@@ -1,5 +1,7 @@
 import axios from '~/lib/axios';
 
+// ------------------ Types ------------------
+
 export type Post = {
   id: number;
   title: string;
@@ -7,7 +9,7 @@ export type Post = {
   slug: string;
   description: string;
   narrator: string | null;
-  featured_image: {
+  featuredImage: {
     width: number;
     height: number;
     url: string;
@@ -28,15 +30,79 @@ export type SavedPostsResponse = {
   endCursor: string | null;
 };
 
+export interface GetPostsParams {
+  page: number;
+  pageSize: number;
+}
+
+export interface GetPostsResult {
+  items: {
+    id: string;
+    createdAt: string;
+    featuredImage?: string;
+    title: string;
+    slug: string;
+    contentText: string;
+    status: string;
+    user: {
+      id: string;
+      profile: {
+        user: string;
+        fullName: string | null;
+        bio: string | null;
+        avatarUrl: string | null;
+        coverUrl: string | null;
+        website: string | null;
+      };
+    };
+    tags: { id: string; name: string; slug: string }[];
+    isSavedByCurrentUser: boolean;
+    averageRating: unknown;
+  }[];
+  total: number;
+}
+
+export interface SearchPostsResult {
+  items: {
+    id: string;
+    title: string;
+    slug: string;
+    contentText: string;
+    featuredImage?: string;
+    isSavedByCurrentUser: boolean;
+    tags: { id: string; name: string; slug: string }[];
+  }[];
+}
+
+// ------------------ API Functions ------------------
+
+export const getPosts = (params: GetPostsParams) => {
+  return axios.get<GetPostsResult>('/posts/feed', { params });
+};
+
+export const searchPosts = async (query: string): Promise<SearchPostsResult> => {
+  try {
+    const res = await axios.get<SearchPostsResult>('/api/posts/search', {
+      params: { query },
+    });
+    return res.data;
+  } catch (err: unknown) {
+    console.error(err);
+    throw new Error('خطا در جست‌وجوی پست‌ها');
+  }
+};
+
 export const getPostBySlug = async (slug: string): Promise<Post> => {
   try {
     const res = await axios.get(`/api/posts/get-by-slug/${slug}`);
     return res.data;
   } catch (err: unknown) {
-    console.log(err);
+    console.error(err);
     throw new Error('خطا در گرفتن پست');
   }
 };
+
+// ------------------ Mappers ------------------
 
 const mapSavedPostToPost = (item: any): Post => ({
   id: item.id,
@@ -45,7 +111,7 @@ const mapSavedPostToPost = (item: any): Post => ({
   description: item.excerpt ?? '',
   clap: item.saveCount ?? 0,
   narrator: null,
-  featured_image: item.featured_image
+  featuredImage: item.featured_image
     ? {
         width: item.featured_image.width,
         height: item.featured_image.height,
@@ -62,66 +128,6 @@ const mapSavedPostToPost = (item: any): Post => ({
     : null,
 });
 
-export type GetPostsParams = {
-  page: number;
-  pageSize: number;
-};
-
-export interface GetPostsResult {
-  items: {
-    id: string;
-    createdAt: string;
-    featuredImage?: string;
-    title: string;
-    slug: string;
-    contentText: string;
-    status: string;
-    user: {
-      id: string;
-      profile: {
-        user: string;
-        fullName: null | string;
-        bio: null | string;
-        avatarUrl: null | string;
-        coverUrl: null | string;
-        website: null | string;
-      };
-    };
-    tags: { id: string; name: string; slug: string }[];
-    isSavedByCurrentUser: boolean;
-    averageRating: unknown;
-  }[];
-  total: number;
-}
-
-export const getPosts = (params: GetPostsParams) => {
-  return axios.get<GetPostsResult>('/posts/feed', { params });
-};
-
-export interface SearchPostsResult {
-  items: {
-    id: string;
-    title: string;
-    slug: string;
-    contentText: string;
-    featuredImage?: string;
-    isSavedByCurrentUser: boolean;
-    tags: { id: string; name: string; slug: string }[];
-  }[];
-}
-
-export const searchPosts = async (query: string): Promise<SearchPostsResult> => {
-  try {
-    const res = await axios.get<SearchPostsResult>('/api/posts/search', {
-      params: { query },
-    });
-    return res.data;
-  } catch (err: unknown) {
-    console.error(err);
-    throw new Error('خطا در جست‌وجوی پست‌ها');
-  }
-};
-
 /**
  * Mapper: SearchPostsResult item → GetPostsResult item
  * برای همخوانی تایپ‌ها با Posts
@@ -130,12 +136,12 @@ export const mapSearchItemToPostItem = (
   item: SearchPostsResult['items'][number]
 ): GetPostsResult['items'][number] => ({
   id: item.id,
-  createdAt: new Date().toISOString(), // placeholder
+  createdAt: new Date().toISOString(),
   featuredImage: item.featuredImage ?? undefined,
   title: item.title,
   slug: item.slug,
   contentText: item.contentText,
-  status: 'published', // placeholder
+  status: 'published',
   user: {
     id: '0',
     profile: {
