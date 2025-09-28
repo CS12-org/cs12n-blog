@@ -26,7 +26,6 @@ import Accordion from '~/components/user-panel/accordion';
 const schema = z.object({
   info: z.string().max(200),
   fullName: z.string().min(1),
-  website: z.string(),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -42,7 +41,6 @@ export default function UserPanelForm() {
     defaultValues: {
       fullName: '',
       info: '',
-      website: '',
     },
   });
   const queryClient = useQueryClient();
@@ -68,7 +66,6 @@ export default function UserPanelForm() {
         bio: values.info,
         fullName: values.fullName,
         username: session?.user?.username ?? '',
-        website: values.website,
       });
     },
     onSuccess: () => {
@@ -101,7 +98,6 @@ export default function UserPanelForm() {
       reset({
         fullName: userProfileData.fullName || '',
         info: userProfileData.bio || '',
-        website: userProfileData.website || '',
       });
     }
   }, [userProfileData, reset]);
@@ -179,33 +175,6 @@ export default function UserPanelForm() {
                     <Input
                       ref={field.ref}
                       placeholder="نام خود را وارد کنید"
-                      className="bg-mantle w-full rounded-md px-2.5 py-2"
-                    />
-                    <Text
-                      slot="description"
-                      className={twJoin('text-red text-label-xs block', fieldState.error && 'mt-2')}
-                    >
-                      {fieldState.error?.message}
-                    </Text>
-                  </TextField>
-                )}
-              />
-              <Controller
-                name="website"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    name={field.name}
-                    value={field.value}
-                    onBlur={field.onBlur}
-                    autoComplete="website"
-                    onChange={field.onChange}
-                    isDisabled={field.disabled}
-                    isInvalid={fieldState.invalid}
-                  >
-                    <Input
-                      ref={field.ref}
-                      placeholder="وبسایت خود را وارد کنید"
                       className="bg-mantle w-full rounded-md px-2.5 py-2"
                     />
                     <Text
