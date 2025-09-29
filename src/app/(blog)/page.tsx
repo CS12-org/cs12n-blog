@@ -1,4 +1,4 @@
-import ArticleCategories from '~/components/home/article-categories';
+// import ArticleCategories from '~/components/home/article-categories';
 import Posts from '~/components/home/posts';
 import WeeklyChallenge from '~/components/home/weekly-challenge';
 import { getPosts } from '~/service/posts';
@@ -16,8 +16,8 @@ async function Home(props: Props) {
   const { page, pageSize } = await props.searchParams;
 
   // Check if page and pageSize are numbers and not NaN
-  const parsedPage = parseInt(page ?? '1') || 1;
-  const parsedPageSize = parseInt(pageSize ?? '10') || 10;
+  const parsedPage = parseInt(page ?? '1');
+  const parsedPageSize = parseInt(pageSize ?? '10');
 
   const { data: posts } = await getPosts({
     page: parsedPage,
