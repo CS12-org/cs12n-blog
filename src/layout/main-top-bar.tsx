@@ -1,4 +1,3 @@
-
 'use client';
 
 import { type ReactNode, useState } from 'react';
@@ -45,7 +44,7 @@ export default function MainTopbar({ isBlured = false }: Props) {
   return (
     <header
       className={twJoin(
-        'bg-crust mt-8 h-17.5 rounded-xl flex items-center px-4 gap-3.5 lg:px-7.5 [&>*]:shrink-0 relative z-11 select-none [&>button]:text-overlay-1',
+        'bg-crust [&>button]:text-overlay-1 relative z-11 mt-8 flex h-17.5 items-center gap-3.5 rounded-xl px-4 select-none lg:px-7.5 [&>*]:shrink-0',
       )}
     >
       <Logo />
@@ -54,16 +53,24 @@ export default function MainTopbar({ isBlured = false }: Props) {
         <nav className="text-body-sm mr-3.5 hidden lg:block">
           <ul className="flex gap-7">
             <li>
-              <Link href="#" className="cursor-default select-none">جوخه</Link>
+              <Link href="#" className="cursor-default select-none">
+                جوخه
+              </Link>
             </li>
             <li>
-              <Link href="#" className="cursor-default select-none">بمان تا با</Link>
+              <Link href="#" className="cursor-default select-none">
+                بمان تا با
+              </Link>
             </li>
             <li>
-              <Link href="#" className="cursor-default select-none">دوباره</Link>
+              <Link href="#" className="cursor-default select-none">
+                دوباره
+              </Link>
             </li>
             <li className="text-maroon">
-              <Link href="#" className="cursor-default select-none">کشک</Link>
+              <Link href="#" className="cursor-default select-none">
+                کشک
+              </Link>
             </li>
           </ul>
         </nav>
@@ -84,24 +91,25 @@ export default function MainTopbar({ isBlured = false }: Props) {
             </Button>
           )}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} role="searchbox">
             <TextField className="relative h-10 w-10">
               <Input
                 aria-label="سرچ بار"
                 value={searchValue}
+                role="search"
                 onChange={(e) => setSearchValue(e.target.value)}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 placeholder={focused ? 'جستوجو کنید' : ''}
                 className={twJoin(
-                  'bg-base absolute left-0 h-10 w-10 rounded-lg placeholder:text-text text-xs placeholder:text-xs focus:p-2.5',
+                  'bg-base placeholder:text-text absolute left-0 h-10 w-10 rounded-lg text-xs placeholder:text-xs focus:p-2.5',
                   'focus:w-[245px] focus:outline-none lg:focus:w-[660px]',
                   'cursor-pointer transition-all duration-200 ease-in-out',
                 )}
               />
               <FaMagnifyingGlass
                 size={16}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none cursor-pointer"
+                className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
               />
             </TextField>
           </form>
