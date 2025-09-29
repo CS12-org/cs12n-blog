@@ -9,7 +9,7 @@ export type Post = {
   slug: string;
   description: string;
   narrator: string | null;
-  featuredImage: {
+  featured_image: {
     width: number;
     height: number;
     url: string;
@@ -111,7 +111,7 @@ const mapSavedPostToPost = (item: any): Post => ({
   description: item.excerpt ?? '',
   clap: item.saveCount ?? 0,
   narrator: null,
-  featuredImage: item.featured_image
+  featured_image: item.featured_image
     ? {
         width: item.featured_image.width,
         height: item.featured_image.height,
@@ -132,9 +132,7 @@ const mapSavedPostToPost = (item: any): Post => ({
  * Mapper: SearchPostsResult item → GetPostsResult item
  * برای همخوانی تایپ‌ها با Posts
  */
-export const mapSearchItemToPostItem = (
-  item: SearchPostsResult['items'][number]
-): GetPostsResult['items'][number] => ({
+export const mapSearchItemToPostItem = (item: SearchPostsResult['items'][number]): GetPostsResult['items'][number] => ({
   id: item.id,
   createdAt: new Date().toISOString(),
   featuredImage: item.featuredImage ?? undefined,
