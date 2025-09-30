@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import ChangePasswordForm from '@/components/Auth/change-password-form';
+import ChangePasswordForm from '@/components/auth/change-password-form';
 
 export const metadata: Metadata = {
   title: 'تغییر رمز عبور',
