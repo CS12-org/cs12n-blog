@@ -77,7 +77,7 @@ export interface SearchPostsResult {
 // ------------------ API Functions ------------------
 
 export const getPosts = (params: GetPostsParams) => {
-  return axios.get<GetPostsResult>('/posts/feed', { params });
+  return axios.get<GetPostsResult>('/api/posts/feed', { params });
 };
 
 export const searchPosts = async (query: string): Promise<SearchPostsResult> => {
