@@ -1,12 +1,12 @@
-import '~/assets/styles/main.css';
+import '@/assets/styles/main.css';
 import type { Metadata } from 'next';
 import { Vazirmatn } from 'next/font/google';
-import ReactAriaClientProvider from '~/components/providers/react-aria-client-provider';
-import QueryProvider from '~/components/providers/query-provider';
-import NextAuthProvider from '~/components/providers/session-provider';
-import authOptions from '~/auth.config';
+import ReactAriaClientProvider from '@/components/providers/react-aria-client-provider';
+import QueryProvider from '@/components/providers/query-provider';
+import NextAuthProvider from '@/components/providers/session-provider';
+import authOptions from '@/auth.config';
 import { getServerSession } from 'next-auth';
-import ReactAriaToastProvider from '~/components/providers/react-aria-toast-provider';
+import ReactAriaToastProvider from '@/components/providers/react-aria-toast-provider';
 
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 

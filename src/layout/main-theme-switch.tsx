@@ -1,7 +1,7 @@
 // TODO: change implementation of this button to work with next js
 
 import { /*FaMoon,*/ FaSun } from 'react-icons/fa6';
-import Button from '~/components/button';
+import Button from '@/components/button';
 // import { useRouteLoaderData, useSubmit } from "react-router";
 // import type { loader } from "~/root";
 

@@ -1,7 +1,7 @@
 import { HiBookOpen } from 'react-icons/hi2';
 import { twJoin } from 'tailwind-merge';
-import { Link } from '~/components/react-aria-components';
-import { getCourse } from '~/service/courses';
+import { Link } from '@/components/react-aria-components';
+import { getCourse } from '@/service/courses';
 import Image from 'next/image';
 
 type Props = {

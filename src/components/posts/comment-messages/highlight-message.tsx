@@ -1,12 +1,12 @@
-import { Text } from '~/components/react-aria-components';
+import { Text } from '@/components/react-aria-components';
 import Image from 'next/image';
-import Comments from '~/assets/images/comments.svg';
-import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import Highlighter from '~/assets/images/highlighter.svg';
-import IncreaseArrow from '~/assets/images/increaseArrow.svg';
-import Notes from '~/assets/images/notes.svg';
-import ThreeDotts from '~/assets/images/threeDotts.svg';
-import Button from '~/components/button';
+import Comments from '@/assets/images/comments.svg';
+import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
+import Highlighter from '@/assets/images/highlighter.svg';
+import IncreaseArrow from '@/assets/images/increaseArrow.svg';
+import Notes from '@/assets/images/notes.svg';
+import ThreeDotts from '@/assets/images/threeDotts.svg';
+import Button from '@/components/button';
 
 function HighlightMessege() {
   return (

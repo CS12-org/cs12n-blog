@@ -1,6 +1,6 @@
 import { FaRegClock } from 'react-icons/fa6';
-import Check from '~/assets/images/check.svg';
-import Dottcircle from '~/assets/images/dottcircle.svg';
+import Check from '@/assets/images/check.svg';
+import Dottcircle from '@/assets/images/dottcircle.svg';
 import { TbApi } from 'react-icons/tb';
 
 enum FeatureStatus {

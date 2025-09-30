@@ -1,13 +1,13 @@
 import Image from 'next/image';
-import { Text } from '~/components/react-aria-components';
-import CommentsIcon from '~/assets/images/comments.svg';
-import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import Close from '~/assets/images/close.svg';
-import { TextInput } from '~/components/user-panel/text-field';
+import { Text } from '@/components/react-aria-components';
+import CommentsIcon from '@/assets/images/comments.svg';
+import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
+import Close from '@/assets/images/close.svg';
+import { TextInput } from '@/components/user-panel/text-field';
 
-import IncreaseArrow from '~/assets/images/increaseArrow.svg';
-import ThreeDotts from '~/assets/images/threeDotts.svg';
-import Button from '~/components/button';
+import IncreaseArrow from '@/assets/images/increaseArrow.svg';
+import ThreeDotts from '@/assets/images/threeDotts.svg';
+import Button from '@/components/button';
 
 export default function CommentsTabUserPanel() {
   return (

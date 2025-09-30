@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Slider, SliderThumb, SliderTrack } from 'react-aria-components';
 import { CiPause1, CiPlay1 } from 'react-icons/ci';
-import Save from '~/assets/images/save.svg';
+import Save from '@/assets/images/save.svg';
 import Comments from '../assets/images/comments.svg';
 import Button from './button';
 import LicenceMark from './posts/license-mark';

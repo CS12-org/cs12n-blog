@@ -8,8 +8,8 @@ import { Input, Text, TextField } from 'react-aria-components';
 import { Controller, useForm } from 'react-hook-form';
 import { twJoin } from 'tailwind-merge';
 import z from 'zod';
-import Button from '~/components/button';
-import axios from '~/lib/axios';
+import Button from '@/components/button';
+import axios from '@/lib/axios';
 import { queue } from '../providers/react-aria-toast-provider';
 
 const ForgotPasswordSchema = z.object({

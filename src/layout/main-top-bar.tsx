@@ -1,14 +1,14 @@
 'use client';
 
 import { type ReactNode, useState } from 'react';
-import { Input, TextField, Link } from '~/components/react-aria-components';
+import { Input, TextField, Link } from '@/components/react-aria-components';
 import { FaArrowRightToBracket, FaBars, FaBook, FaMagnifyingGlass } from 'react-icons/fa6';
 import { usePathname } from 'next/navigation';
 import { twJoin } from 'tailwind-merge';
-import Logo from '~/assets/images/cs12-logo.svg';
-import Button from '~/components/button';
-import twMerge from '~/lib/tw-merge';
-import { useMainLayoutStore } from '~/components/providers/main-layout-store-provider';
+import Logo from '@/assets/images/cs12-logo.svg';
+import Button from '@/components/button';
+import twMerge from '@/lib/tw-merge';
+import { useMainLayoutStore } from '@/components/providers/main-layout-store-provider';
 import MainThemeSwitch from './main-theme-switch';
 
 type Props = {
@@ -41,7 +41,6 @@ function MainTopbar(props: Props) {
         'gap-3.5 lg:px-7.5 [&>*]:shrink-0',
         'relative z-11 select-none',
         '[&>button]:text-overlay-1',
-        'z-11',
       )}
     >
       <Logo />

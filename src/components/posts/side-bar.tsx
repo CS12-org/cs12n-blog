@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import Arrow from '~/assets/images/sidebar-arrow.svg';
+import Arrow from '@/assets/images/sidebar-arrow.svg';
 
 export default function PostSideBar({ className = '' }) {
   const [isOpen, setIsOpen] = useState(false);

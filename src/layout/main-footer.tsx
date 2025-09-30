@@ -1,6 +1,6 @@
 import { twJoin } from 'tailwind-merge';
 
-import Logo from '~/assets/images/cs12-logo.svg';
+import Logo from '@/assets/images/cs12-logo.svg';
 import MainThemeSwitch from './main-theme-switch';
 
 const COPYRIGHT_TEXT = 'کلیه حقوق مادی و معنوی سایت برای CS12 محفوظ است.';

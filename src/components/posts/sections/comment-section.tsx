@@ -1,7 +1,7 @@
-import Anonymous from '~/assets/images/anonymous.svg';
-import ExclamationMark from '~/assets/images/excalamation.svg';
-import Button from '~/components/button';
-import { TextInput } from '~/components/user-panel/text-field';
+import Anonymous from '@/assets/images/anonymous.svg';
+import ExclamationMark from '@/assets/images/excalamation.svg';
+import Button from '@/components/button';
+import { TextInput } from '@/components/user-panel/text-field';
 import CommentMessege from '../comment-messages/comment-message';
 import HighlightCommentMessege from '../comment-messages/highlight-comment-message';
 

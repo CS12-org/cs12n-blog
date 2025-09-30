@@ -1,5 +1,5 @@
 import ResponsiveSideBar from '../responsive-side-bar';
-import { getRoadmaps } from '~/service/roadmaps';
+import { getRoadmaps } from '@/service/roadmaps';
 
 async function ArticleCategories() {
   const roadmaps = await getRoadmaps().then((res) => res.data);

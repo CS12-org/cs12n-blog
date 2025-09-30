@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useRef, useEffect, forwardRef } from 'react';
-import ThreeDotts from '~/assets/images/threeDotts.svg';
-import Repead from '~/assets/images/repeat-one.svg';
-import Trash from '~/assets/images/trash.svg';
-import Survey from '~/assets/images/survey.svg';
+import ThreeDotts from '@/assets/images/threeDotts.svg';
+import Repead from '@/assets/images/repeat-one.svg';
+import Trash from '@/assets/images/trash.svg';
+import Survey from '@/assets/images/survey.svg';
 
 export default function ThreeDotPopover() {
   const [isVisible, setIsVisible] = useState(false);

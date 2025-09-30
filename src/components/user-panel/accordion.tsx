@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import { Button } from 'react-aria-components';
 import { twJoin } from 'tailwind-merge';
-import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
+import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
 
 interface AccordionProps {
   children: React.ReactNode;
@@ -12,6 +12,7 @@ interface AccordionProps {
   actionButton?: ReactNode;
 }
 
+// TODO: Use react aria components
 const Accordion: React.FC<AccordionProps> = ({
   title,
   actionButton,

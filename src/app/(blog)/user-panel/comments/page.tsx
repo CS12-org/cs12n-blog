@@ -1,4 +1,4 @@
-import CommentsTabUserPanel from '~/components/user-panel/comments-tab';
+import CommentsTabUserPanel from '@/components/user-panel/comments-tab';
 
 const Page = () => {
   return (

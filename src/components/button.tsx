@@ -1,8 +1,8 @@
 'use client';
 
 import type { ComponentProps } from 'react';
-import { Button as AriaButton } from '~/components/react-aria-components';
-import twMerge from '~/lib/tw-merge';
+import { Button as AriaButton } from '@/components/react-aria-components';
+import twMerge from '@/lib/tw-merge';
 
 type Props = Omit<ComponentProps<typeof AriaButton>, 'className'> & {
   className?: string;

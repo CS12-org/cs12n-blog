@@ -1,4 +1,4 @@
-import Law from '~/assets/images/law.svg';
+import Law from '@/assets/images/law.svg';
 function LicenceMark() {
   return (
     <section className="bg-base border-surface-0 flex h-[30px] items-start gap-[10px] rounded-[5px] border-[1px] px-[10px] py-[5px] lg:px-[15px]">

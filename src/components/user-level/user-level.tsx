@@ -1,5 +1,5 @@
-import Close from '~/assets/images/close.svg';
-import LevelSection from '~/components/user-level/level-section';
+import Close from '@/assets/images/close.svg';
+import LevelSection from '@/components/user-level/level-section';
 function UserLevel() {
   return (
     <section className="items-starti text-subtext-1 flex w-full flex-col gap-2.5">

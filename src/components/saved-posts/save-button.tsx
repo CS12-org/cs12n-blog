@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
-import { useSavePost } from '~/hooks/use-save-unsave';
+import { useSavePost } from '@/hooks/use-save-unsave';
 
 interface SaveButtonProps {
   postId: string;

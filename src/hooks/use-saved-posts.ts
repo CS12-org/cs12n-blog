@@ -1,7 +1,7 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchSavedPosts } from '~/service/saved-posts';
+import { fetchSavedPosts } from '@/service/saved-posts';
 
 export function useFetchSavedPosts() {
   return useInfiniteQuery({

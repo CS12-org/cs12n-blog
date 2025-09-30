@@ -1,7 +1,7 @@
 'use client';
 
-import Hands from '~/assets/images/hands-celebrate.svg';
-import { useClap } from '~/hooks/use-clap';
+import Hands from '@/assets/images/hands-celebrate.svg';
+import { useClap } from '@/hooks/use-clap';
 import { useDebounce } from 'use-debounce';
 import { useEffect, useMemo, useRef, useState } from 'react';
 

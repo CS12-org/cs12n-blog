@@ -1,6 +1,6 @@
-import { getRoadmap } from '~/service/roadmaps';
+import { getRoadmap } from '@/service/roadmaps';
 import Image from 'next/image';
-import { Link } from '~/components/react-aria-components';
+import { Link } from '@/components/react-aria-components';
 import { twJoin } from 'tailwind-merge';
 
 type Props = {

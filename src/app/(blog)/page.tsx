@@ -1,7 +1,6 @@
-import ArticleCategories from '~/components/home/article-categories';
-import Posts from '~/components/home/posts';
-import WeeklyChallenge from '~/components/home/weekly-challenge';
-import { getPosts } from '~/service/posts';
+import Posts from '@/components/home/posts';
+import WeeklyChallenge from '@/components/home/weekly-challenge';
+import { getPosts } from '@/service/posts';
 
 export const revalidate = 60;
 

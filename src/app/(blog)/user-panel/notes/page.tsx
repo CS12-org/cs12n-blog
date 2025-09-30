@@ -1,10 +1,10 @@
 'use client';
 
 import { Button } from 'react-aria-components';
-import Close from '~/assets/images/close.svg';
-import Eye from '~/assets/images/eye.svg';
-import Comments from '~/assets/images/comments.svg';
-import Trash from '~/assets/images/trash.svg';
+import Close from '@/assets/images/close.svg';
+import Eye from '@/assets/images/eye.svg';
+import Comments from '@/assets/images/comments.svg';
+import Trash from '@/assets/images/trash.svg';
 
 export default function UserNotesHighlightsTab() {
   return (

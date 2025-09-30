@@ -2,7 +2,7 @@ import Axios from 'axios';
 import publicConfig from './public-config';
 import { getSession } from 'next-auth/react';
 import { getServerSession } from 'next-auth/next';
-import authOptions from '~/auth.config';
+import authOptions from '@/auth.config';
 
 const axios = Axios.create({
   timeout: 30 * 1000, // 30 seconds

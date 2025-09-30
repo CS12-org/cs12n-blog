@@ -2,7 +2,7 @@
 
 import { createContext, type ReactNode, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
-import { createLayoutStore, type MainLayoutStore } from '~/store/main-layout-store';
+import { createLayoutStore, type MainLayoutStore } from '@/store/main-layout-store';
 
 type MainLayoutStoreApi = ReturnType<typeof createLayoutStore>;
 

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { twJoin } from 'tailwind-merge';
-import RunnintPerson from '~/assets/images/running-with-obstacles.svg';
-import Oclock from '~/assets/images/time-oclock.svg';
-import { Link } from '~/components/react-aria-components';
+import RunnintPerson from '@/assets/images/running-with-obstacles.svg';
+import Oclock from '@/assets/images/time-oclock.svg';
+import { Link } from '@/components/react-aria-components';
 
 const TAGS = ['چالش', 'گیت', 'چالش_هفتگی'];
 const COLORS = ['text-yellow', 'text-peach', 'text-lavender'];

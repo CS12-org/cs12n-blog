@@ -1,10 +1,10 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from '~/lib/axios';
+import axios from '@/lib/axios';
 import { useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
-import { GetPostsResult } from '~/service/posts';
+import { GetPostsResult } from '@/service/posts';
 
 interface PostClapData {
   count: number;

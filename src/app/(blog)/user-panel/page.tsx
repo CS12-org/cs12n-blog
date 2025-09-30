@@ -1,4 +1,4 @@
-import UserPanelForm from '~/components/user-panel/user-panel-form';
+import UserPanelForm from '@/components/user-panel/user-panel-form';
 
 function UserPanel() {
   return <UserPanelForm />;

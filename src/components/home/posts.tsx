@@ -1,9 +1,9 @@
 'use client';
 
 import { useMemo } from 'react';
-import Post from '~/components/home/post';
+import Post from '@/components/home/post';
 import { useQuery } from '@tanstack/react-query';
-import { getPosts, type GetPostsResult } from '~/service/posts';
+import { getPosts, type GetPostsResult } from '@/service/posts';
 import {
   Pagination,
   PaginationContent,
@@ -12,7 +12,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '~/components/pagination';
+} from '@/components/pagination';
 
 type Props = {
   page: number;

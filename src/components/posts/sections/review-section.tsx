@@ -1,10 +1,10 @@
-import Anonymous from '~/assets/images/anonymous.svg';
-import Close from '~/assets/images/close.svg';
-import ExclamationMark from '~/assets/images/excalamation.svg';
-import Picture from '~/assets/images/picture-gallery.svg';
-import PlusSign from '~/assets/images/plus-sign.svg';
-import { Button, Text } from '~/components/react-aria-components';
-import { TextInput } from '~/components/user-panel/text-field';
+import Anonymous from '@/assets/images/anonymous.svg';
+import Close from '@/assets/images/close.svg';
+import ExclamationMark from '@/assets/images/excalamation.svg';
+import Picture from '@/assets/images/picture-gallery.svg';
+import PlusSign from '@/assets/images/plus-sign.svg';
+import { Button, Text } from '@/components/react-aria-components';
+import { TextInput } from '@/components/user-panel/text-field';
 import ReviewMessege from '../comment-messages/review-message';
 
 function ReviewSection() {

@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import Close from '~/assets/images/close.svg';
-import CommentsIcon from '~/assets/images/comments.svg';
-import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import IncreaseArrow from '~/assets/images/increaseArrow.svg';
-import ThreeDotts from '~/assets/images/threeDotts.svg';
-import Button from '~/components/button';
-import { Text } from '~/components/react-aria-components';
+import Close from '@/assets/images/close.svg';
+import CommentsIcon from '@/assets/images/comments.svg';
+import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
+import IncreaseArrow from '@/assets/images/increaseArrow.svg';
+import ThreeDotts from '@/assets/images/threeDotts.svg';
+import Button from '@/components/button';
+import { Text } from '@/components/react-aria-components';
 
 export default function ReviewsSideBar() {
   return (

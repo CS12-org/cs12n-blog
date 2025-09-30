@@ -1,6 +1,6 @@
-import Repead from '~/assets/images/repeat-one.svg';
-import Button from '~/components/button';
-import { Text } from '~/components/react-aria-components';
+import Repead from '@/assets/images/repeat-one.svg';
+import Button from '@/components/button';
+import { Text } from '@/components/react-aria-components';
 function ResumeSharingNotice() {
   return (
     <section className="text-text flex w-full flex-col gap-[10px] bg-[#050615] px-[10px] py-[27px] text-[12px] lg:px-[30px] lg:text-[14px]">

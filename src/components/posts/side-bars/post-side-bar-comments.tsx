@@ -1,14 +1,14 @@
 import Image from 'next/image';
 import { PiArrowBendDownLeftLight } from 'react-icons/pi';
-import Anonymous from '~/assets/images/anonymous.svg';
-import Close from '~/assets/images/close.svg';
-import CommentsIcon from '~/assets/images/comments.svg';
-import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import IncreaseArrow from '~/assets/images/increaseArrow.svg';
-import ThreeDotts from '~/assets/images/threeDotts.svg';
-import Button from '~/components/button';
-import { Text } from '~/components/react-aria-components';
-import { TextInput } from '~/components/user-panel/text-field';
+import Anonymous from '@/assets/images/anonymous.svg';
+import Close from '@/assets/images/close.svg';
+import CommentsIcon from '@/assets/images/comments.svg';
+import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
+import IncreaseArrow from '@/assets/images/increaseArrow.svg';
+import ThreeDotts from '@/assets/images/threeDotts.svg';
+import Button from '@/components/button';
+import { Text } from '@/components/react-aria-components';
+import { TextInput } from '@/components/user-panel/text-field';
 export default function CommentsSideBar() {
   return (
     <section className="bg-crust flex w-[450px] flex-col gap-[10px] rounded-[10px] p-[10px] px-[15px]">

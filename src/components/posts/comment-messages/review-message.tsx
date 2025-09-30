@@ -1,9 +1,9 @@
-import { Button, Text } from '~/components/react-aria-components';
+import { Button, Text } from '@/components/react-aria-components';
 import Image from 'next/image';
-import Comments from '~/assets/images/comments.svg';
-import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import IncreaseArrow from '~/assets/images/increaseArrow.svg';
-import ThreeDotts from '~/assets/images/threeDotts.svg';
+import Comments from '@/assets/images/comments.svg';
+import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
+import IncreaseArrow from '@/assets/images/increaseArrow.svg';
+import ThreeDotts from '@/assets/images/threeDotts.svg';
 
 function ReviewMessege() {
   return (

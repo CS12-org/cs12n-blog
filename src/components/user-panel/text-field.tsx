@@ -1,4 +1,4 @@
-import { TextField, Label, Input } from '~/components/react-aria-components';
+import { TextField, Label, Input } from '@/components/react-aria-components';
 
 type Props = {
   label?: string;

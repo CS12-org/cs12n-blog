@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Close from '~/assets/images/close.svg';
-import ExcalamationMark from '~/assets/images/excalamation.svg';
-import Button from '~/components/button';
-import { Text } from '~/components/react-aria-components';
+import Close from '@/assets/images/close.svg';
+import ExcalamationMark from '@/assets/images/excalamation.svg';
+import Button from '@/components/button';
+import { Text } from '@/components/react-aria-components';
 
 export default function NotesSideBar() {
   return (

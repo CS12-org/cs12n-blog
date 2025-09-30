@@ -9,7 +9,7 @@ import {
   type CheckboxGroupProps,
   type CheckboxProps,
   type ValidationResult,
-} from '~/components/react-aria-components';
+} from '@/components/react-aria-components';
 
 interface SettingCheckboxGroupProps extends Omit<CheckboxGroupProps, 'children'> {
   children?: React.ReactNode;

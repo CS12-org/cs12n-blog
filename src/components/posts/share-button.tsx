@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import CopyLink from '~/assets/images/link-round-angle.svg';
-import Linkedin from '~/assets/images/linkedin.svg';
-import Share from '~/assets/images/share3circle.svg';
-import Telegram from '~/assets/images/telegram.svg';
-import Twitter from '~/assets/images/twitterx.svg';
+import CopyLink from '@/assets/images/link-round-angle.svg';
+import Linkedin from '@/assets/images/linkedin.svg';
+import Share from '@/assets/images/share3circle.svg';
+import Telegram from '@/assets/images/telegram.svg';
+import Twitter from '@/assets/images/twitterx.svg';
 
 export default function SharePopoverButton() {
   const [isVisible, setIsVisible] = useState(false);

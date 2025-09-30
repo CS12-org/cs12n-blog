@@ -1,4 +1,4 @@
-import axios from '~/lib/axios';
+import axios from '@/lib/axios';
 export type GetUserProfileReq = {};
 export type GetUserProfileRes = {
   id: string;

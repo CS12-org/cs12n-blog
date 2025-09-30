@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
-import Button from '~/components/button';
+import Button from '@/components/button';
 import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import axios from '~/lib/axios';
+import axios from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import { Input, Text, TextField } from 'react-aria-components';
 import PayamCharachter from '../../../public/payam-character.png';

@@ -1,6 +1,6 @@
-import { Text } from '~/components/react-aria-components';
-import Check from '~/assets/images/check.svg';
-import Button from '~/components/button';
+import { Text } from '@/components/react-aria-components';
+import Check from '@/assets/images/check.svg';
+import Button from '@/components/button';
 
 function SharingSuccessPrompt() {
   return (

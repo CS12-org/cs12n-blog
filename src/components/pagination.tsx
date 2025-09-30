@@ -5,9 +5,9 @@
  */
 
 import * as React from 'react';
-import { Link } from '~/components/react-aria-components';
+import { Link } from '@/components/react-aria-components';
 import { LuChevronLeft, LuChevronRight, LuEllipsis } from 'react-icons/lu';
-import twMerge from '~/lib/tw-merge';
+import twMerge from '@/lib/tw-merge';
 
 /**
  * Props for the main Pagination navigation component.

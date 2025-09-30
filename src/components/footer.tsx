@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import Home from '~/assets/images/home.svg';
-import Telephone from '~/assets/images/telephone.svg';
-import Help from '~/assets/images/help.svg';
-import About from '~/assets/images/aboutus.svg';
+import Home from '@/assets/images/home.svg';
+import Telephone from '@/assets/images/telephone.svg';
+import Help from '@/assets/images/help.svg';
+import About from '@/assets/images/aboutus.svg';
 
 export default function Footer() {
   const pathname = usePathname();

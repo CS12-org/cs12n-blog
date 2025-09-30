@@ -1,5 +1,5 @@
-import twMerge from '~/lib/tw-merge';
-import { RadioGroup, Radio, type RadioGroupProps } from '~/components/react-aria-components';
+import twMerge from '@/lib/tw-merge';
+import { RadioGroup, Radio, type RadioGroupProps } from '@/components/react-aria-components';
 
 interface ColorOption {
   label: string;
@@ -42,7 +42,7 @@ function MyRadioGroup({ options, ...props }: ColorRadioGroupProps) {
 }
 
 // import Button from "~/components/Button"
-// import twMerge from "~/lib/tw-merge";
+// import twMerge from  "~/lib/tw-merge";
 
 // type ThemeSettingProps = {
 //   buttonText: string;

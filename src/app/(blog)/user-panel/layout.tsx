@@ -1,4 +1,4 @@
-import UserPanelSidebar from '~/components/user-panel/user-panel-sidebar';
+import UserPanelSidebar from '@/components/user-panel/user-panel-sidebar';
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Button from '~/components/button';
+import Button from '@/components/button';
 import Image from 'next/image';
 import { twJoin } from 'tailwind-merge';
-import axios from '~/lib/axios';
+import axios from '@/lib/axios';
 
 export default function VerifyEmailForm() {
   const router = useRouter();

@@ -2,11 +2,11 @@
 
 import { Button, TextField } from 'react-aria-components';
 import Image from 'next/image';
-import PlusSign from '~/assets/images/plus-sign.svg';
-import { Text } from '~/components/react-aria-components';
-import { SettingCheckboxOption } from '~/components/user-panel/setting-checkbox';
-import { TextInput } from '~/components/user-panel/text-field';
-import MyRadioGroup from '~/components/user-panel/theme-setting';
+import PlusSign from '@/assets/images/plus-sign.svg';
+import { Text } from '@/components/react-aria-components';
+import { SettingCheckboxOption } from '@/components/user-panel/setting-checkbox';
+import { TextInput } from '@/components/user-panel/text-field';
+import MyRadioGroup from '@/components/user-panel/theme-setting';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -14,18 +14,19 @@ import React, { useEffect, useState } from 'react';
 import { Input } from 'react-aria-components';
 import { twJoin } from 'tailwind-merge';
 import z from 'zod';
-import { putUserProfile } from '~/service/put-user-profile';
+import { putUserProfile } from '@/service/put-user-profile';
 import { useSession } from 'next-auth/react';
 import { TbEdit } from 'react-icons/tb';
-import UploadImageModal from '~/components/shared/upload-image-modal';
-import { getUserProfile, GetUserProfileRes } from '~/service/get-user-profile';
+import UploadImageModal from '@/components/shared/upload-image-modal';
+import { getUserProfile, GetUserProfileRes } from '@/service/get-user-profile';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { postUploadAvatar } from '~/service/post-upload-avatar';
-import Accordion from '~/components/user-panel/accordion';
+import { postUploadAvatar } from '@/service/post-upload-avatar';
+import Accordion from '@/components/user-panel/accordion';
 
 const schema = z.object({
   info: z.string().max(200),
   fullName: z.string().min(1),
+  website: z.string(),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -335,6 +336,9 @@ export default function UserPanelForm() {
         </Accordion>
 
         {/* survay  */}
+
+        {/* TODO: In HTML, <form> cannot be a descendant of <form>. This will
+        cause a hydration error. */}
         <Accordion title="نظرسنجی">
           <section className="flex w-full flex-col gap-2">
             <article className="bg-crust flex w-full items-center gap-x-2.5 rounded-xl p-2">

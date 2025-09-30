@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import MainBottombar from './main-bottom-bar';
 import MainFooter from './main-footer';
 import MainTopbar from './main-top-bar';
-import Footer from '~/components/footer';
+import Footer from '@/components/footer';
 import { twJoin } from 'tailwind-merge';
 
 type Props = { children?: ReactNode };

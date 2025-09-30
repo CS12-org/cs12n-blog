@@ -1,6 +1,6 @@
-import { Text } from '~/components/react-aria-components';
-import Shareit from '~/assets/images/shareit.svg';
-import Button from '~/components/button';
+import { Text } from '@/components/react-aria-components';
+import Shareit from '@/assets/images/shareit.svg';
+import Button from '@/components/button';
 
 function ShareHighlightsPrompt() {
   return (

@@ -1,20 +1,20 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import Hands from '~/assets/images/hands-celebrate.svg';
-import AudioPlayer from '~/components/audio-player';
-import ChangeCommitMessege from '~/components/free-sections/change-commit-message';
-import CommitMessegeInput from '~/components/free-sections/commit-message-input';
-import ResumeSharingNotice from '~/components/free-sections/resume-sharing-notice';
-import ShareHighlightsPrompt from '~/components/free-sections/share-highlights-prompt';
-import SharingSuccessPrompt from '~/components/free-sections/sharing-success-prompt';
-import HighlightMenu from '~/components/posts/highlight-menu';
-import PostAuthor from '~/components/posts/post-author';
-import PostNavigation from '~/components/posts/post-navigation';
-import PostTabs from '~/components/posts/post-tabs';
-import PostSideBar from '~/components/posts/side-bar';
-import { getPostBySlug } from '~/service/posts';
+import Hands from '@/assets/images/hands-celebrate.svg';
+import AudioPlayer from '@/components/audio-player';
+import ChangeCommitMessege from '@/components/free-sections/change-commit-message';
+import CommitMessegeInput from '@/components/free-sections/commit-message-input';
+import ResumeSharingNotice from '@/components/free-sections/resume-sharing-notice';
+import ShareHighlightsPrompt from '@/components/free-sections/share-highlights-prompt';
+import SharingSuccessPrompt from '@/components/free-sections/sharing-success-prompt';
+import HighlightMenu from '@/components/posts/highlight-menu';
+import PostAuthor from '@/components/posts/post-author';
+import PostNavigation from '@/components/posts/post-navigation';
+import PostTabs from '@/components/posts/post-tabs';
+import PostSideBar from '@/components/posts/side-bar';
+import { getPostBySlug } from '@/service/posts';
 import SharePopoverButton from '../../../../components/posts/share-button';
-import ClapButton from '~/components/posts/clap-button';
+import ClapButton from '@/components/posts/clap-button';
 
 type Props = {
   params: Promise<{

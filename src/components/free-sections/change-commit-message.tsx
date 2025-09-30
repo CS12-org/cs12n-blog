@@ -1,7 +1,7 @@
-import { Text } from '~/components/react-aria-components';
-import ExclamationMark from '~/assets/images/excalamation.svg';
-import { TextInput } from '~/components/user-panel/text-field';
-import Button from '~/components/button';
+import { Text } from '@/components/react-aria-components';
+import ExclamationMark from '@/assets/images/excalamation.svg';
+import { TextInput } from '@/components/user-panel/text-field';
+import Button from '@/components/button';
 
 function ChangeCommitMessege() {
   return (

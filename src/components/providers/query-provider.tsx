@@ -3,7 +3,7 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useState, type ReactNode } from 'react';
 
-import createQueryClient from '~/lib/react-query';
+import createQueryClient from '@/lib/react-query';
 
 type Props = { children?: ReactNode };
 

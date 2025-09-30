@@ -1,4 +1,4 @@
-import axios from '~/lib/axios';
+import axios from '@/lib/axios';
 
 export type Post = {
   id: string;
@@ -48,17 +48,17 @@ const mapSavedPostToPost = (item: any): Post => ({
   clap: item.claps ?? 0,
   userClapCount: item.userClapCount ?? 0,
   narrator: null,
-  featured_image: item.featuredImage
+  featured_image: item.featured_image
     ? {
-        width: item.featuredImage.width,
-        height: item.featuredImage.height,
-        url: item.featuredImage.url,
+        width: item.featured_image.width,
+        height: item.featured_image.height,
+        url: item.featured_image.url,
       }
     : null,
   user: item.user
     ? {
-        email: item.user.email ?? '',
-        username: item.user.username ?? '',
+        email: item.user.email,
+        username: item.user.username,
         avatarUrl: item.user.profile?.avatarUrl ?? undefined,
         bio: item.user.profile?.bio ?? undefined,
       }

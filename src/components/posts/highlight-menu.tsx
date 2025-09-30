@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import Comments from '~/assets/images/comments.svg';
-import Highlighter from '~/assets/images/highlighter.svg';
-import Notes from '~/assets/images/notes.svg';
+import Comments from '@/assets/images/comments.svg';
+import Highlighter from '@/assets/images/highlighter.svg';
+import Notes from '@/assets/images/notes.svg';
 
 interface HighlightMenuProps {
   containerId: string;

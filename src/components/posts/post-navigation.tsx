@@ -1,6 +1,6 @@
-import { Text } from '~/components/react-aria-components';
+import { Text } from '@/components/react-aria-components';
 import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
-import Button from '~/components/button';
+import Button from '@/components/button';
 
 function PostNavigation() {
   return (

@@ -3,11 +3,11 @@
 import { InfiniteData } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import Close from '~/assets/images/close.svg';
-import Save from '~/assets/images/save.svg';
-import Stopwatch from '~/assets/images/stopwatch.svg';
-import { useFetchSavedPosts } from '~/hooks/use-saved-posts';
-import { SavedPostsResponse } from '~/service/saved-posts';
+import Close from '@/assets/images/close.svg';
+import Save from '@/assets/images/save.svg';
+import Stopwatch from '@/assets/images/stopwatch.svg';
+import { useFetchSavedPosts } from '@/hooks/use-saved-posts';
+import { SavedPostsResponse } from '@/service/saved-posts';
 import SaveButton from './save-button';
 
 export default function SavedPost() {

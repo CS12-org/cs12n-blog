@@ -1,12 +1,10 @@
+import Comments from '@/assets/images/comments.svg';
+import Button from '@/components/button';
+import { Link } from '@/components/react-aria-components';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
-import Comments from '~/assets/images/comments.svg';
-import SaveButton from '../saved-posts/save-button';
-import Button from '~/components/button';
-import { Link } from '~/components/react-aria-components';
-import { FaHandsClapping } from 'react-icons/fa6';
 import ClapButton from '../posts/clap-button';
-
+import SaveButton from '../saved-posts/save-button';
 const colors = ['text-peach', 'text-mauve', 'text-yellow'];
 
 type Props = {
@@ -23,6 +21,7 @@ type Props = {
 
 export default function Post(props: Props) {
   const { id, title, tags, description, image, slug, isSavedByCurrentUser, claps } = props;
+
   return (
     <article className="bg-crust overflow-hidden rounded-xl">
       {image && (
@@ -32,7 +31,6 @@ export default function Post(props: Props) {
           </Link>
         </header>
       )}
-
       <main>
         <Link href={`/post/${slug}`}>
           <h3 className="text-headline-md lg:text-headline-lg truncate px-2.5 pt-4 pb-2.5">{title}</h3>
@@ -43,7 +41,6 @@ export default function Post(props: Props) {
           <p className="text-subtext-0 grow truncate px-2.5">{description}</p>
         </div>
       </main>
-
       <footer className="text-body-xs px-[10px] pt-7 pb-5">
         <ul className="mb-4 flex items-baseline gap-2.5">
           {tags.map((item, index) => (
@@ -67,7 +64,9 @@ export default function Post(props: Props) {
             <Comments className="text-overlay-1 h-[29px] w-[29px]" />
             <span className="text-white">نظرات</span>
           </Button>
+
           <ClapButton postId={id} maxClicks={5} count={claps} userClapCount={props.clapUserCount} />
+
           <p className="mr-auto text-white">3 دقیقه</p>
           <SaveButton postId={id} isSavedByCurrentUser={isSavedByCurrentUser} />
         </div>

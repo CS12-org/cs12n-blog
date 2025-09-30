@@ -3,11 +3,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Button from '~/components/button';
-import { Input, Text, TextField } from '~/components/react-aria-components';
+import Button from '@/components/button';
+import { Input, Text, TextField } from '@/components/react-aria-components';
 import { twJoin } from 'tailwind-merge';
 import { useRouter } from 'next/navigation';
-import { registerUser } from '~/service/signup';
+import { registerUser } from '@/service/signup';
 import Image from 'next/image';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
