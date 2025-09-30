@@ -11,7 +11,6 @@ import { useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import { Input, Text, TextField } from 'react-aria-components';
-import PayamCharachter from '../../../public/payam-character.png';
 import { queue } from '../providers/react-aria-toast-provider';
 
 const ChangePasswordSchema = z
@@ -101,7 +100,9 @@ export default function ChangePasswordForm() {
           className="bg-crust relative my-auto flex w-[360px] max-w-sm flex-col items-stretch rounded-2xl p-5"
         >
           <Image
-            src={PayamCharachter}
+            src={'/payam-character.png'}
+            width={150}
+            height={150}
             alt="کرکتر پیام"
             className={twJoin(
               'animate-fade-up animate-duration-1000 animate-delay-500',
