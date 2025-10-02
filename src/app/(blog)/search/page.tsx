@@ -22,6 +22,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   if (!query) return notFound();
 
   const res = await searchPosts(query);
+  res.items ??= [];
 
   // Pagination سمت سرور
   const start = (parsedPage - 1) * parsedPageSize;
@@ -31,7 +32,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <section>
       <div aria-hidden className="bg-surface-0 my-5 h-[3px] rounded-full" />
-      <Posts page={parsedPage} pageSize={parsedPageSize} totalPosts={res.items.length} posts={paginatedItems} />
+      {paginatedItems.length > 0 && (
+        <Posts
+          page={parsedPage}
+          pageSize={parsedPageSize}
+          query={query}
+          totalPosts={res.items.length}
+          posts={paginatedItems}
+        />
+      )}
+
+      {paginatedItems.length === 0 && <p className="text-headline-md text-overlay-1 text-center">هیچ پستی پیدا نشد</p>}
     </section>
   );
 }

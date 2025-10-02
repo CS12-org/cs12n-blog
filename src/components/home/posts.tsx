@@ -18,11 +18,12 @@ type Props = {
   page: number;
   pageSize: number;
   totalPosts?: number;
+  query?: string;
   posts: GetPostsResult['items'];
 };
 
 function Posts(props: Props) {
-  const { page, pageSize, posts, totalPosts = 0 } = props;
+  const { page, pageSize, posts, totalPosts = 0, query } = props;
 
   const totalPages = useMemo(() => Math.ceil(totalPosts / pageSize), [totalPosts, pageSize]);
 
@@ -53,7 +54,7 @@ function Posts(props: Props) {
 
   const { data } = useQuery({
     initialData: posts,
-    queryKey: ['posts', pageSize, page],
+    queryKey: ['posts', pageSize, page, query],
     queryFn: () => getPosts({ page, pageSize }).then((res) => res.data.items),
   });
 
