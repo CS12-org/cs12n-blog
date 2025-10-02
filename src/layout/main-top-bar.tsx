@@ -3,7 +3,7 @@
 import { type ReactNode, useState } from 'react';
 import { Input, TextField, Link } from '~/components/react-aria-components';
 import { FaArrowRightToBracket, FaBars, FaBook, FaMagnifyingGlass } from 'react-icons/fa6';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { twJoin } from 'tailwind-merge';
 import twMerge from '~/lib/tw-merge';
 import Logo from '~/assets/images/cs12-logo.svg';
@@ -24,12 +24,12 @@ const PATH_ICONS: Record<string, ReactNode> = {
 };
 
 export default function MainTopbar({ isBlured = false }: Props) {
-  const [focused, setFocused] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-
   const router = useRouter();
   const pathname = usePathname();
   const matchedIcon = PATH_ICONS[pathname];
+  const searchParams = useSearchParams();
+
+  const [searchValue, setSearchValue] = useState(searchParams.get('query') || '');
 
   const sideBarOpen = useMainLayoutStore((state) => state.isSideBarOpen);
   const toggleIsSideBarOpen = useMainLayoutStore((state) => state.toggleIsSideBarOpen);
@@ -44,7 +44,8 @@ export default function MainTopbar({ isBlured = false }: Props) {
   return (
     <header
       className={twJoin(
-        'bg-crust [&>button]:text-overlay-1 relative z-11 mt-8 flex h-17.5 items-center gap-3.5 rounded-xl px-4 select-none lg:px-7.5 [&>*]:shrink-0',
+        'bg-crust [&>button]:text-overlay-1 relative z-11 mt-8 flex h-17.5 items-center',
+        'gap-3.5 rounded-xl px-4 select-none lg:px-7.5 [&>*]:shrink-0',
       )}
     >
       <Logo />
@@ -92,25 +93,23 @@ export default function MainTopbar({ isBlured = false }: Props) {
           )}
 
           <form onSubmit={handleSubmit} role="searchbox">
-            <TextField className="relative h-10 w-10">
+            <TextField className="relative z-[1]">
               <Input
                 aria-label="سرچ بار"
                 value={searchValue}
                 role="search"
                 onChange={(e) => setSearchValue(e.target.value)}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
-                placeholder={focused ? 'جستوجو کنید' : ''}
+                placeholder="جستوجو کنید"
                 className={twJoin(
-                  'bg-base placeholder:text-text absolute left-0 h-10 w-10 rounded-lg text-xs placeholder:text-xs focus:p-2.5',
+                  'bg-base placeholder:text-text absolute left-0 h-10 w-10 opacity-0',
+                  'rounded-lg text-xs placeholder:text-xs focus:p-2.5 focus:opacity-100',
                   'focus:w-[245px] focus:outline-none lg:focus:w-[660px]',
                   'cursor-pointer transition-all duration-200 ease-in-out',
                 )}
               />
-              <FaMagnifyingGlass
-                size={16}
-                className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-              />
+              <div className="bg-base size-10 rounded-lg">
+                <FaMagnifyingGlass className="pointer-events-none absolute top-1/2 left-1/2 size-4 -translate-x-1/2 -translate-y-1/2 cursor-pointer" />
+              </div>
             </TextField>
           </form>
 
