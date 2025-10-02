@@ -23,7 +23,7 @@ export type Post = {
 };
 
 export type SavedPostsResponse = {
-  items: any[];
+  items: unknown[];
   totalCount: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
@@ -76,16 +76,27 @@ export interface SearchPostsResult {
 
 // ------------------ API Functions ------------------
 
-export const getPosts = (params: GetPostsParams) => {
-  return axios.get<GetPostsResult>('/api/posts/feed', { params });
+export const getPosts = async (params: GetPostsParams) => {
+  return (await axios.get<GetPostsResult>('/api/posts/feed', { params })).data.items;
 };
 
-export const searchPosts = async (query: string): Promise<SearchPostsResult> => {
+type SearchParams = {
+  query: string;
+  page: number;
+  pageSize: number;
+};
+export const searchPosts = async (params: SearchParams) => {
+  const { query, page, pageSize } = params;
+
   try {
     const res = await axios.get<SearchPostsResult>('/api/posts/search', {
       params: { query },
     });
-    return res.data;
+
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+
+    return res.data.items.slice(start, end).map(mapSearchItemToPostItem);
   } catch (err: unknown) {
     console.error(err);
     throw new Error('خطا در جست‌وجوی پست‌ها');
@@ -103,30 +114,6 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
 };
 
 // ------------------ Mappers ------------------
-
-const mapSavedPostToPost = (item: any): Post => ({
-  id: item.id,
-  title: item.title ?? 'بدون عنوان',
-  slug: item.slug,
-  description: item.excerpt ?? '',
-  clap: item.saveCount ?? 0,
-  narrator: null,
-  featured_image: item.featured_image
-    ? {
-        width: item.featured_image.width,
-        height: item.featured_image.height,
-        url: item.featured_image.url,
-      }
-    : null,
-  user: item.user
-    ? {
-        email: item.user.email,
-        username: item.user.username,
-        avatarUrl: item.user.profile?.avatarUrl ?? undefined,
-        bio: item.user.profile?.bio ?? undefined,
-      }
-    : null,
-});
 
 /**
  * Mapper: SearchPostsResult item → GetPostsResult item

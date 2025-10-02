@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Posts from '~/components/home/posts';
-import { searchPosts, mapSearchItemToPostItem } from '~/service/posts';
+import { searchPosts } from '~/service/posts';
 
 interface SearchPageProps {
   searchParams: Promise<{
@@ -21,28 +21,18 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   if (!query) return notFound();
 
-  const res = await searchPosts(query);
-  res.items ??= [];
+  const res = (await searchPosts({ query, page: parsedPage, pageSize: parsedPageSize })) ?? [];
 
   // Pagination سمت سرور
-  const start = (parsedPage - 1) * parsedPageSize;
-  const end = start + parsedPageSize;
-  const paginatedItems = res.items.slice(start, end).map(mapSearchItemToPostItem);
 
   return (
     <section>
       <div aria-hidden className="bg-surface-0 my-5 h-[3px] rounded-full" />
-      {paginatedItems.length > 0 && (
-        <Posts
-          page={parsedPage}
-          pageSize={parsedPageSize}
-          query={query}
-          totalPosts={res.items.length}
-          posts={paginatedItems}
-        />
+      {res.length > 0 && (
+        <Posts posts={res} query={query} page={parsedPage} totalPosts={res.length} pageSize={parsedPageSize} />
       )}
 
-      {paginatedItems.length === 0 && <p className="text-headline-md text-overlay-1 text-center">هیچ پستی پیدا نشد</p>}
+      {res.length === 0 && <p className="text-headline-md text-overlay-1 text-center">هیچ پستی پیدا نشد</p>}
     </section>
   );
 }

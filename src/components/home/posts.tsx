@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import Post from '~/components/home/post';
 import { useQuery } from '@tanstack/react-query';
-import { getPosts, type GetPostsResult } from '~/service/posts';
+import { getPosts, searchPosts, type GetPostsResult } from '~/service/posts';
 import {
   Pagination,
   PaginationContent,
@@ -16,9 +16,9 @@ import {
 
 type Props = {
   page: number;
+  query?: string;
   pageSize: number;
   totalPosts?: number;
-  query?: string;
   posts: GetPostsResult['items'];
 };
 
@@ -34,18 +34,13 @@ function Posts(props: Props) {
     if (totalPages <= maxVisiblePages) for (let i = 1; i <= totalPages; i++) pages.push(i);
     else {
       pages.push(1);
-
-      if (page > 3) {
-        pages.push('...');
-      }
+      if (page > 3) pages.push('...');
 
       const start = Math.max(2, page - 1);
       const end = Math.min(totalPages - 1, page + 1);
 
       for (let i = start; i <= end; i++) if (i !== 1 && i !== totalPages) pages.push(i);
-
       if (page < totalPages - 2) pages.push('...');
-
       if (totalPages > 1) pages.push(totalPages);
     }
 
@@ -55,7 +50,17 @@ function Posts(props: Props) {
   const { data } = useQuery({
     initialData: posts,
     queryKey: ['posts', pageSize, page, query],
-    queryFn: () => getPosts({ page, pageSize }).then((res) => res.data.items),
+    queryFn: () =>
+      query
+        ? searchPosts({
+            query,
+            page,
+            pageSize,
+          })
+        : getPosts({
+            page,
+            pageSize,
+          }),
   });
 
   const postList = (
