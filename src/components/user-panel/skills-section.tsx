@@ -3,16 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
-import { zodResolver }   from '@hookform/resolvers/zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import axios from '@/lib/axios';
 import { Button, Input, Text } from 'react-aria-components';
 import Accordion from '@/components/user-panel/accordion';
 import PlusSign from '@/assets/images/plus-sign.svg';
 
 const skillSchema = z.object({
-  skill: z.string()
-    .min(2, "مهارت باید حداقل ۲ کاراکتر باشد")
-    .max(50, "مهارت نمی‌تواند بیشتر از ۵۰ کاراکتر باشد"),
+  skill: z.string().min(2, 'مهارت باید حداقل ۲ کاراکتر باشد').max(50, 'مهارت نمی‌تواند بیشتر از ۵۰ کاراکتر باشد'),
 });
 type SkillForm = z.infer<typeof skillSchema>;
 
@@ -37,7 +35,7 @@ export default function SkillsForm({ userProfileData }: SkillsFormProps) {
     formState: { errors },
   } = useForm<SkillForm>({
     resolver: zodResolver(skillSchema),
-    defaultValues: { skill: "" },
+    defaultValues: { skill: '' },
   });
 
   // ======= مهم: از optional chaining استفاده شده تا اگر userProfileData موجود نبود، ارور ندهد
@@ -59,7 +57,6 @@ export default function SkillsForm({ userProfileData }: SkillsFormProps) {
       socialUrls: userProfileData?.socialUrls ?? [],
       selectedColor: userProfileData?.selectedColor ?? '',
       skills: userProfileData?.skills ?? [],
-      survey: userProfileData?.survey ?? '',
       ...overrides,
     };
   };
@@ -90,7 +87,7 @@ export default function SkillsForm({ userProfileData }: SkillsFormProps) {
     }
 
     if (skills.includes(newSkill)) {
-      setServerError("این مهارت قبلاً ثبت شده است");
+      setServerError('این مهارت قبلاً ثبت شده است');
       setLoading(false);
       return;
     }
@@ -98,7 +95,7 @@ export default function SkillsForm({ userProfileData }: SkillsFormProps) {
     try {
       const newSkills = [...skills, newSkill];
       const payload = buildSafeProfilePayload({ skills: newSkills });
-      const res = await axios.put('/user-profile', payload);
+      const res = await axios.put('/api/user-profile', payload);
 
       if (res.status === 200) {
         setSkills(newSkills);
@@ -124,7 +121,7 @@ export default function SkillsForm({ userProfileData }: SkillsFormProps) {
     try {
       const newSkills = skills.filter((_, i) => i !== index);
       const payload = buildSafeProfilePayload({ skills: newSkills });
-      const res = await axios.put('/user-profile', payload);
+      const res = await axios.put('/api/user-profile', payload);
 
       if (res.status === 200) {
         setSkills(newSkills);
@@ -156,7 +153,7 @@ export default function SkillsForm({ userProfileData }: SkillsFormProps) {
                   isDisabled={loading}
                   aria-label="افزودن مهارت"
                 >
-                  <PlusSign className="w-4 h-4" />
+                  <PlusSign className="h-4 w-4" />
                 </Button>
 
                 <Input
@@ -167,26 +164,20 @@ export default function SkillsForm({ userProfileData }: SkillsFormProps) {
                 />
               </div>
 
-              {errors.skill && (
-                <Text className="text-red text-label-xs">{errors.skill.message}</Text>
-              )}
+              {errors.skill && <Text className="text-red text-label-xs">{errors.skill.message}</Text>}
             </article>
           )}
         />
 
-        {serverError && (
-          <Text className="text-red text-label-xs mt-1">{serverError}</Text>
-        )}
-        {successMsg && (
-          <Text className="text-green-400 text-label-xs mt-1">{successMsg}</Text>
-        )}
+        {serverError && <Text className="text-red text-label-xs mt-1">{serverError}</Text>}
+        {successMsg && <Text className="text-label-xs mt-1 text-green-400">{successMsg}</Text>}
 
         {skills.length > 0 && (
-          <ul className="flex flex-col gap-1 mt-2">
+          <ul className="mt-2 flex flex-col gap-1">
             {skills.map((skill, idx) => (
               <li
                 key={idx}
-                className="flex items-center justify-between bg-mantle rounded-md px-2 py-1 text-xs text-white"
+                className="bg-mantle flex items-center justify-between rounded-md px-2 py-1 text-xs text-white"
               >
                 <span className="break-all">{skill}</span>
                 <Button

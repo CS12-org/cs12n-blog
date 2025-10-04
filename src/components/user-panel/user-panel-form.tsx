@@ -6,7 +6,7 @@ import Accordion from '@/components/user-panel/accordion';
 import { SettingCheckboxOption } from '@/components/user-panel/setting-checkbox';
 import { TextInput } from '@/components/user-panel/text-field';
 import MyRadioGroup from '@/components/user-panel/theme-setting';
-import { getUserProfile } from '@/service/get-user-profile';
+import { getUserProfile, GetUserProfileRes } from '@/service/get-user-profile';
 import { postUploadAvatar } from '@/service/post-upload-avatar';
 import { putUserProfile } from '@/service/put-user-profile';
 import React, { useEffect, useState } from 'react';
@@ -36,8 +36,7 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
-const DEFAULT_ERROR_MESSAGE =
-  'متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.';
+const DEFAULT_ERROR_MESSAGE = 'متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.';
 
 // -----------------------------
 // Component
@@ -349,19 +348,33 @@ export default function UserPanelForm() {
         <SocialLinksSection userProfileData={{ socialUrls: userProfileData?.socialUrls }} />
 
         {/* the rest of accordions (kept unchanged) */}
-      <SkillsForm userProfileData={userProfileData} />
+        <SkillsForm userProfileData={userProfileData} />
         <Accordion title="تنظیمات">
           <section>
             <fieldset className="bg-crust flex w-full flex-col gap-y-2.5 rounded-xl p-2">
-              <SettingCheckboxOption value="sss">آیا ۱۰ تا از آخرین نظراتتون در صفحه پروفایلتون توسط دیگران دیده شود؟</SettingCheckboxOption>
-              <SettingCheckboxOption value="sss1">آیا قسمت زبانهایی که بلدید در صفحه پروفایلتون توسط دیگران دیده شود؟</SettingCheckboxOption>
-              <SettingCheckboxOption value="sss2">آیا قسمت هایلایتها و یادداشتهای شیر شده توسط شما در قسمت پروفایلتون قابل مشاهده باشد؟</SettingCheckboxOption>
-              <SettingCheckboxOption value="sss3">آیا قسمت سوشال مدیای شما در پروفایلتون قابل مشاهده توسط دیگران باشد؟</SettingCheckboxOption>
-              <SettingCheckboxOption value="sss4">آیا تصویر پروفایل شما برای دیگران قابل مشاهده باشد؟</SettingCheckboxOption>
-              <SettingCheckboxOption value="ss5">آیا امتیاز و جایگاه شما در چالشهای هفتگی قابل مشاهده باشد؟</SettingCheckboxOption>
+              <SettingCheckboxOption value="sss">
+                آیا ۱۰ تا از آخرین نظراتتون در صفحه پروفایلتون توسط دیگران دیده شود؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss1">
+                آیا قسمت زبانهایی که بلدید در صفحه پروفایلتون توسط دیگران دیده شود؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss2">
+                آیا قسمت هایلایتها و یادداشتهای شیر شده توسط شما در قسمت پروفایلتون قابل مشاهده باشد؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss3">
+                آیا قسمت سوشال مدیای شما در پروفایلتون قابل مشاهده توسط دیگران باشد؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss4">
+                آیا تصویر پروفایل شما برای دیگران قابل مشاهده باشد؟
+              </SettingCheckboxOption>
+              <SettingCheckboxOption value="ss5">
+                آیا امتیاز و جایگاه شما در چالشهای هفتگی قابل مشاهده باشد؟
+              </SettingCheckboxOption>
               <SettingCheckboxOption value="sss6">آیا صفحه پروفایل برای شما ساخته شود؟</SettingCheckboxOption>
               <div className="col-span-3">
-                <Button className="bg-red text-crust flex w-full items-center justify-center rounded-md px-3 py-1 text-sm">بازگشت به تنظیمات پیشفرض</Button>
+                <Button className="bg-red text-crust flex w-full items-center justify-center rounded-md px-3 py-1 text-sm">
+                  بازگشت به تنظیمات پیشفرض
+                </Button>
               </div>
             </fieldset>
           </section>
@@ -370,7 +383,9 @@ export default function UserPanelForm() {
         <Accordion title="درخواست ها">
           <section>
             <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
-              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">شما یک کاربر عادی هستید برای تبدیل شدن به منتور درخواست بدید.</Text>
+              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
+                شما یک کاربر عادی هستید برای تبدیل شدن به منتور درخواست بدید.
+              </Text>
             </article>
           </section>
         </Accordion>

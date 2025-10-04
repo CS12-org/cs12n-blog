@@ -5,6 +5,8 @@ import { CiBookmark } from 'react-icons/ci';
 import { RiUser3Fill } from 'react-icons/ri';
 import { TbNotes } from 'react-icons/tb';
 import ResponsiveSideBar from '../responsive-side-bar';
+import { redirect } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 const groups = [
   {
@@ -35,6 +37,9 @@ const groups = [
 ];
 
 function UserPanelSidebar() {
+  const session = useSession();
+  if (!session) redirect('/login');
+
   return <ResponsiveSideBar title="پنل کاربری" groups={groups} />;
 }
 

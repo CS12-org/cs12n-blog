@@ -6,10 +6,10 @@ export type GetUserProfileRes = {
   email: string;
   username: string;
   fullName: string;
-  bio?: string;          // 👈 null → undefined
-  avatarUrl?: string;    // 👈 null → undefined
-  coverUrl?: string;     // 👈 null → undefined
-  website?: string;      // 👈 null → undefined
+  bio?: string; // 👈 null → undefined
+  avatarUrl?: string; // 👈 null → undefined
+  coverUrl?: string; // 👈 null → undefined
+  website?: string; // 👈 null → undefined
   createdAt: string;
   socialUrls?: string[];
   selectedColor?: string; // 👈 اضافه شد
@@ -18,9 +18,7 @@ export type GetUserProfileRes = {
 // -----------------------------
 // API function
 // -----------------------------
-export const getUserProfile = async (
-  params: GetUserProfileReq,
-): Promise<GetUserProfileRes> => {
+export const getUserProfile = async (params: GetUserProfileReq): Promise<GetUserProfileRes> => {
   try {
     const response = await axios.get<GetUserProfileRes>('/api/user-profile', { params });
     const data = response.data;

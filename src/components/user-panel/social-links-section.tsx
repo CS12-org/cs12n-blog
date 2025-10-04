@@ -5,12 +5,12 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from '@/lib/axios';
-import { Button, Input, Text } from 'react-aria-components'; 
+import { Button, Input, Text } from 'react-aria-components';
 import Accordion from '@/components/user-panel/accordion';
 import PlusSign from '@/assets/images/plus-sign.svg';
 
 const socialSchema = z.object({
-  link: z.string().url("لینک معتبر نیست"),
+  link: z.string().url('لینک معتبر نیست'),
 });
 type SocialForm = z.infer<typeof socialSchema>;
 
@@ -35,7 +35,7 @@ export default function SocialLinksForm({ userProfileData }: SocialLinksFormProp
     formState: { errors }, // 👈 اینو گرفتم تا خطاها رو نشون بدیم
   } = useForm<SocialForm>({
     resolver: zodResolver(socialSchema),
-    defaultValues: { link: "" },
+    defaultValues: { link: '' },
   });
 
   const [links, setLinks] = useState<string[]>(userProfileData.socialUrls ?? []);
@@ -60,14 +60,14 @@ export default function SocialLinksForm({ userProfileData }: SocialLinksFormProp
 
     // ⛔ چک کنیم لینک تکراری نباشه
     if (links.includes(newLink)) {
-      setServerError("این لینک قبلاً ثبت شده است");
+      setServerError('این لینک قبلاً ثبت شده است');
       setLoading(false);
       return;
     }
 
     try {
       const newLinks = [...links, newLink];
-      const res = await axios.put('/user-profile', {
+      const res = await axios.put('/api/user-profile', {
         ...userProfileData,
         socialUrls: newLinks,
       });
@@ -93,7 +93,7 @@ export default function SocialLinksForm({ userProfileData }: SocialLinksFormProp
 
     try {
       const newLinks = links.filter((_, i) => i !== index);
-      const res = await axios.put('/user-profile', {
+      const res = await axios.put('/api/user-profile', {
         ...userProfileData,
         socialUrls: newLinks,
       });
@@ -126,7 +126,7 @@ export default function SocialLinksForm({ userProfileData }: SocialLinksFormProp
                   isDisabled={loading}
                   aria-label="افزودن لینک"
                 >
-                  <PlusSign className="w-4 h-4" />
+                  <PlusSign className="h-4 w-4" />
                 </Button>
 
                 <Input
@@ -138,34 +138,23 @@ export default function SocialLinksForm({ userProfileData }: SocialLinksFormProp
               </div>
 
               {/* 👇 نمایش خطای اعتبارسنجی */}
-              {errors.link && (
-                <Text className="text-red text-label-xs">{errors.link.message}</Text>
-              )}
+              {errors.link && <Text className="text-red text-label-xs">{errors.link.message}</Text>}
             </article>
           )}
         />
 
-        {serverError && (
-          <Text className="text-red text-label-xs mt-1">{serverError}</Text>
-        )}
-        {successMsg && (
-          <Text className="text-green-400 text-label-xs mt-1">{successMsg}</Text>
-        )}
+        {serverError && <Text className="text-red text-label-xs mt-1">{serverError}</Text>}
+        {successMsg && <Text className="text-label-xs mt-1 text-green-400">{successMsg}</Text>}
 
         {/* 📌 نمایش لیست لینک‌ها */}
         {links.length > 0 && (
-          <ul className="flex flex-col gap-1 mt-2">
+          <ul className="mt-2 flex flex-col gap-1">
             {links.map((link, idx) => (
               <li
                 key={idx}
-                className="flex items-center justify-between bg-mantle rounded-md px-2 py-1 text-xs text-white"
+                className="bg-mantle flex items-center justify-between rounded-md px-2 py-1 text-xs text-white"
               >
-                <a
-                  href={link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline break-all"
-                >
+                <a href={link} target="_blank" rel="noopener noreferrer" className="break-all underline">
                   {link}
                 </a>
                 <Button

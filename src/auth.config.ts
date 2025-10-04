@@ -14,8 +14,8 @@ async function refreshAccessToken(refreshToken: string, token: JWT) {
 }
 
 async function authorize(credentials: Record<string, string> | undefined) {
-  if (!credentials?.email || !credentials?.password || !process.env.BACKEND_URL) return null;
-  
+  if (!credentials?.email || !credentials?.password || !process.env.NEXT_PUBLIC_API_URL) return null;
+
   try {
     const res = await axios
       .post('https://cs12-back-cs12.kubarcloud.net/api/auth/login', {
@@ -27,7 +27,6 @@ async function authorize(credentials: Record<string, string> | undefined) {
 
     if (!res.id) return null;
     return res;
-
   } catch {
     return null;
   }
