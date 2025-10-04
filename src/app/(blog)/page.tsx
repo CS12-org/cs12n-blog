@@ -15,10 +15,10 @@ async function Home(props: Props) {
   const { page, pageSize } = await props.searchParams;
 
   // Check if page and pageSize are numbers and not NaN
-  const parsedPage = parseInt(page ?? '1') || 1;
-  const parsedPageSize = parseInt(pageSize ?? '10') || 10;
+  const parsedPage = parseInt(page ?? '1');
+  const parsedPageSize = parseInt(pageSize ?? '10');
 
-  const { data: posts } = await getPosts({
+  const posts = await getPosts({
     page: parsedPage,
     pageSize: parsedPageSize,
   });
@@ -32,7 +32,7 @@ async function Home(props: Props) {
 
         <div aria-hidden className="bg-surface-0 my-5 h-[3px] rounded-full" />
 
-        <Posts page={parsedPage} pageSize={parsedPageSize} posts={posts.items} />
+        <Posts page={parsedPage} pageSize={parsedPageSize} posts={posts} />
       </div>
     </div>
   );

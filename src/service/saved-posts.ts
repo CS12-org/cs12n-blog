@@ -27,7 +27,7 @@ export interface SavedPostsResponse {
 }
 
 export async function fetchSavedPosts(cursor: string | null): Promise<SavedPostsResponse> {
-  const res = await axios.get('/saved-posts', {
+  const res = await axios.get('/api/saved-posts', {
     params: { previousCursor: cursor, pageSize: 5 },
   });
   return res.data;

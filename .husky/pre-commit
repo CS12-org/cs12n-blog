@@ -4,7 +4,7 @@
 echo '🏗️👷 testing and building your project before committing'
 
 # Check ESLint Standards
-yarn lint ||
+npm run lint ||
 (
         echo '😤🏀👋😤 Get that weak shit out of here! 😤🏀👋😤
                 ESLint Check Failed. Make the required changes listed above, add changes and try to commit again.'
@@ -12,7 +12,7 @@ yarn lint ||
 )
 
 # Check tsconfig standards
-yarn check-types ||
+npm run check-types ||
 (
     echo '🤡😂❌🤡 Failed Type check. 🤡😂❌🤡
             Are you seriously trying to write that? Make the changes required above.'

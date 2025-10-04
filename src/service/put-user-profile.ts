@@ -5,4 +5,4 @@ export type PutUserProfileReq = {
   bio: string;
 };
 export type PutUserProfileRes = object;
-export const putUserProfile = (body: PutUserProfileReq) => axios.put<PutUserProfileRes>('/user-profile', body);
+export const putUserProfile = (body: PutUserProfileReq) => axios.put<PutUserProfileRes>('/api/user-profile', body);

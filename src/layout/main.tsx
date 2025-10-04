@@ -11,9 +11,9 @@ function Main(props: Props) {
   const { children } = props;
 
   return (
-    <div className="flex flex-col px-6">
+    <div className="flex flex-col items-center px-6">
       <div className={twJoin('w-full', 'max-w-sm md:max-w-140 lg:max-w-235', 'mx-auto space-y-5 pb-[95px] lg:pb-5')}>
-        <MainTopbar isBlured={true} />
+        <MainTopbar isBlured={false} />
         <main>{children}</main>
         <MainBottombar />
         <MainFooter />

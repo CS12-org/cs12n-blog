@@ -2,8 +2,6 @@
 
 import { useMemo } from 'react';
 import Post from '@/components/home/post';
-import { useQuery } from '@tanstack/react-query';
-import { getPosts, searchPosts, type GetPostsResult } from '@/service/posts';
 import {
   Pagination,
   PaginationContent,
@@ -16,15 +14,34 @@ import {
 
 type Props = {
   page: number;
-  query?: string;
   pageSize: number;
-  totalPosts?: number;
-  posts: GetPostsResult['items'];
+  totalPosts: number;
+  posts: {
+    id: string;
+    createdAt: string;
+    featuredImage?: string;
+    title: string;
+    slug: string;
+    contentText: string;
+    status: string;
+    user: {
+      id: string;
+      profile: {
+        user: string;
+        fullName: string | null;
+        bio: string | null;
+        avatarUrl: string | null;
+        coverUrl: string | null;
+        website: string | null;
+      };
+    };
+    tags: { id: string; name: string; slug: string }[];
+    isSavedByCurrentUser: boolean;
+    averageRating: unknown;
+  }[];
 };
 
-function Posts(props: Props) {
-  const { page, pageSize, posts, totalPosts = 0, query } = props;
-
+export default function Posts({ page, pageSize, posts, totalPosts }: Props) {
   const totalPages = useMemo(() => Math.ceil(totalPosts / pageSize), [totalPosts, pageSize]);
 
   const pageNumbers = useMemo(() => {
@@ -35,10 +52,8 @@ function Posts(props: Props) {
     else {
       pages.push(1);
       if (page > 3) pages.push('...');
-
       const start = Math.max(2, page - 1);
       const end = Math.min(totalPages - 1, page + 1);
-
       for (let i = start; i <= end; i++) if (i !== 1 && i !== totalPages) pages.push(i);
       if (page < totalPages - 2) pages.push('...');
       if (totalPages > 1) pages.push(totalPages);
@@ -47,31 +62,15 @@ function Posts(props: Props) {
     return pages;
   }, [page, totalPages]);
 
-  const { data } = useQuery({
-    initialData: posts,
-    queryKey: ['posts', pageSize, page, query],
-    queryFn: () =>
-      query
-        ? searchPosts({
-            query,
-            page,
-            pageSize,
-          })
-        : getPosts({
-            page,
-            pageSize,
-          }),
-  });
-
   const postList = (
     <ul className="flex flex-col items-stretch gap-5">
-      {data.map((post: GetPostsResult['items'][number]) => (
+      {posts.map((post) => (
         <li key={post.id} aria-label={post.title}>
           <Post
+            clapUserCount={0}
             id={post.id}
             slug={post.slug}
-            claps={post.claps}
-            clapUserCount={post.userClapCount ?? 0}
+            claps={1}
             title={post.title}
             image={post.featuredImage}
             description={post.contentText}
@@ -92,17 +91,15 @@ function Posts(props: Props) {
   return (
     <>
       {postList}
-
       <Pagination>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious isDisabled={page <= 1} href={`?page=${page - 1}`} />
           </PaginationItem>
 
-          {pageNumbers.map((pageNum, index) => (
-            <PaginationItem key={index}>
+          {pageNumbers.map((pageNum, idx) => (
+            <PaginationItem key={idx}>
               {pageNum === '...' && <PaginationEllipsis />}
-
               {pageNum !== '...' && (
                 <PaginationLink href={`?page=${pageNum}`} isActive={page === pageNum} isDisabled={page === pageNum}>
                   {pageNum}
@@ -119,5 +116,3 @@ function Posts(props: Props) {
     </>
   );
 }
-
-export default Posts;

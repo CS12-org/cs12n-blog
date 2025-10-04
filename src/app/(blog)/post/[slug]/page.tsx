@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import Hands from '@/assets/images/hands-celebrate.svg';
 import AudioPlayer from '@/components/audio-player';
 import ChangeCommitMessege from '@/components/free-sections/change-commit-message';
 import CommitMessegeInput from '@/components/free-sections/commit-message-input';
@@ -13,7 +12,7 @@ import PostNavigation from '@/components/posts/post-navigation';
 import PostTabs from '@/components/posts/post-tabs';
 import PostSideBar from '@/components/posts/side-bar';
 import { getPostBySlug } from '@/service/posts';
-import SharePopoverButton from '../../../../components/posts/share-button';
+import SharePopoverButton from '@/components/posts/share-button';
 import ClapButton from '@/components/posts/clap-button';
 
 type Props = {
