@@ -1,27 +1,27 @@
 'use client';
 
-import { Button, TextField } from 'react-aria-components';
-import Image from 'next/image';
 import PlusSign from '@/assets/images/plus-sign.svg';
 import { Text } from '@/components/react-aria-components';
+import UploadImageModal from '@/components/shared/upload-image-modal';
+import Accordion from '@/components/user-panel/accordion';
 import { SettingCheckboxOption } from '@/components/user-panel/setting-checkbox';
 import { TextInput } from '@/components/user-panel/text-field';
 import MyRadioGroup from '@/components/user-panel/theme-setting';
-import { Controller, useForm } from 'react-hook-form';
+import { getUserProfile } from '@/service/get-user-profile';
+import { postUploadAvatar } from '@/service/post-upload-avatar';
+import { putUserProfile } from '@/service/put-user-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { Input } from 'react-aria-components';
+import { useEffect, useState } from 'react';
+import { Button, Input, TextField } from 'react-aria-components';
+import { Controller, useForm } from 'react-hook-form';
+import { TbEdit } from 'react-icons/tb';
 import { twJoin } from 'tailwind-merge';
 import z from 'zod';
-import { putUserProfile } from '@/service/put-user-profile';
-import { useSession } from 'next-auth/react';
-import { TbEdit } from 'react-icons/tb';
-import UploadImageModal from '@/components/shared/upload-image-modal';
-import { getUserProfile, GetUserProfileRes } from '@/service/get-user-profile';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { postUploadAvatar } from '@/service/post-upload-avatar';
-import Accordion from '@/components/user-panel/accordion';
+import ColorSelect from './color-select';
 
 const schema = z.object({
   info: z.string().max(200),
@@ -36,6 +36,27 @@ export default function UserPanelForm() {
   const router = useRouter();
   const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);
   const { data: session } = useSession();
+  const colorClasses: Record<string, string> = {
+    lavender: 'border-lavender',
+    maroon: 'border-maroon',
+    teal: 'border-teal',
+    peach: 'border-peach',
+    sky: 'border-sky',
+    mauve: 'border-mauve',
+    pink: 'border-pink',
+    flamingo: 'border-flamingo',
+  };
+  const bgClasses: Record<string, string> = {
+    lavender: 'bg-lavender',
+    maroon: 'bg-maroon',
+    teal: 'bg-teal',
+    peach: 'bg-peach',
+    sky: 'bg-sky',
+    mauve: 'bg-mauve',
+    pink: 'bg-pink',
+    flamingo: 'bg-flamingo',
+  };
+  const [color, setColor] = useState<string>('lavender'); // مقدار پیش‌فرض
   const [errorMessage, setErrorMessage] = useState('');
   const { control, handleSubmit, reset } = useForm<FormFields>({
     resolver: zodResolver(schema),
@@ -125,27 +146,35 @@ export default function UserPanelForm() {
         {/* user information */}
         <Accordion title="اطلاعات کاربر" openAccordion={true}>
           <figure className="grid grid-cols-1 md:grid-cols-[100px_1fr]">
-            <div className="relative mt-2.5 h-24 w-24 justify-self-center">
+            <div className="relative mt-2.5 flex h-24 w-24 flex-col items-center gap-4 justify-self-center">
               <Image
                 width={100}
                 height={100}
                 src={userProfileData?.avatarUrl ?? '/user-profile.png'}
                 alt="User Profile"
-                className="border-lavender h-24 w-24 rounded-2xl border-4"
+                className={`h-24 w-24 rounded-2xl border-4 ${colorClasses[color ?? 'lavender']}`}
               />
-              {/* <ColorSelect
-                selectedColor={selectedThemeColor!}
-                onSelectionChange={(key) => {
-                  setSelectedThemeColor(key as string);
-                }}
-              /> */}
+
               <Button
                 onClick={() => setIsOpenAvatarModal(true)}
-                className="bg-lavender absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5"
+                className={`${bgClasses[color]} absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5`}
               >
                 <TbEdit size={20} color="#fff" className="m-0.5" />
               </Button>
+              <div className="">
+                {/* <h2 className="mb-2 text-sm font-semibold">Choose a color</h2> */}
+                <ColorSelect
+                  selectedColor={color}
+                  onSelectionChange={(key) => {
+                    console.log('Selected color:', key);
+                    setColor(key as string);
+                  }}
+                  className=""
+                />
+                {/* <p className="mt-4">Selected: {color}</p> */}
+              </div>
             </div>
+
             <figcaption className="m-2.5 flex flex-col gap-y-2">
               <Input
                 disabled={true}

@@ -30,13 +30,13 @@ interface ColorSelectProps {
 
 export default function ColorSelect({ selectedColor, onSelectionChange, className = '' }: ColorSelectProps) {
   return (
-    <div className={`flex flex-col gap-1 ${className}`}>
+    <div className={`flex flex-col gap-1 ${className} `}>
       <Select
         selectedKey={selectedColor}
         onSelectionChange={onSelectionChange}
         className="w-full" // Adjust width as needed
       >
-        <Button className="flex w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <Button className="flex w-[80px] items-center justify-between rounded-md  bg-crust selected:bg-mantle px-2 py-2 text-sm  focus:outline-none">
           <SelectValue>
             {({ defaultChildren, selectedItem, selectedText }) => {
               // const color = colorOptions.find((opt) => opt?.value === selectedItem)?.bgColorClass;
@@ -47,17 +47,26 @@ export default function ColorSelect({ selectedColor, onSelectionChange, classNam
           </SelectValue>
           <FaChevronDown className="h-4 w-4 text-gray-400" aria-hidden="true" />
         </Button>
-        <Popover className="w-[--trigger-width] rounded-md border border-gray-300 bg-white py-1 shadow-lg">
+        <Popover className="w-[--trigger-width] rounded-md  bg-crust py-1 shadow-lg">
           <ListBox className="p-1">
             {colorOptions.map((option) => (
-              <ListBoxItem
-                key={option.value}
-                id={option.value}
-                className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 focus:bg-blue-50"
-              >
-                <span className={`h-4 w-4 rounded ${option.bgColorClass}`} />
-                {option.label}
-              </ListBoxItem>
+         <ListBoxItem
+  key={option.value}
+  id={option.value}
+  className={`
+    flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm    
+    data-[hovered]:bg-mantle  
+        data-[hovered]:ring-0    
+    aria-selected:bg-mantle         
+    data-[focused]:bg-mantle   
+        data-[focused]:outline-none
+
+  `}
+>
+  <span className={`h-4 w-4 rounded-tr rounded-bl ${option.bgColorClass}`} />
+  {option.label}
+</ListBoxItem>
+
             ))}
           </ListBox>
         </Popover>
