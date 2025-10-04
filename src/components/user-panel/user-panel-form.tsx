@@ -1,6 +1,5 @@
 'use client';
 
-import PlusSign from '@/assets/images/plus-sign.svg';
 import { Text } from '@/components/react-aria-components';
 import UploadImageModal from '@/components/shared/upload-image-modal';
 import Accordion from '@/components/user-panel/accordion';
@@ -10,32 +9,45 @@ import MyRadioGroup from '@/components/user-panel/theme-setting';
 import { getUserProfile } from '@/service/get-user-profile';
 import { postUploadAvatar } from '@/service/post-upload-avatar';
 import { putUserProfile } from '@/service/put-user-profile';
+import React, { useEffect, useState } from 'react';
+import { Button, Input, TextField } from 'react-aria-components';
+import Image from 'next/image';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Button, Input, TextField } from 'react-aria-components';
-import { Controller, useForm } from 'react-hook-form';
 import { TbEdit } from 'react-icons/tb';
 import { twJoin } from 'tailwind-merge';
 import z from 'zod';
 import ColorSelect from './color-select';
+import SocialLinksSection from './social-links-section';
+import SkillsForm from './skills-section';
 
+// -----------------------------
+// Schema + Types
+// -----------------------------
 const schema = z.object({
-  info: z.string().max(200),
+  info: z.string().max(200).optional(),
   fullName: z.string().min(1),
-  website: z.string(),
+  // selectedColor رو optional گذاشتم تا اگر فرم‌های قدیمی یا داده سرور این فیلد نداشتن خطا نداشته باشیم.
+  selectedColor: z.string().optional(),
 });
 
 type FormFields = z.infer<typeof schema>;
-const DEFAULT_ERROR_MESSAGE = 'متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.';
 
+const DEFAULT_ERROR_MESSAGE =
+  'متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.';
+
+// -----------------------------
+// Component
+// -----------------------------
 export default function UserPanelForm() {
   const router = useRouter();
-  const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
+
+  // کلاس‌های آماده برای border و background (مطمئن شو این کلاس‌ها در tailwind تعریف شده‌اند)
   const colorClasses: Record<string, string> = {
     lavender: 'border-lavender',
     maroon: 'border-maroon',
@@ -56,52 +68,74 @@ export default function UserPanelForm() {
     pink: 'bg-pink',
     flamingo: 'bg-flamingo',
   };
+
+  // state محلی برای پیش‌نمایش UI
   const [color, setColor] = useState<string>('lavender'); // مقدار پیش‌فرض
-  const [errorMessage, setErrorMessage] = useState('');
+  const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  // -----------------------------
+  // react-hook-form
+  // -----------------------------
   const { control, handleSubmit, reset } = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
       fullName: '',
       info: '',
+      selectedColor: 'lavender',
     },
   });
-  const queryClient = useQueryClient();
+
+  // -----------------------------
+  // Query: get user profile (existing)
+  // -----------------------------
   const {
     data: userProfileData,
     isLoading,
     isError,
     error,
-    refetch,
   } = useQuery({
     queryKey: ['userProfile', session?.user?.username],
-    queryFn: async () => {
+    queryFn: async (): Promise<GetUserProfileRes> => {
       if (!session?.user?.username) {
         throw new Error('No username available');
       }
       return await getUserProfile({ username: session.user.username });
     },
-    enabled: !!session?.user?.username, // only run when username is available
+    enabled: !!session?.user?.username,
   });
+
+  // -----------------------------
+  // Mutation: update profile (put)
+  // -----------------------------
   const updateMutation = useMutation({
     mutationFn: async (values: FormFields) => {
+      // مقدار selectedColor را از فرم بگیر، در صورت نبودن از state color استفاده کن
+      const selectedColorToSend = values.selectedColor ?? color ?? 'lavender';
+
       return await putUserProfile({
-        bio: values.info,
+        bio: values.info ?? '',
         fullName: values.fullName,
         username: session?.user?.username ?? '',
+        selectedColor: selectedColorToSend,
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile', session?.user?.username] });
     },
     onError: (err: any) => {
-      setErrorMessage(err.response?.statusText || err.message || DEFAULT_ERROR_MESSAGE);
+      setErrorMessage(err?.response?.statusText || err?.message || DEFAULT_ERROR_MESSAGE);
     },
   });
 
+  // submit handler (همان الگوی قبلی)
   const submitHandler = handleSubmit((values) => {
     updateMutation.mutate(values);
   });
-  // Inside UploadImageModal component:
+
+  // -----------------------------
+  // Upload avatar mutation (existing)
+  // -----------------------------
   const uploadMutation = useMutation({
     mutationFn: async (blob: Blob) => {
       const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
@@ -111,22 +145,33 @@ export default function UserPanelForm() {
       setIsOpenAvatarModal(false);
       queryClient.invalidateQueries({ queryKey: ['userProfile', session?.user?.username] });
     },
-    onError: (error: any) => {
-      setErrorMessage(error?.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+    onError: (err: any) => {
+      setErrorMessage(err?.response?.data?.message || DEFAULT_ERROR_MESSAGE);
     },
   });
+
+  // -----------------------------
+  // وقتی پروفایل لود میشه، فرم و state رنگ رو ریست کن
+  // -----------------------------
   useEffect(() => {
     if (userProfileData) {
       reset({
         fullName: userProfileData.fullName || '',
         info: userProfileData.bio || '',
+        selectedColor: userProfileData.selectedColor ?? 'lavender',
       });
+      setColor(userProfileData.selectedColor ?? 'lavender');
     }
   }, [userProfileData, reset]);
+
+  // -----------------------------
+  // Render
+  // -----------------------------
   return (
     <main>
       {isLoading && <div className="flex items-center justify-center pb-4">در حال بارگذاری پروفایل...</div>}
       {isError && <div className="text-red p-4">خطا در بارگذاری: {(error as Error).message}</div>}
+
       {/* Avatar Upload Modal */}
       {isOpenAvatarModal && (
         <UploadImageModal
@@ -152,26 +197,34 @@ export default function UserPanelForm() {
                 height={100}
                 src={userProfileData?.avatarUrl ?? '/user-profile.png'}
                 alt="User Profile"
+                // safe: از map ثابت استفاده می‌کنیم تا tailwind داینامیک نشه
                 className={`h-24 w-24 rounded-2xl border-4 ${colorClasses[color ?? 'lavender']}`}
               />
 
               <Button
                 onClick={() => setIsOpenAvatarModal(true)}
-                className={`${bgClasses[color]} absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5`}
+                className={`${bgClasses[color ?? 'lavender']} absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5`}
               >
                 <TbEdit size={20} color="#fff" className="m-0.5" />
               </Button>
+
               <div className="">
-                {/* <h2 className="mb-2 text-sm font-semibold">Choose a color</h2> */}
-                <ColorSelect
-                  selectedColor={color}
-                  onSelectionChange={(key) => {
-                    console.log('Selected color:', key);
-                    setColor(key as string);
-                  }}
-                  className=""
+                {/* انتخاب رنگ: با Controller متصل میشه */}
+                <Controller
+                  name="selectedColor"
+                  control={control}
+                  render={({ field }) => (
+                    <ColorSelect
+                      selectedColor={field.value ?? color}
+                      onSelectionChange={(key) => {
+                        const newColor = key as string;
+                        setColor(newColor); // برای پیش‌نمایش سریع UI
+                        field.onChange(newColor); // برای ذخیره در فرم
+                      }}
+                      className=""
+                    />
+                  )}
                 />
-                {/* <p className="mt-4">Selected: {color}</p> */}
               </div>
             </div>
 
@@ -189,6 +242,8 @@ export default function UserPanelForm() {
                 placeholder={' ایمیل'}
                 className="bg-mantle w-full rounded-md px-2.5 py-2"
               />
+
+              {/* fullName controller (الگوی مشابه شما) */}
               <Controller
                 name="fullName"
                 control={control}
@@ -217,6 +272,7 @@ export default function UserPanelForm() {
                 )}
               />
 
+              {/* info controller (الگوی مشابه شما) */}
               <Controller
                 name="info"
                 control={control}
@@ -245,6 +301,7 @@ export default function UserPanelForm() {
                   </TextField>
                 )}
               />
+
               <div className="flex w-full justify-end gap-2">
                 <Button
                   onClick={() => router.push('/forgot-password')}
@@ -252,6 +309,7 @@ export default function UserPanelForm() {
                 >
                   تغییر رمز عبور
                 </Button>
+
                 <Button
                   type="submit"
                   className={twJoin(
@@ -260,7 +318,7 @@ export default function UserPanelForm() {
                   )}
                   isDisabled={updateMutation.isPending}
                 >
-                  {updateMutation.isPending ? 'در حال ثبت...' : 'ثبت'}{' '}
+                  {updateMutation.isPending ? 'در حال ثبت...' : 'ثبت'}
                 </Button>
               </div>
             </figcaption>
@@ -274,92 +332,45 @@ export default function UserPanelForm() {
             <MyRadioGroup
               name="theme-color"
               options={[
-                {
-                  label: 'lavender',
-                  bgColorClass: 'bg-lavender',
-                  value: 'lavender',
-                },
+                { label: 'lavender', bgColorClass: 'bg-lavender', value: 'lavender' },
                 { label: 'maroon', bgColorClass: 'bg-maroon', value: 'maroon' },
                 { label: 'teal', bgColorClass: 'bg-teal', value: 'teal' },
                 { label: 'peach', bgColorClass: 'bg-peach', value: 'peach' },
                 { label: 'sky', bgColorClass: 'bg-sky', value: 'sky' },
                 { label: 'mauve', bgColorClass: 'bg-mauve', value: 'mauve' },
                 { label: 'pink', bgColorClass: 'bg-pink', value: 'pink' },
-                {
-                  label: 'flamingo',
-                  bgColorClass: 'bg-flamingo',
-                  value: 'flamingo',
-                },
+                { label: 'flamingo', bgColorClass: 'bg-flamingo', value: 'flamingo' },
               ]}
             />
           </div>
         </section>
-        {/*social media  */}
-        <Accordion title="شبکه های اجتماعی">
-          <section className="flex w-full flex-col gap-2">
-            <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
-              <Button className="bg-mantle flex h-8 w-8 items-center justify-center rounded-md">
-                <PlusSign />
-              </Button>
-              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
-                لینک سوشال میدیا هایی که دارید رو اینجا بزارید.
-              </Text>
-            </article>
-          </section>
-        </Accordion>
-        {/* user skills */}
-        <Accordion title="مهارت ها">
-          <section className="flex w-full flex-col gap-2">
-            <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
-              <Button className="bg-mantle flex h-8 w-8 items-center justify-center rounded-md">
-                <PlusSign />
-              </Button>
-              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
-                زبان ها و تکنولوژی هایی که بلد هستید رو وارد کنید. (به زبان انگلیسی) : مثال c programming language
-              </Text>
-            </article>
-          </section>
-        </Accordion>
 
-        {/* setting */}
+        {/* social links */}
+        <SocialLinksSection userProfileData={{ socialUrls: userProfileData?.socialUrls }} />
+
+        {/* the rest of accordions (kept unchanged) */}
+      <SkillsForm userProfileData={userProfileData} />
         <Accordion title="تنظیمات">
           <section>
             <fieldset className="bg-crust flex w-full flex-col gap-y-2.5 rounded-xl p-2">
-              <SettingCheckboxOption value="sss">
-                آیا ۱۰ تا از آخرین نظراتتون در صفحه پروفایلتون توسط دیگران دیده شود؟
-              </SettingCheckboxOption>
-              <SettingCheckboxOption value="sss1">
-                آیا قسمت زبانهایی که بلدید در صفحه پروفایلتون توسط دیگران دیده شود؟
-              </SettingCheckboxOption>
-              <SettingCheckboxOption value="sss2">
-                آیا قسمت هایلایتها و یادداشتهای شیر شده توسط شما در قسمت پروفایلتون قابل مشاهده باشد؟
-              </SettingCheckboxOption>
-              <SettingCheckboxOption value="sss3">
-                آیا قسمت سوشال مدیای شما در پروفایلتون قابل مشاهده توسط دیگران باشد؟
-              </SettingCheckboxOption>
-              <SettingCheckboxOption value="sss4">
-                آیا تصویر پروفایل شما برای دیگران قابل مشاهده باشد؟
-              </SettingCheckboxOption>
-              <SettingCheckboxOption value="ss5">
-                آیا امتیاز و جایگاه شما در چالشهای هفتگی قابل مشاهده باشد؟
-              </SettingCheckboxOption>
+              <SettingCheckboxOption value="sss">آیا ۱۰ تا از آخرین نظراتتون در صفحه پروفایلتون توسط دیگران دیده شود؟</SettingCheckboxOption>
+              <SettingCheckboxOption value="sss1">آیا قسمت زبانهایی که بلدید در صفحه پروفایلتون توسط دیگران دیده شود؟</SettingCheckboxOption>
+              <SettingCheckboxOption value="sss2">آیا قسمت هایلایتها و یادداشتهای شیر شده توسط شما در قسمت پروفایلتون قابل مشاهده باشد؟</SettingCheckboxOption>
+              <SettingCheckboxOption value="sss3">آیا قسمت سوشال مدیای شما در پروفایلتون قابل مشاهده توسط دیگران باشد؟</SettingCheckboxOption>
+              <SettingCheckboxOption value="sss4">آیا تصویر پروفایل شما برای دیگران قابل مشاهده باشد؟</SettingCheckboxOption>
+              <SettingCheckboxOption value="ss5">آیا امتیاز و جایگاه شما در چالشهای هفتگی قابل مشاهده باشد؟</SettingCheckboxOption>
               <SettingCheckboxOption value="sss6">آیا صفحه پروفایل برای شما ساخته شود؟</SettingCheckboxOption>
               <div className="col-span-3">
-                <Button className="bg-red text-crust flex w-full items-center justify-center rounded-md px-3 py-1 text-sm">
-                  بازگشت به تنظیمات پیشفرض
-                </Button>
+                <Button className="bg-red text-crust flex w-full items-center justify-center rounded-md px-3 py-1 text-sm">بازگشت به تنظیمات پیشفرض</Button>
               </div>
             </fieldset>
           </section>
         </Accordion>
 
-        {/* requests */}
         <Accordion title="درخواست ها">
           <section>
             <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
-              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
-                شما یک کاربر عادی هستید برای تبدیل شدن به منتور درخواست بدید.
-              </Text>
+              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">شما یک کاربر عادی هستید برای تبدیل شدن به منتور درخواست بدید.</Text>
             </article>
           </section>
         </Accordion>
