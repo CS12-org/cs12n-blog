@@ -8,6 +8,7 @@ import { Button, Input, Text } from 'react-aria-components';
 import Accordion from '@/components/user-panel/accordion';
 import PlusSign from '@/assets/images/plus-sign.svg';
 import axios from '@/lib/axios';
+import RemovableListItem from '@/components/user-panel/removable-list-item';
 
 const socialSchema = z.object({
   link: z.string().url('لینک معتبر نیست'),
@@ -117,24 +118,15 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
         {isLoading && <Text>در حال بارگذاری لینک‌ها...</Text>}
 
         {links.length > 0 && (
-          <ul className="mt-2 flex flex-col gap-1">
+          <ul className="mt-2 flex flex-col gap-2">
             {links.map((link: string, idx: number) => (
-              <li
+              <RemovableListItem
                 key={idx}
-                className="bg-mantle flex items-center justify-between rounded-md px-2 py-1 text-xs text-white"
-              >
-                <a href={link} target="_blank" rel="noopener noreferrer" className="break-all underline">
-                  {link}
-                </a>
-                <Button
-                  type="button"
-                  className="text-red-400 hover:text-red-200"
-                  onClick={() => removeLinkMutation.mutate(idx)}
-                  isDisabled={removeLinkMutation.isPending}
-                >
-                  حذف
-                </Button>
-              </li>
+                link={link}
+                text={link}
+                onRemove={() => removeLinkMutation.mutate(idx)}
+                disabled={removeLinkMutation.isPending}
+              />
             ))}
           </ul>
         )}

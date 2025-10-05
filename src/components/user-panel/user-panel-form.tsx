@@ -168,7 +168,7 @@ export default function UserPanelForm() {
   // Render
   // -----------------------------
   return (
-    <main>
+    <main className="w-full">
       {isLoading && <div className="flex items-center justify-center pb-4">در حال بارگذاری پروفایل...</div>}
       {isError && <div className="text-red p-4">خطا در بارگذاری: {(error as Error).message}</div>}
 
@@ -323,26 +323,6 @@ export default function UserPanelForm() {
             </figcaption>
           </figure>
         </Accordion>
-
-        {/* user profile color setting */}
-        <section className="bg-crust flex flex-col gap-y-2.5 rounded-xl p-5">
-          <h2 className="text-xs font-bold">تنظیمات رنگ قسمت سمت راست پروفایل :</h2>
-          <div className="flex flex-wrap gap-[5px]">
-            <MyRadioGroup
-              name="theme-color"
-              options={[
-                { label: 'lavender', bgColorClass: 'bg-lavender', value: 'lavender' },
-                { label: 'maroon', bgColorClass: 'bg-maroon', value: 'maroon' },
-                { label: 'teal', bgColorClass: 'bg-teal', value: 'teal' },
-                { label: 'peach', bgColorClass: 'bg-peach', value: 'peach' },
-                { label: 'sky', bgColorClass: 'bg-sky', value: 'sky' },
-                { label: 'mauve', bgColorClass: 'bg-mauve', value: 'mauve' },
-                { label: 'pink', bgColorClass: 'bg-pink', value: 'pink' },
-                { label: 'flamingo', bgColorClass: 'bg-flamingo', value: 'flamingo' },
-              ]}
-            />
-          </div>
-        </section>
 
         {/* social links */}
         <SocialLinksSection username={userProfileData?.username} />

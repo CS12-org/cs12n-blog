@@ -8,6 +8,7 @@ import { Button, Input, Text } from 'react-aria-components';
 import Accordion from '@/components/user-panel/accordion';
 import PlusSign from '@/assets/images/plus-sign.svg';
 import axios from '@/lib/axios';
+import RemovableListItem from './removable-list-item';
 
 const skillSchema = z.object({
   skill: z.string().min(2, 'مهارت باید حداقل ۲ کاراکتر باشد').max(50, 'مهارت نمی‌تواند بیشتر از ۵۰ کاراکتر باشد'),
@@ -117,22 +118,14 @@ export default function SkillsSection({ username }: SkillsSectionProps) {
         {isLoading && <Text>در حال بارگذاری مهارت‌ها...</Text>}
 
         {skills.length > 0 && (
-          <ul className="mt-2 flex flex-col gap-1">
+          <ul className="mt-2 flex flex-col gap-2">
             {skills.map((skill: string, idx: number) => (
-              <li
+              <RemovableListItem
                 key={idx}
-                className="bg-mantle flex items-center justify-between rounded-md px-2 py-1 text-xs text-white"
-              >
-                <span className="break-all">{skill}</span>
-                <Button
-                  type="button"
-                  className="text-red-400 hover:text-red-200"
-                  onClick={() => removeSkillMutation.mutate(idx)}
-                  isDisabled={removeSkillMutation.isPending}
-                >
-                  حذف
-                </Button>
-              </li>
+                text={skill}
+                onRemove={() => removeSkillMutation.mutate(idx)}
+                disabled={removeSkillMutation.isPending}
+              />
             ))}
           </ul>
         )}
