@@ -30,13 +30,13 @@ interface ColorSelectProps {
 
 export default function ColorSelect({ selectedColor, onSelectionChange, className = '' }: ColorSelectProps) {
   return (
-    <div className={`flex flex-col gap-1 ${className} `}>
+    <div className={`mx-2.5 flex flex-col gap-1 ${className} `}>
       <Select
         selectedKey={selectedColor}
         onSelectionChange={onSelectionChange}
         className="w-full" // Adjust width as needed
       >
-        <Button className="bg-crust selected:bg-mantle flex w-[80px] items-center justify-between rounded-md px-2 py-2 text-sm focus:outline-none">
+        <Button className="bg-crust selected:bg-mantle flex w-[80px] w-full items-center justify-between rounded-md px-2 py-2 text-sm focus:outline-none">
           <SelectValue>
             {({ defaultChildren, selectedItem, selectedText }) => {
               // const color = colorOptions.find((opt) => opt?.value === selectedItem)?.bgColorClass;

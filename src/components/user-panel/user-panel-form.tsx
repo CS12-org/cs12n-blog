@@ -191,24 +191,25 @@ export default function UserPanelForm() {
         {/* user information */}
         <Accordion title="اطلاعات کاربر" openAccordion={true}>
           <figure className="grid grid-cols-1 md:grid-cols-[100px_1fr]">
-            <div className="relative mt-2.5 flex h-24 w-24 flex-col items-center gap-4 justify-self-center">
-              <Image
-                width={100}
-                height={100}
-                src={userProfileData?.avatarUrl ?? '/user-profile.png'}
-                alt="User Profile"
-                // safe: از map ثابت استفاده می‌کنیم تا tailwind داینامیک نشه
-                className={`h-24 w-24 rounded-2xl border-4 ${colorClasses[color ?? 'lavender']}`}
-              />
+            <div className="flex flex-col items-center gap-2.5">
+              <div className="relative mt-2.5 flex h-24 w-24 flex-col items-center gap-4 justify-self-center">
+                <Image
+                  width={100}
+                  height={100}
+                  src={userProfileData?.avatarUrl ?? '/user-profile.png'}
+                  alt="User Profile"
+                  // safe: از map ثابت استفاده می‌کنیم تا tailwind داینامیک نشه
+                  className={`h-24 w-24 rounded-2xl border-4 ${colorClasses[color ?? 'lavender']}`}
+                />
 
-              <Button
-                onClick={() => setIsOpenAvatarModal(true)}
-                className={`${bgClasses[color ?? 'lavender']} absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5`}
-              >
-                <TbEdit size={20} color="#fff" className="m-0.5" />
-              </Button>
-
-              <div className="">
+                <Button
+                  onClick={() => setIsOpenAvatarModal(true)}
+                  className={`${bgClasses[color ?? 'lavender']} absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5`}
+                >
+                  <TbEdit size={20} color="#fff" className="m-0.5" />
+                </Button>
+              </div>
+              <div className="w-full">
                 {/* انتخاب رنگ: با Controller متصل میشه */}
                 <Controller
                   name="selectedColor"
@@ -221,13 +222,11 @@ export default function UserPanelForm() {
                         setColor(newColor); // برای پیش‌نمایش سریع UI
                         field.onChange(newColor); // برای ذخیره در فرم
                       }}
-                      className=""
                     />
                   )}
                 />
               </div>
             </div>
-
             <figcaption className="m-2.5 flex flex-col gap-y-2">
               <Input
                 disabled={true}
@@ -346,13 +345,10 @@ export default function UserPanelForm() {
         </section>
 
         {/* social links */}
-<SocialLinksSection
-  username={userProfileData?.username}
-/>
-
+        <SocialLinksSection username={userProfileData?.username} />
 
         {/* the rest of accordions (kept unchanged) */}
-<SkillsSection username={userProfileData?.username} />
+        <SkillsSection username={userProfileData?.username} />
         <Accordion title="تنظیمات">
           <section>
             <fieldset className="bg-crust flex w-full flex-col gap-y-2.5 rounded-xl p-2">

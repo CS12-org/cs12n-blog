@@ -10,10 +10,7 @@ import PlusSign from '@/assets/images/plus-sign.svg';
 import axios from '@/lib/axios';
 
 const skillSchema = z.object({
-  skill: z
-    .string()
-    .min(2, 'مهارت باید حداقل ۲ کاراکتر باشد')
-    .max(50, 'مهارت نمی‌تواند بیشتر از ۵۰ کاراکتر باشد'),
+  skill: z.string().min(2, 'مهارت باید حداقل ۲ کاراکتر باشد').max(50, 'مهارت نمی‌تواند بیشتر از ۵۰ کاراکتر باشد'),
 });
 type SkillForm = z.infer<typeof skillSchema>;
 
@@ -24,11 +21,15 @@ interface SkillsSectionProps {
 export default function SkillsSection({ username }: SkillsSectionProps) {
   const queryClient = useQueryClient();
 
-  const { control, handleSubmit, reset, formState: { errors } } = useForm<SkillForm>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<SkillForm>({
     resolver: zodResolver(skillSchema),
     defaultValues: { skill: '' },
   });
-
 
   const { data: skills = [], isLoading } = useQuery<string[]>({
     queryKey: ['userProfileSkills', username],
@@ -63,7 +64,6 @@ export default function SkillsSection({ username }: SkillsSectionProps) {
     onError: (err) => console.error(extractApiError(err)),
   });
 
-
   const removeSkillMutation = useMutation<string[], unknown, number>({
     mutationFn: async (index: number) => {
       const updatedSkills = skills.filter((_: string, idx: number) => idx !== index);
@@ -75,7 +75,6 @@ export default function SkillsSection({ username }: SkillsSectionProps) {
     },
     onError: (err) => console.error(extractApiError(err)),
   });
-
 
   const onAddSkill = (data: SkillForm) => {
     const trimmed = data.skill.trim();

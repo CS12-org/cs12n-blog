@@ -21,11 +21,15 @@ interface SocialLinksSectionProps {
 export default function SocialLinksSection({ username }: SocialLinksSectionProps) {
   const queryClient = useQueryClient();
 
-  const { control, handleSubmit, reset, formState: { errors } } = useForm<SocialForm>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<SocialForm>({
     resolver: zodResolver(socialSchema),
     defaultValues: { link: '' },
   });
-
 
   const { data: links = [], isLoading } = useQuery<string[]>({
     queryKey: ['userProfileSocialLinks', username],
@@ -35,7 +39,6 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
     },
     enabled: !!username,
   });
-
 
   const extractApiError = (err: unknown) => {
     try {
@@ -47,7 +50,6 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
       return 'خطایی رخ داده است';
     }
   };
-
 
   const addLinkMutation = useMutation<string[], unknown, string>({
     mutationFn: async (newLink: string) => {
@@ -62,7 +64,6 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
     onError: (err) => console.error(extractApiError(err)),
   });
 
-
   const removeLinkMutation = useMutation<string[], unknown, number>({
     mutationFn: async (index: number) => {
       const updatedLinks = links.filter((_: string, idx: number) => idx !== index);
@@ -75,7 +76,6 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
     onError: (err) => console.error(extractApiError(err)),
   });
 
-
   const onAddLink = (data: SocialForm) => {
     const trimmed = data.link.trim();
     if (!trimmed) return;
@@ -83,7 +83,6 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
     addLinkMutation.mutate(trimmed);
   };
 
- 
   return (
     <Accordion title="شبکه‌های اجتماعی">
       <section className="flex w-full flex-col gap-2">
