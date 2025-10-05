@@ -325,7 +325,7 @@ export default function UserPanelForm() {
         </Accordion>
 
         {/* social links */}
-        <SocialLinksSection username={userProfileData?.username} />
+        <SocialLinksSection username={userProfileData?.username ?? ''} />
 
         {/* the rest of accordions (kept unchanged) */}
         <SkillsSection username={userProfileData?.username} />

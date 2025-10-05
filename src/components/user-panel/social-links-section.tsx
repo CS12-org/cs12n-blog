@@ -9,6 +9,7 @@ import Accordion from '@/components/user-panel/accordion';
 import PlusSign from '@/assets/images/plus-sign.svg';
 import axios from '@/lib/axios';
 import RemovableListItem from '@/components/user-panel/removable-list-item';
+import { putUserProfile } from '@/service/put-user-profile';
 
 const socialSchema = z.object({
   link: z.string().url('لینک معتبر نیست'),
@@ -16,7 +17,7 @@ const socialSchema = z.object({
 type SocialForm = z.infer<typeof socialSchema>;
 
 interface SocialLinksSectionProps {
-  username?: string;
+  username: string;
 }
 
 export default function SocialLinksSection({ username }: SocialLinksSectionProps) {
@@ -55,7 +56,7 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
   const addLinkMutation = useMutation<string[], unknown, string>({
     mutationFn: async (newLink: string) => {
       const updatedLinks = [...links, newLink];
-      await axios.put('/api/user-profile', { username, socialUrls: updatedLinks });
+      await putUserProfile({ username, socialUrls: updatedLinks });
       return updatedLinks;
     },
     onSuccess: (updatedLinks: string[]) => {
@@ -68,7 +69,7 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
   const removeLinkMutation = useMutation<string[], unknown, number>({
     mutationFn: async (index: number) => {
       const updatedLinks = links.filter((_: string, idx: number) => idx !== index);
-      await axios.put('/api/user-profile', { username, socialUrls: updatedLinks });
+      await putUserProfile({ username, socialUrls: updatedLinks });
       return updatedLinks;
     },
     onSuccess: (updatedLinks: string[]) => {

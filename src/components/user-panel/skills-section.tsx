@@ -9,6 +9,7 @@ import Accordion from '@/components/user-panel/accordion';
 import PlusSign from '@/assets/images/plus-sign.svg';
 import axios from '@/lib/axios';
 import RemovableListItem from './removable-list-item';
+import { putUserProfile } from '@/service/put-user-profile';
 
 const skillSchema = z.object({
   skill: z.string().min(2, 'مهارت باید حداقل ۲ کاراکتر باشد').max(50, 'مهارت نمی‌تواند بیشتر از ۵۰ کاراکتر باشد'),
@@ -55,7 +56,7 @@ export default function SkillsSection({ username }: SkillsSectionProps) {
   const addSkillMutation = useMutation<string[], unknown, string>({
     mutationFn: async (newSkill: string) => {
       const updatedSkills = [...skills, newSkill];
-      await axios.put('/api/user-profile', { username, skills: updatedSkills });
+      await putUserProfile({ username, skills: updatedSkills });
       return updatedSkills;
     },
     onSuccess: (updatedSkills) => {
@@ -68,7 +69,7 @@ export default function SkillsSection({ username }: SkillsSectionProps) {
   const removeSkillMutation = useMutation<string[], unknown, number>({
     mutationFn: async (index: number) => {
       const updatedSkills = skills.filter((_: string, idx: number) => idx !== index);
-      await axios.put('/api/user-profile', { username, skills: updatedSkills });
+      await putUserProfile({ username, skills: updatedSkills });
       return updatedSkills;
     },
     onSuccess: (updatedSkills) => {
