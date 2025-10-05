@@ -23,6 +23,7 @@ import z from 'zod';
 import ColorSelect from './color-select';
 import SocialLinksSection from './social-links-section';
 import SkillsForm from './skills-section';
+import SkillsSection from './skills-section';
 
 // -----------------------------
 // Schema + Types
@@ -345,10 +346,13 @@ export default function UserPanelForm() {
         </section>
 
         {/* social links */}
-        <SocialLinksSection userProfileData={{ socialUrls: userProfileData?.socialUrls }} />
+<SocialLinksSection
+  username={userProfileData?.username}
+/>
+
 
         {/* the rest of accordions (kept unchanged) */}
-        <SkillsForm userProfileData={userProfileData} />
+<SkillsSection username={userProfileData?.username} />
         <Accordion title="تنظیمات">
           <section>
             <fieldset className="bg-crust flex w-full flex-col gap-y-2.5 rounded-xl p-2">
