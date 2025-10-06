@@ -63,19 +63,17 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
       queryClient.setQueryData(['userProfileSocialLinks', username], updatedLinks);
       reset();
     },
-    onError: (err) => console.error(extractApiError(err)),
   });
 
   const removeLinkMutation = useMutation<string[], unknown, number>({
     mutationFn: async (index: number) => {
-      const updatedLinks = links.filter((_: string, idx: number) => idx !== index);
+      const updatedLinks = links.filter((_, idx) => idx !== index);
       await putUserProfile({ username, socialUrls: updatedLinks });
       return updatedLinks;
     },
     onSuccess: (updatedLinks: string[]) => {
       queryClient.setQueryData(['userProfileSocialLinks', username], updatedLinks);
     },
-    onError: (err) => console.error(extractApiError(err)),
   });
 
   const onAddLink = (data: SocialForm) => {

@@ -1,13 +1,20 @@
-'use client'; // If using Next.js
+'use client';
 
-import React, { useState } from 'react';
-import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
+import React from 'react';
+import {
+  Button,
+  ListBox,
+  ListBoxItem,
+  Popover,
+  Select,
+  SelectValue,
+} from 'react-aria-components';
 import { FaChevronDown } from 'react-icons/fa6';
 
 type ColorOption = {
   label: string;
   value: string;
-  bgColorClass: string; // Tailwind class, e.g., 'bg-lavender'
+  bgColorClass: string;
 };
 
 const colorOptions: ColorOption[] = [
@@ -22,38 +29,36 @@ const colorOptions: ColorOption[] = [
 ];
 
 interface ColorSelectProps {
-  selectedColor?: string; // Optional: For controlled mode
-  onSelectionChange: (key: any) => void; // Callback for selection
+  selectedColor?: string;
+  onSelectionChange: (key: any) => void;
   label?: string;
   className?: string;
 }
 
-export default function ColorSelect({ selectedColor, onSelectionChange, className = '' }: ColorSelectProps) {
+export default function ColorSelect({
+  selectedColor,
+  onSelectionChange,
+  className = '',
+}: ColorSelectProps) {
   return (
-    <div className={`mx-2.5 flex flex-col gap-1 ${className} `}>
+    <div className={`mx-2.5 md:mx-0 lg:mx-0 flex flex-col gap-1 ${className}`}>
       <Select
         selectedKey={selectedColor}
         onSelectionChange={onSelectionChange}
-        className="w-full" // Adjust width as needed
+        className="w-full "
       >
-        <Button className="bg-crust selected:bg-mantle flex w-[80px] w-full items-center justify-between rounded-md px-2 py-2 text-sm focus:outline-none">
-          <SelectValue>
-            {({ defaultChildren, selectedItem, selectedText }) => {
-              // const color = colorOptions.find((opt) => opt?.value === selectedItem)?.bgColorClass;
-              console.log(selectedText, 'selectedItem');
-
-              return <span className={`h-4 w-4 rounded`} />;
-            }}
-          </SelectValue>
-          <FaChevronDown className="h-4 w-4 text-gray-400" aria-hidden="true" />
+        <Button className="bg-mantle selected:bg-mantle flex   w-full items-center justify-between rounded-md px-2 py-2.5 text-sm focus:outline-none">
+      <SelectValue />
+          <FaChevronDown className="h-3 w-3 text-gray-400" aria-hidden="true" />
         </Button>
+
         <Popover className="bg-crust w-[--trigger-width] rounded-md py-1 shadow-lg">
           <ListBox className="p-1">
             {colorOptions.map((option) => (
               <ListBoxItem
                 key={option.value}
                 id={option.value}
-                className={`data-[hovered]:bg-mantle aria-selected:bg-mantle data-[focused]:bg-mantle flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm data-[focused]:outline-none data-[hovered]:ring-0`}
+                className="data-[hovered]:bg-mantle aria-selected:bg-mantle flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm"
               >
                 <span className={`h-4 w-4 rounded-tr rounded-bl ${option.bgColorClass}`} />
                 {option.label}
