@@ -8,6 +8,7 @@ import Blockquote from '@tiptap/extension-blockquote';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { GrBlockQuote } from 'react-icons/gr';
 import { Italic } from '@tiptap/extension-italic';
+import { Text } from '@tiptap/extension-text';
 import { FaCode } from 'react-icons/fa6';
 import { FaItalic } from 'react-icons/fa6';
 import { HiOutlineBold } from 'react-icons/hi2';

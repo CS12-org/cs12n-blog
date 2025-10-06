@@ -28,7 +28,7 @@ async function Main(props: Props) {
   return (
     <div className="relative flex flex-col items-center px-6">
       <div className={twJoin('w-full', 'max-w-sm md:max-w-140 lg:max-w-235', 'mx-auto space-y-5 pb-[95px] lg:pb-5')}>
-        <MainTopbar isBlured={true} />
+        <MainTopbar />
         <UserInitializer userProfile={userProfile} />
         <main>{children}</main>
         <MainBottombar />

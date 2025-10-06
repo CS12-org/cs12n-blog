@@ -81,3 +81,16 @@
   --text-body-xs: 12px;
   --text-body-xs--font-weight: 400;
 }
+
+.react-aria-Popover {
+  transition:
+    opacity 300ms,
+    scale 300ms;
+  transform-origin: var(--trigger-anchor-point);
+
+  &[data-entering],
+  &[data-exiting] {
+    opacity: 0;
+    scale: 0.85;
+  }
+}

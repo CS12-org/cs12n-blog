@@ -3,17 +3,26 @@
 import Logo from '@/assets/images/cs12-logo.svg';
 import Button from '@/components/button';
 import { useMainLayoutStore } from '@/components/providers/main-layout-store-provider';
-import { Input, Link, TextField } from '@/components/react-aria-components';
+import {
+  Input,
+  Link,
+  TextField,
+  Dialog,
+  DialogTrigger,
+  Popover,
+  Button as AriaButton,
+} from '@/components/react-aria-components';
 import twMerge from '@/lib/tw-merge';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { type ReactNode, useState } from 'react';
 import { FaArrowRightToBracket, FaBars, FaBook, FaMagnifyingGlass } from 'react-icons/fa6';
 import { twJoin } from 'tailwind-merge';
 import MainThemeSwitch from './main-theme-switch';
+import { useSession } from 'next-auth/react';
+import { RiAccountCircleLine } from 'react-icons/ri';
+import { signOut } from 'next-auth/react';
 
-type Props = {
-  isBlured?: boolean;
-};
+// removed unused Props
 
 const PATH_ICONS: Record<string, ReactNode> = {
   '/': <FaBook size={16} />,
@@ -23,17 +32,16 @@ const PATH_ICONS: Record<string, ReactNode> = {
   '/user-panel/comments': <FaBars size={16} />,
 };
 
-export default function MainTopbar({ isBlured = false }: Props) {
+export default function MainTopbar() {
   const router = useRouter();
   const pathname = usePathname();
   const matchedIcon = PATH_ICONS[pathname];
   const searchParams = useSearchParams();
-
+  const session = useSession();
   const [searchValue, setSearchValue] = useState(searchParams.get('query') || '');
 
   const sideBarOpen = useMainLayoutStore((state) => state.isSideBarOpen);
   const toggleIsSideBarOpen = useMainLayoutStore((state) => state.toggleIsSideBarOpen);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchValue.trim()) {
@@ -53,7 +61,7 @@ export default function MainTopbar({ isBlured = false }: Props) {
     >
       <Logo />
 
-      <div className={twJoin('flex grow items-center gap-3.5', isBlured && 'pointer-events-none blur-[4px]')}>
+      <div className={twJoin('flex grow items-center gap-3.5')}>
         <nav className="text-body-sm mr-3.5 hidden lg:block">
           <ul className="flex gap-7">
             <li>
@@ -115,10 +123,35 @@ export default function MainTopbar({ isBlured = false }: Props) {
               </div>
             </TextField>
           </form>
-
-          <Button variant="none" aria-label="دکمه ورود" className="bg-base cursor-default rounded-lg p-3">
-            <FaArrowRightToBracket size={16} />
-          </Button>
+          {!session.data?.user.email ? (
+            <Link href="/login" aria-label="دکمه ورود" className="bg-base rounded-lg p-3">
+              <FaArrowRightToBracket size={16} />
+            </Link>
+          ) : (
+            <DialogTrigger>
+              <AriaButton aria-label="پنل کاربری" className="bg-base rounded-lg p-3">
+                <RiAccountCircleLine size={18} />
+              </AriaButton>
+              <Popover className="bg-base border-overlay-0 min-w-40 rounded-lg border p-2 shadow-2xl">
+                <Dialog className="outline-none">
+                  <div className="flex flex-col gap-1" dir="rtl">
+                    <Link
+                      href="/user-panel"
+                      className="text-body-sm text-overlay-1 hover:text-text hover:bg-overlay-0/40 rounded-md px-3 py-2 text-start"
+                    >
+                      پنل کاربری
+                    </Link>
+                    <AriaButton
+                      className="text-body-sm text-overlay-1 hover:text-text hover:bg-overlay-0/40 rounded-md px-3 py-2 text-start"
+                      onPress={() => signOut()}
+                    >
+                      خروج از حساب
+                    </AriaButton>
+                  </div>
+                </Dialog>
+              </Popover>
+            </DialogTrigger>
+          )}
         </div>
 
         <span className="select-none">
