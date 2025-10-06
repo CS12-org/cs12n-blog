@@ -12,10 +12,7 @@ import RemovableListItem from './removable-list-item';
 import { putUserProfile } from '@/service/put-user-profile';
 
 const skillSchema = z.object({
-  skill: z
-    .string()
-    .min(2, 'مهارت باید حداقل ۲ کاراکتر باشد')
-    .max(50, 'مهارت نمی‌تواند بیشتر از ۵۰ کاراکتر باشد'),
+  skill: z.string().min(2, 'مهارت باید حداقل ۲ کاراکتر باشد').max(50, 'مهارت نمی‌تواند بیشتر از ۵۰ کاراکتر باشد'),
 });
 
 type SkillForm = z.infer<typeof skillSchema>;
@@ -113,9 +110,7 @@ export default function SkillsSection({ username }: SkillsSectionProps) {
                   aria-label="مهارت"
                 />
               </div>
-              {errors.skill && (
-                <Text className="text-red text-label-xs">{errors.skill.message}</Text>
-              )}
+              {errors.skill && <Text className="text-red text-label-xs">{errors.skill.message}</Text>}
             </article>
           )}
         />

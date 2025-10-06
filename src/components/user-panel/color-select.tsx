@@ -1,14 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  Button,
-  ListBox,
-  ListBoxItem,
-  Popover,
-  Select,
-  SelectValue,
-} from 'react-aria-components';
+import { Button, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
 import { FaChevronDown } from 'react-icons/fa6';
 
 type ColorOption = {
@@ -35,20 +28,12 @@ interface ColorSelectProps {
   className?: string;
 }
 
-export default function ColorSelect({
-  selectedColor,
-  onSelectionChange,
-  className = '',
-}: ColorSelectProps) {
+export default function ColorSelect({ selectedColor, onSelectionChange, className = '' }: ColorSelectProps) {
   return (
-    <div className={`mx-2.5 md:mx-0 lg:mx-0 flex flex-col gap-1 ${className}`}>
-      <Select
-        selectedKey={selectedColor}
-        onSelectionChange={onSelectionChange}
-        className="w-full "
-      >
-        <Button className="bg-mantle selected:bg-mantle flex   w-full items-center justify-between rounded-md px-2 py-2.5 text-sm focus:outline-none">
-      <SelectValue />
+    <div className={`mx-2.5 flex flex-col gap-1 md:mx-0 lg:mx-0 ${className}`}>
+      <Select selectedKey={selectedColor} onSelectionChange={onSelectionChange} className="w-full">
+        <Button className="bg-mantle selected:bg-mantle flex w-full items-center justify-between rounded-md px-2 py-2.5 text-sm focus:outline-none">
+          <SelectValue />
           <FaChevronDown className="h-3 w-3 text-gray-400" aria-hidden="true" />
         </Button>
 
