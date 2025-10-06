@@ -48,9 +48,10 @@ export default function MainTopbar({ isBlured = false }: Props) {
         'gap-3.5 rounded-xl px-4 select-none lg:px-7.5 [&>*]:shrink-0',
       )}
     >
-      <Logo />
-
-      <div className={twJoin('flex grow items-center gap-3.5', isBlured && 'pointer-events-none blur-[4px]')}>
+      <Link href="/">
+        <Logo />
+      </Link>
+      <div className={twJoin('flex grow items-center gap-3.5')}>
         <nav className="text-body-sm mr-3.5 hidden lg:block">
           <ul className="flex gap-7">
             <li>
