@@ -7,6 +7,9 @@ import { postComment, PostCommentBody } from '@/service/post-comment';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import TextEditorInput from '@/components/shared/text-editor-input/text-editor-input';
+import CommentMessege from '@/components/posts/comment-messages/comment-message';
+import HighlightCommentMessege from '@/components/posts/comment-messages/highlight-comment-message';
+
 type CommentSectionProps = { postId: string };
 export default function CommentSection({ postId }: CommentSectionProps) {
   const { data: session } = useSession();
@@ -76,16 +79,17 @@ export default function CommentSection({ postId }: CommentSectionProps) {
           <span className="text-subtext-0 font-bold">{userName}</span>
         </section>
 
-        <div>
+        {/* <div>
           <TextInput
             className="border-surface-0 placeholder:text-text text-text h-[35px] w-full border-b-[1px] p-[5px] text-[12px] lg:h-auto lg:!p-[15px] lg:text-[14px]"
             name="نقد و نکات"
             aria-label="کامنت خود را بنویسید"
             placeholder="کامنت خود رو بنویسید ..."
           />
-          {errorMessage && <p className="mt-[5px] text-[12px] text-red-500">{errorMessage}</p>}
-        </div>
+          
+        </div> */}
         <TextEditorInput />
+        {errorMessage && <p className="mt-[5px] text-[12px] text-red-500">{errorMessage}</p>}
         <Button
           onClick={handleSubmitComment}
           className="bg-blue text-crust h-[35px] w-full rounded-[10px] font-bold lg:h-[52px]"
@@ -95,10 +99,10 @@ export default function CommentSection({ postId }: CommentSectionProps) {
         </Button>
       </section>
 
-      {/* <section className="bg-crust rounded-[10px] p-[10px] lg:px-[60px] lg:py-[30px]">
+      <section className="bg-crust rounded-[10px] p-[10px] lg:px-[60px] lg:py-[30px]">
         <div className="bg-base flex items-center gap-[10px] rounded-[10px] px-[10px] py-[15px] text-[12px] lg:p-[15px] lg:text-[14px]">
           <div className="bg-crust flex h-[38px] !w-[40px] items-center justify-center justify-self-start rounded-[10px] lg:h-[48px] lg:w-[48px]">
-            <ExclamationMark fill="#91D7E3" className="lg:[26px] lg:[26px] h-[20px] w-[20px]" />
+            {/* <ExclamationMark fill="#91D7E3" className="lg:[26px] lg:[26px] h-[20px] w-[20px]" /> */}
           </div>
           <p className="font-bold">
             برای کامنت گذاشتن باید در سایت
@@ -112,7 +116,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       <section className="flex flex-col gap-[40px]">
         <CommentMessege />
         <HighlightCommentMessege />
-      </section> */}
+      </section>
     </section>
   );
 }
