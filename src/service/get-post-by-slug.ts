@@ -110,23 +110,13 @@ type GetPostBySlugRes = {
   comments: Comment[];
 };
 export const getPostBySlug = async ({ postId, params }: GetPostBySlugReq): Promise<GetPostBySlugRes> => {
-  if (!postId || typeof postId !== 'string') {
-    throw new Error('Invalid postId: postId must be a non-empty string');
-  }
-
   try {
-    const response = await axios.get<GetPostBySlugRes>(`/posts/slug/${postId}`, {
+    const response = await axios.get<GetPostBySlugRes>(`/posts/${postId}`, {
       params,
     });
-
-    // Optionally validate response data
-    if (!response.data || !response.data.id) {
-      throw new Error('Invalid response: No post data returned');
-    }
-
     return response.data;
-  } catch (err: any) {
-    console.error('Unexpected error:', err);
+  } catch (err: unknown) {
+    console.log(err);
     throw new Error(`Failed to fetch post with slug ${postId}`);
   }
 };

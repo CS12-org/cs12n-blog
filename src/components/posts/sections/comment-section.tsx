@@ -13,6 +13,7 @@ import HighlightCommentMessege from '@/components/posts/comment-messages/highlig
 type CommentSectionProps = { postId: string };
 export default function CommentSection({ postId }: CommentSectionProps) {
   const { data: session } = useSession();
+  const [commentContent, setCommentContent] = useState<string>(''); // Store editor content
   const queryClient = useQueryClient();
   const [commentModel, setCommentModel] = useState<PostCommentBody>({
     content: '',
@@ -29,7 +30,10 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     queryFn: () => getPostCommentsByPostId({ postId }),
     enabled: !!postId, // Only run when postId is available
   });
-
+  // Handle content changes from TextEditorInput
+  const handleEditorChange = (content: string) => {
+    setCommentModel((prev) => ({ ...prev, content }));
+  };
   const postCommentMutation = useMutation({
     mutationFn: async (body: PostCommentBody) => {
       return await postComment({ body });
@@ -88,7 +92,11 @@ export default function CommentSection({ postId }: CommentSectionProps) {
           />
           
         </div> */}
-        <TextEditorInput />
+        <TextEditorInput
+          content={commentContent}
+          placeHolder="کامنت خود رو بنویسید ..."
+          onChange={handleEditorChange}
+        />
         {errorMessage && <p className="mt-[5px] text-[12px] text-red-500">{errorMessage}</p>}
         <Button
           onClick={handleSubmitComment}

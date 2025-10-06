@@ -26,13 +26,21 @@ export type postTabItems = { id: string; title: string; component: ReactNode };
 
 export default async function PostPage({ params }: Props) {
   const { slug: postId } = await params;
-  const post = await getPostBySlug({ postId: postId });
+  let post;
+  try {
+    post = await getPostBySlug({ postId });
+  } catch (error) {
+    console.error(`Error fetching post with slug ${postId}:`, error);
+    return notFound();
+  }
+  if (!post) return notFound();
+  
   const postTabsData: postTabItems[] = [
     { id: 'highlights', title: 'هایلایت ها', component: <Highlights /> },
     { id: 'comments', title: 'نظرات', component: <CommentSection postId={postId} /> },
     { id: 'review', title: 'نقد و بررسی', component: <ReviewSection /> },
   ];
-  if (!post) return notFound();
+
   return (
     <section className="flex items-start gap-[15px]">
       <PostSideBar className="hidden lg:flex" />
