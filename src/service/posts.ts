@@ -13,7 +13,7 @@ export type Post = {
   slug: string;
   description: string;
   narrator: string | null;
-  featured_image: FeaturedImage | null;
+  featuredImage: FeaturedImage | null;
   user: {
     email: string;
     username: string;
@@ -33,7 +33,7 @@ export type SavedPostsResponse = {
 export type GetPostsParams = {
   page: number;
   pageSize: number;
-}
+};
 
 export interface GetPostsResult {
   items: {

@@ -1,5 +1,5 @@
-import axios from '~/lib/axios';
-import { Comment } from '~/service/get-post-by-slug';
+import axios from '@/lib/axios';
+import { Comment } from '@/service/get-post-by-slug';
 
 type PostQueryParams = {};
 type GetPostCommentsByPostIdReq = {

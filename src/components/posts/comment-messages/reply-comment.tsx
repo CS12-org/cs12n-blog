@@ -1,21 +1,21 @@
 import Image from 'next/image';
 import { Text } from 'react-aria-components';
-import { Comment } from '~/service/get-post-by-slug';
-import Button from '~/components/button';
-import CommentsIcon from '~/assets/images/comments.svg';
-import Pin from '~/assets/images/pin.svg';
+import { Comment } from '@/service/get-post-by-slug';
+import Button from '@/components/button';
+import CommentsIcon from '@/assets/images/comments.svg';
+import Pin from '@/assets/images/pin.svg';
 import { useEffect, useState } from 'react';
-import IncreaseArrow from '~/assets/images/increaseArrow.svg';
+import IncreaseArrow from '@/assets/images/increaseArrow.svg';
 import { twJoin } from 'tailwind-merge';
-import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import ThreeDotts from '~/assets/images/dots-horizontal.svg';
-import Reply from '~/assets/images/reply.svg';
+import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
+import ThreeDotts from '@/assets/images/dots-horizontal.svg';
+import Reply from '@/assets/images/reply.svg';
 
 import { InfiniteData, useMutation } from '@tanstack/react-query';
-import { postVote, PostVoteReq, VoteEnum } from '~/service/post-vote';
-import Profile from '~/assets/images/user-profile.png';
-import { useFetchCommentByParentId } from '~/hooks/use-get-comment-by-parent-id';
-import { GetCommentByParentIdRes } from '~/service/get-comment-by-parent-id';
+import { postVote, PostVoteReq, VoteEnum } from '@/service/post-vote';
+import Profile from '@/assets/images/user-profile.png';
+import { useFetchCommentByParentId } from '@/hooks/use-get-comment-by-parent-id';
+import { GetCommentByParentIdRes } from '@/service/get-comment-by-parent-id';
 import { useInView } from 'react-intersection-observer';
 
 type ReplyCommentProps = { comment: Comment; isReply: boolean; isPin: boolean };
@@ -114,7 +114,8 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
         </div>
       </section>
       {/* replys */}
-      {replies.length > 0 && replies?.map((reply) => <ReplyComment key={reply.id} comment={reply} isReply={true} isPin={false} />)}
+      {replies.length > 0 &&
+        replies?.map((reply) => <ReplyComment key={reply.id} comment={reply} isReply={true} isPin={false} />)}
       <div ref={ref} style={{ height: 1 }} />
       {isFetchingNextPage && <p>در حال بارگذاری پست‌های بعدی...</p>}
     </section>

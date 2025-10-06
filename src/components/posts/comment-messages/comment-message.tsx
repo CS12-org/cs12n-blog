@@ -11,8 +11,8 @@ import { useMutation } from '@tanstack/react-query';
 import { postVote, PostVoteReq, VoteEnum } from '@/service/post-vote';
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
-import { useSidebarStore } from '~/store/sidebar-store';
-import { CommentSidebarContent } from '~/components/posts/comment-messages/comment-sidebar-content';
+import { useSidebarStore } from '@/store/sidebar-store';
+import { CommentSidebarContent } from '@/components/posts/comment-messages/comment-sidebar-content';
 
 type CommentMessegeProps = { comment: Comment; postId: string };
 function CommentMessege({ comment, postId }: CommentMessegeProps) {

@@ -16,7 +16,7 @@ export const SelectBox: FC<SelectBoxProps> = ({ lists, label, onChange }) => {
     >
       {label && <Label>{label}</Label>}
 
-      <div className="bg-base flex overflow-hidden rounded-lg ">
+      <div className="bg-base flex overflow-hidden rounded-lg">
         <Input className="bg-base w-30 rounded-l-2xl px-2 py-1 outline-none" disabled placeholder="فیلتر نظرات" />
         <Button className="bg-base flex items-center justify-center rounded-r-2xl px-2">
           <BiChevronDown size={16} />
@@ -24,7 +24,7 @@ export const SelectBox: FC<SelectBoxProps> = ({ lists, label, onChange }) => {
       </div>
 
       <Popover>
-        <ListBox className={'bg-[#101122] min-w-32 py-3 px-6 rounded-2xl'}>
+        <ListBox className={'min-w-32 rounded-2xl bg-[#101122] px-6 py-3'}>
           {lists?.map((list) => (
             <ListBoxItem className={'text-end'} key={list.id} id={list.id}>
               {list.label}

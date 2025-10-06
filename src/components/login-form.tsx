@@ -9,8 +9,8 @@ import { twJoin } from 'tailwind-merge';
 import { z } from 'zod';
 import Button from '@/components/button';
 import Image from 'next/image';
-import { getUserProfile } from '~/service/get-user-profile';
-import { useUserStore } from '~/store/user-store';
+import { getUserProfile } from '@/service/get-user-profile';
+import { useUserStore } from '@/store/user-store';
 
 const schema = z.object({
   password: z.string().min(8),

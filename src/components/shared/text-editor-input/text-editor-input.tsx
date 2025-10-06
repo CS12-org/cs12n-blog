@@ -1,20 +1,20 @@
 'use client';
 
-import { useEditor, EditorContent } from '@tiptap/react';
-import Bold from '@tiptap/extension-bold';
-import Document from '@tiptap/extension-document';
-import Paragraph from '@tiptap/extension-paragraph';
-import Text from '@tiptap/extension-text';
-import Italic from '@tiptap/extension-italic';
+import { useEditor, EditorContent } from 'tiptap/react';
+import Bold from 'tiptap/extension-bold';
+import Document from 'tiptap/extension-document';
+import Paragraph from 'tiptap/extension-paragraph';
+import Text from 'tiptap/extension-text';
+import Italic from 'tiptap/extension-italic';
 import { all, createLowlight } from 'lowlight';
-import Blockquote from '@tiptap/extension-blockquote';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import Blockquote from 'tiptap/extension-blockquote';
+import CodeBlockLowlight from 'tiptap/extension-code-block-lowlight';
 import { GrBlockQuote } from 'react-icons/gr';
 import { FaCode } from 'react-icons/fa6';
 import { FaItalic } from 'react-icons/fa6';
 import { HiOutlineBold } from 'react-icons/hi2';
 import { TextEditorButton } from './text-editor-button';
-import Placeholder from '@tiptap/extension-placeholder'; // Import Placeholder
+import Placeholder from 'tiptap/extension-placeholder'; // Import Placeholder
 import { FC, useEffect } from 'react';
 
 type TextEditorInputProps = { content?: string; placeHolder?: string; onChange?: (content: string) => void };
@@ -24,7 +24,6 @@ const TextEditorInput: FC<TextEditorInputProps> = ({
   placeHolder = 'کامنت خود رو بنویسید ...',
   onChange,
 }) => {
-
   const lowlight = createLowlight(all);
   const editor = useEditor({
     extensions: [

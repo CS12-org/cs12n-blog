@@ -1,19 +1,19 @@
 import { Button } from 'react-aria-components';
-import { DeleteButton } from '~/components/shared/delete-button';
-import { SelectBox } from '~/components/shared/select-box';
-import TextEditorInput from '~/components/shared/text-editor-input/text-editor-input';
-import { useSidebarStore } from '~/store/sidebar-store';
-import { useUserStore } from '~/store/user-store';
-import Profile from '~/assets/images/user-profile.png';
+import { DeleteButton } from '@/components/shared/delete-button';
+import { SelectBox } from '@/components/shared/select-box';
+import TextEditorInput from '@/components/shared/text-editor-input/text-editor-input';
+import { useSidebarStore } from '@/store/sidebar-store';
+import { useUserStore } from '@/store/user-store';
+import Profile from '@/assets/images/user-profile.png';
 import { useEffect, useState } from 'react';
-import { postComment, PostCommentBody } from '~/service/post-comment';
-import Anonymous from '~/assets/images/anonymous.svg';
+import { postComment, PostCommentBody } from '@/service/post-comment';
+import Anonymous from '@/assets/images/anonymous.svg';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useFetchPostComments } from '~/hooks/use-get-comments-by-id';
-import { GetPostCommentsByPostIdRes } from '~/service/get-comments-by-post-id';
+import { useFetchPostComments } from '@/hooks/use-get-comments-by-id';
+import { GetPostCommentsByPostIdRes } from '@/service/get-comments-by-post-id';
 import { useInView } from 'react-intersection-observer';
-import { ReplyComment } from '~/components/posts/comment-messages/reply-comment';
-import { Comment } from '~/service/get-post-by-slug';
+import { ReplyComment } from '@/components/posts/comment-messages/reply-comment';
+import { Comment } from '@/service/get-post-by-slug';
 
 type CommentSidebarContentProps = { postId: string; pinComment: Comment };
 export function CommentSidebarContent({ postId, pinComment }: CommentSidebarContentProps) {

@@ -1,14 +1,14 @@
 import Image from 'next/image';
-import { Text } from '~/components/react-aria-components';
-import CommentsIcon from '~/assets/images/comments.svg';
-import DecreaseArrow from '~/assets/images/decreaseArrow.svg';
-import Profile from '~/assets/images/farhan.jpg';
-import IncreaseArrow from '~/assets/images/increaseArrow.svg';
-import ThreeDotts from '~/assets/images/threeDotts.svg';
-import Button from '~/components/button';
-import { Comment } from '~/service/get-post-by-slug';
+import { Text } from '@/components/react-aria-components';
+import CommentsIcon from '@/assets/images/comments.svg';
+import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
+import Profile from '@/assets/images/farhan.jpg';
+import IncreaseArrow from '@/assets/images/increaseArrow.svg';
+import ThreeDotts from '@/assets/images/threeDotts.svg';
+import Button from '@/components/button';
+import { Comment } from '@/service/get-post-by-slug';
 import { useMutation } from '@tanstack/react-query';
-import { postVote, PostVoteReq, VoteEnum } from '~/service/post-vote';
+import { postVote, PostVoteReq, VoteEnum } from '@/service/post-vote';
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
 

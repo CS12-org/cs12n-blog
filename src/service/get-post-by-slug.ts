@@ -1,5 +1,5 @@
-import axios from '~/lib/axios';
-import { FeaturedImage } from '~/service/posts';
+import axios from '@/lib/axios';
+import { FeaturedImage } from '@/service/posts';
 
 type PostQueryParams = {};
 type GetPostBySlugReq = {

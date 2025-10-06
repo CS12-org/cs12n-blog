@@ -3,7 +3,7 @@
 import { /*FaMoon,*/ FaSun } from 'react-icons/fa6';
 import Button from '@/components/button';
 // import { useRouteLoaderData, useSubmit } from "react-router";
-// import type { loader } from "~/root";
+// import type { loader } from "@/root";
 
 function MainThemeSwitch() {
   // const loaderData = useRouteLoaderData<typeof loader>("root");

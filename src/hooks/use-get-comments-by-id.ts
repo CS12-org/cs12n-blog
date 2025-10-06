@@ -1,7 +1,7 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getPostCommentsByPostId, GetPostCommentsByPostIdRes } from '~/service/get-comments-by-post-id';
+import { getPostCommentsByPostId, GetPostCommentsByPostIdRes } from '@/service/get-comments-by-post-id';
 
 export function useFetchPostComments(postId: string) {
   return useInfiniteQuery({

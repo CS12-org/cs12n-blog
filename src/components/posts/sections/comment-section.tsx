@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Button from '@/components/button';
-import { GetPostCommentsByPostIdRes } from '2/service/get-comments-by-post-id';
+import { GetPostCommentsByPostIdRes } from '@/service/get-comments-by-post-id';
 import CommentMessege from '../comment-messages/comment-message';
 
 type CommentSectionProps = { postId: string };
@@ -142,13 +142,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
 
       <section className="flex flex-col gap-[40px]">
         {hasComments ? (
-          comments.map((comment) => (
-            <CommentMessege
-              key={comment.id}
-              comment={comment}
-              postId={postId}
-            />
-          ))
+          comments.map((comment) => <CommentMessege key={comment.id} comment={comment} postId={postId} />)
         ) : (
           <p>نظری موجود نیست</p>
         )}

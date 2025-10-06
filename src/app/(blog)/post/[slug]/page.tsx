@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import AudioPlayer from '@/components/audio-player';
 import ChangeCommitMessege from '@/components/free-sections/change-commit-message';
 import CommitMessegeInput from '@/components/free-sections/commit-message-input';
 import ResumeSharingNotice from '@/components/free-sections/resume-sharing-notice';
@@ -16,6 +15,8 @@ import SharePopoverButton from '@/components/posts/share-button';
 import ClapButton from '@/components/posts/clap-button';
 import Highlights from '@/components/posts/sections/highlight-section';
 import { ReactNode } from 'react';
+import CommentSection from '@/components/posts/sections/comment-section';
+import ReviewSection from '@/components/posts/sections/review-section';
 
 type Props = {
   params: Promise<{
@@ -28,13 +29,13 @@ export default async function PostPage({ params }: Props) {
   const { slug: postId } = await params;
   let post;
   try {
-    post = await getPostBySlug({ postId });
+    post = await getPostBySlug((await params).slug);
   } catch (error) {
     console.error(`Error fetching post with slug ${postId}:`, error);
     return notFound();
   }
   if (!post) return notFound();
-  
+
   const postTabsData: postTabItems[] = [
     { id: 'highlights', title: 'هایلایت ها', component: <Highlights /> },
     { id: 'comments', title: 'نظرات', component: <CommentSection postId={post?.id} /> },

@@ -1,7 +1,7 @@
 'use client';
 
+import { getCommentByParentId } from '@/service/get-comment-by-parent-id';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getCommentByParentId } from '~/service/get-comment-by-parent-id';
 
 export function useFetchCommentByParentId(parentId: string) {
   return useInfiniteQuery({
