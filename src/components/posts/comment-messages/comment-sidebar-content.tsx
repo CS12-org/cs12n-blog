@@ -12,10 +12,11 @@ import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query
 import { useFetchPostComments } from '~/hooks/use-get-comments-by-id';
 import { GetPostCommentsByPostIdRes } from '~/service/get-comments-by-post-id';
 import { useInView } from 'react-intersection-observer';
-import CommentMessege from '~/components/posts/comment-messages/comment-message';
+import { ReplyComment } from '~/components/posts/comment-messages/reply-comment';
+import { Comment } from '~/service/get-post-by-slug';
 
-type CommentSidebarContentProps = { postId: string };
-export function CommentSidebarContent({ postId }: CommentSidebarContentProps) {
+type CommentSidebarContentProps = { postId: string; pinComment: Comment };
+export function CommentSidebarContent({ postId, pinComment }: CommentSidebarContentProps) {
   const queryClient = useQueryClient();
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
 
@@ -64,11 +65,11 @@ export function CommentSidebarContent({ postId }: CommentSidebarContentProps) {
       return await postComment(body);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+      queryClient.invalidateQueries({ queryKey: ['comments-reply', pinComment?.id] });
       setCommentModel({
         content: '',
         postId,
-        parentId: null,
+        parentId: pinComment?.id,
         quotedText: null,
         quotedStartIndex: NaN,
         quotedEndIndex: NaN,
@@ -143,10 +144,11 @@ export function CommentSidebarContent({ postId }: CommentSidebarContentProps) {
         </section>
 
         <section id="comment-scroll-container" className="flex flex-col gap-[40px]">
+          <ReplyComment key={pinComment.id} comment={pinComment} isReply={false} isPin={true} />
           {hasComments ? (
-            comments.map((comment) => (
-              <CommentMessege key={comment.id} comment={comment} postId={postId} onReplyClick={() => {}} />
-            ))
+            comments
+              .filter((comment) => comment.id !== pinComment.id)
+              .map((comment) => <ReplyComment key={comment.id} comment={comment} isReply={false} isPin={false} />)
           ) : (
             <p>نظری موجود نیست</p>
           )}

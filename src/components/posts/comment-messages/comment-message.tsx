@@ -14,8 +14,8 @@ import { twJoin } from 'tailwind-merge';
 import { useSidebarStore } from '~/store/sidebar-store';
 import { CommentSidebarContent } from '~/components/posts/comment-messages/comment-sidebar-content';
 
-type CommentMessegeProps = { comment: Comment; postId: string; onReplyClick: () => void };
-function CommentMessege({ comment, postId, onReplyClick }: CommentMessegeProps) {
+type CommentMessegeProps = { comment: Comment; postId: string };
+function CommentMessege({ comment, postId }: CommentMessegeProps) {
   const openSidebar = useSidebarStore((s) => s.openSidebar);
 
   const [netScore, setNetScore] = useState(comment?.netScore ?? 0);
@@ -72,7 +72,7 @@ function CommentMessege({ comment, postId, onReplyClick }: CommentMessegeProps) 
         />
         <section className="flex justify-between">
           <Button
-            onClick={() => openSidebar(<CommentSidebarContent postId={postId}/>)}
+            onClick={() => openSidebar(<CommentSidebarContent postId={postId} pinComment={comment} />)}
             className="bg- text-text flex items-center gap-[5px]"
           >
             <CommentsIcon className="h-[29px] w-[29px]" />
