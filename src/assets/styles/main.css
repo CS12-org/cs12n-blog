@@ -6,9 +6,9 @@
 
 @import './palette.css';
 @import './base.css';
+@import './tiptap.css';
 
-@plugin "tailwindcss-react-aria-components";
-
+@plugin 'tailwindcss-react-aria-components';
 @theme inline {
   --color-rosewater: var(--rosewater);
   --color-flamingo: var(--flamingo);

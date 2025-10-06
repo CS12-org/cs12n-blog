@@ -1,7 +1,10 @@
 import axios from '@/lib/axios';
 
-// ------------------ Types ------------------
-
+export type FeaturedImage = {
+  width: number;
+  height: number;
+  url: string;
+};
 export type Post = {
   id: string;
   title: string;
@@ -10,11 +13,7 @@ export type Post = {
   slug: string;
   description: string;
   narrator: string | null;
-  featured_image: {
-    width: number;
-    height: number;
-    url: string;
-  } | null;
+  featured_image: FeaturedImage | null;
   user: {
     email: string;
     username: string;
@@ -31,7 +30,7 @@ export type SavedPostsResponse = {
   endCursor: string | null;
 };
 
-export interface GetPostsParams {
+export type GetPostsParams = {
   page: number;
   pageSize: number;
 }

@@ -2,39 +2,28 @@ import { Tab, TabList, TabPanel, Tabs } from '@/components/react-aria-components
 import CommentSection from '@/components/posts/sections/comment-section';
 import Highlights from '@/components/posts/sections/highlight-section';
 import ReviewSection from '@/components/posts/sections/review-section';
+import { postTabItems } from '@/app/(blog)/post/[slug]/page';
 
-function PostTabs() {
+type postTabsProps = { postTabsData: postTabItems[] };
+function PostTabs({ postTabsData }: postTabsProps) {
   return (
     <Tabs className="flex flex-col gap-y-[10px]">
-      <TabList className="text-subtext-0 bg-crust rouned-[10px] flex gap-x-[10px] rounded-[10px] p-[10px]">
-        <Tab
-          id="highlights"
-          className="bg-base selected:bg-sapphire selected:text-crust flex h-[48px] w-[143px] cursor-pointer items-center justify-center rounded-[5px] text-[12px] font-bold"
-        >
-          هایلایت ها
-        </Tab>
-        <Tab
-          id="comments"
-          className="bg-base selected:bg-sapphire selected:text-crust flex h-[48px] w-[143px] cursor-pointer items-center justify-center rounded-[5px] text-[12px] font-bold"
-        >
-          نظرات
-        </Tab>
-        <Tab
-          id="review"
-          className="bg-base selected:bg-sapphire selected:text-crust flex h-[48px] w-[143px] cursor-pointer items-center justify-center rounded-[5px] text-[12px] font-bold"
-        >
-          نقد و بررسی
-        </Tab>
+      <TabList className="text-subtext-0 bg-crust flex gap-x-[10px] rounded-[10px] p-[10px]">
+        {postTabsData?.map((tab) => (
+          <Tab
+            key={tab?.id}
+            id={tab?.id}
+            className="bg-base selected:bg-sapphire selected:text-crust flex h-[48px] w-[143px] cursor-pointer items-center justify-center rounded-[5px] text-[12px] font-bold"
+          >
+            {tab?.title}
+          </Tab>
+        ))}
       </TabList>
-      <TabPanel id="highlights">
-        <Highlights />
-      </TabPanel>
-      <TabPanel id="comments">
-        <CommentSection />
-      </TabPanel>
-      <TabPanel id="review">
-        <ReviewSection />
-      </TabPanel>
+      {postTabsData?.map((tab) => (
+        <TabPanel key={tab?.id} id={tab?.id}>
+          {tab?.component}
+        </TabPanel>
+      ))}
     </Tabs>
   );
 }
