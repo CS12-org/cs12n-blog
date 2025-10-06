@@ -14,7 +14,7 @@ async function refreshAccessToken(refreshToken: string, token: JWT) {
 }
 
 async function authorize(credentials: Record<string, string> | undefined) {
-  if (!credentials?.email || !credentials?.password || !process.env.BACKEND_URL) return null;
+  if (!credentials?.email || !credentials?.password || !process.env.NEXT_PUBLIC_API_URL) return null;
 
   try {
     const res = await axios
@@ -23,6 +23,7 @@ async function authorize(credentials: Record<string, string> | undefined) {
         password: credentials.password,
       })
       .then((res) => res.data.data);
+    console.log(res);
 
     if (!res.id) return null;
     return res;

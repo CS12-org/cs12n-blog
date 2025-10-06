@@ -1,86 +1,141 @@
 'use client';
 
-import { Button, TextField } from 'react-aria-components';
-import Image from 'next/image';
-import PlusSign from '@/assets/images/plus-sign.svg';
 import { Text } from '@/components/react-aria-components';
+import UploadImageModal from '@/components/shared/upload-image-modal';
+import Accordion from '@/components/user-panel/accordion';
 import { SettingCheckboxOption } from '@/components/user-panel/setting-checkbox';
 import { TextInput } from '@/components/user-panel/text-field';
 import MyRadioGroup from '@/components/user-panel/theme-setting';
+import { getUserProfile, GetUserProfileRes } from '@/service/get-user-profile';
+import { postUploadAvatar } from '@/service/post-upload-avatar';
+import { putUserProfile } from '@/service/put-user-profile';
+import React, { useEffect, useState } from 'react';
+import { Button, Input, TextField } from 'react-aria-components';
+import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { Input } from 'react-aria-components';
+import { TbEdit } from 'react-icons/tb';
 import { twJoin } from 'tailwind-merge';
 import z from 'zod';
-import { putUserProfile } from '@/service/put-user-profile';
-import { useSession } from 'next-auth/react';
-import { TbEdit } from 'react-icons/tb';
-import UploadImageModal from '@/components/shared/upload-image-modal';
-import { getUserProfile, GetUserProfileRes } from '@/service/get-user-profile';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { postUploadAvatar } from '@/service/post-upload-avatar';
-import Accordion from '@/components/user-panel/accordion';
+import ColorSelect from './color-select';
+import SocialLinksSection from './social-links-section';
+import SkillsForm from './skills-section';
+import SkillsSection from './skills-section';
 
+// -----------------------------
+// Schema + Types
+// -----------------------------
 const schema = z.object({
-  info: z.string().max(200),
+  info: z.string().max(200).optional(),
   fullName: z.string().min(1),
-  website: z.string(),
+  // selectedColor رو optional گذاشتم تا اگر فرم‌های قدیمی یا داده سرور این فیلد نداشتن خطا نداشته باشیم.
+  selectedColor: z.string().optional(),
 });
 
 type FormFields = z.infer<typeof schema>;
+
 const DEFAULT_ERROR_MESSAGE = 'متأسفانه، یک خطای غیرمنتظره رخ داده است. لطفا دوباره تلاش کنید.';
 
+// -----------------------------
+// Component
+// -----------------------------
 export default function UserPanelForm() {
   const router = useRouter();
-  const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);
   const { data: session } = useSession();
-  const [errorMessage, setErrorMessage] = useState('');
+  const queryClient = useQueryClient();
+
+  // کلاس‌های آماده برای border و background (مطمئن شو این کلاس‌ها در tailwind تعریف شده‌اند)
+  const colorClasses: Record<string, string> = {
+    lavender: 'border-lavender',
+    maroon: 'border-maroon',
+    teal: 'border-teal',
+    peach: 'border-peach',
+    sky: 'border-sky',
+    mauve: 'border-mauve',
+    pink: 'border-pink',
+    flamingo: 'border-flamingo',
+  };
+  const bgClasses: Record<string, string> = {
+    lavender: 'bg-lavender',
+    maroon: 'bg-maroon',
+    teal: 'bg-teal',
+    peach: 'bg-peach',
+    sky: 'bg-sky',
+    mauve: 'bg-mauve',
+    pink: 'bg-pink',
+    flamingo: 'bg-flamingo',
+  };
+
+  // state محلی برای پیش‌نمایش UI
+  const [color, setColor] = useState<string>('lavender'); // مقدار پیش‌فرض
+  const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  // -----------------------------
+  // react-hook-form
+  // -----------------------------
   const { control, handleSubmit, reset } = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
       fullName: '',
       info: '',
+      selectedColor: 'lavender',
     },
   });
-  const queryClient = useQueryClient();
+
+  // -----------------------------
+  // Query: get user profile (existing)
+  // -----------------------------
   const {
     data: userProfileData,
     isLoading,
     isError,
     error,
-    refetch,
   } = useQuery({
     queryKey: ['userProfile', session?.user?.username],
-    queryFn: async () => {
+    queryFn: async (): Promise<GetUserProfileRes> => {
       if (!session?.user?.username) {
         throw new Error('No username available');
       }
       return await getUserProfile({ username: session.user.username });
     },
-    enabled: !!session?.user?.username, // only run when username is available
+    enabled: !!session?.user?.username,
   });
+
+  // -----------------------------
+  // Mutation: update profile (put)
+  // -----------------------------
   const updateMutation = useMutation({
     mutationFn: async (values: FormFields) => {
+      // مقدار selectedColor را از فرم بگیر، در صورت نبودن از state color استفاده کن
+      const selectedColorToSend = values.selectedColor ?? color ?? 'lavender';
+
       return await putUserProfile({
-        bio: values.info,
+        bio: values.info ?? '',
         fullName: values.fullName,
         username: session?.user?.username ?? '',
+        selectedColor: selectedColorToSend,
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile', session?.user?.username] });
     },
     onError: (err: any) => {
-      setErrorMessage(err.response?.statusText || err.message || DEFAULT_ERROR_MESSAGE);
+      setErrorMessage(err?.response?.statusText || err?.message || DEFAULT_ERROR_MESSAGE);
     },
   });
 
+  // submit handler (همان الگوی قبلی)
   const submitHandler = handleSubmit((values) => {
     updateMutation.mutate(values);
   });
-  // Inside UploadImageModal component:
+
+  // -----------------------------
+  // Upload avatar mutation (existing)
+  // -----------------------------
   const uploadMutation = useMutation({
     mutationFn: async (blob: Blob) => {
       const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
@@ -90,22 +145,33 @@ export default function UserPanelForm() {
       setIsOpenAvatarModal(false);
       queryClient.invalidateQueries({ queryKey: ['userProfile', session?.user?.username] });
     },
-    onError: (error: any) => {
-      setErrorMessage(error?.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+    onError: (err: any) => {
+      setErrorMessage(err?.response?.data?.message || DEFAULT_ERROR_MESSAGE);
     },
   });
+
+  // -----------------------------
+  // وقتی پروفایل لود میشه، فرم و state رنگ رو ریست کن
+  // -----------------------------
   useEffect(() => {
     if (userProfileData) {
       reset({
         fullName: userProfileData.fullName || '',
         info: userProfileData.bio || '',
+        selectedColor: userProfileData.selectedColor ?? 'lavender',
       });
+      setColor(userProfileData.selectedColor ?? 'lavender');
     }
   }, [userProfileData, reset]);
+
+  // -----------------------------
+  // Render
+  // -----------------------------
   return (
-    <main>
+    <main className="w-full">
       {isLoading && <div className="flex items-center justify-center pb-4">در حال بارگذاری پروفایل...</div>}
       {isError && <div className="text-red p-4">خطا در بارگذاری: {(error as Error).message}</div>}
+
       {/* Avatar Upload Modal */}
       {isOpenAvatarModal && (
         <UploadImageModal
@@ -125,26 +191,41 @@ export default function UserPanelForm() {
         {/* user information */}
         <Accordion title="اطلاعات کاربر" openAccordion={true}>
           <figure className="grid grid-cols-1 md:grid-cols-[100px_1fr]">
-            <div className="relative mt-2.5 h-24 w-24 justify-self-center">
-              <Image
-                width={100}
-                height={100}
-                src={userProfileData?.avatarUrl ?? '/user-profile.png'}
-                alt="User Profile"
-                className="border-lavender h-24 w-24 rounded-2xl border-4"
-              />
-              {/* <ColorSelect
-                selectedColor={selectedThemeColor!}
-                onSelectionChange={(key) => {
-                  setSelectedThemeColor(key as string);
-                }}
-              /> */}
-              <Button
-                onClick={() => setIsOpenAvatarModal(true)}
-                className="bg-lavender absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5"
-              >
-                <TbEdit size={20} color="#fff" className="m-0.5" />
-              </Button>
+            <div className="flex flex-col items-center gap-2.5">
+              <div className="relative mt-2.5 flex h-24 w-24 flex-col items-center gap-4 justify-self-center">
+                <Image
+                  width={100}
+                  height={100}
+                  src={userProfileData?.avatarUrl ?? '/user-profile.png'}
+                  alt="User Profile"
+                  // safe: از map ثابت استفاده می‌کنیم تا tailwind داینامیک نشه
+                  className={`h-24 w-24 rounded-2xl border-4 ${colorClasses[color ?? 'lavender']}`}
+                />
+
+                <Button
+                  onClick={() => setIsOpenAvatarModal(true)}
+                  className={`${bgClasses[color ?? 'lavender']} absolute right-1 bottom-1 rounded-tl-lg rounded-br-lg pe-0.5 pt-0.5`}
+                >
+                  <TbEdit size={20} color="#fff" className="m-0.5" />
+                </Button>
+              </div>
+              <div className="w-full">
+                {/* انتخاب رنگ: با Controller متصل میشه */}
+                <Controller
+                  name="selectedColor"
+                  control={control}
+                  render={({ field }) => (
+                    <ColorSelect
+                      selectedColor={field.value ?? color}
+                      onSelectionChange={(key) => {
+                        const newColor = key as string;
+                        setColor(newColor); // برای پیش‌نمایش سریع UI
+                        field.onChange(newColor); // برای ذخیره در فرم
+                      }}
+                    />
+                  )}
+                />
+              </div>
             </div>
             <figcaption className="m-2.5 flex flex-col gap-y-2">
               <Input
@@ -160,6 +241,8 @@ export default function UserPanelForm() {
                 placeholder={' ایمیل'}
                 className="bg-mantle w-full rounded-md px-2.5 py-2"
               />
+
+              {/* fullName controller (الگوی مشابه شما) */}
               <Controller
                 name="fullName"
                 control={control}
@@ -188,6 +271,7 @@ export default function UserPanelForm() {
                 )}
               />
 
+              {/* info controller (الگوی مشابه شما) */}
               <Controller
                 name="info"
                 control={control}
@@ -216,6 +300,7 @@ export default function UserPanelForm() {
                   </TextField>
                 )}
               />
+
               <div className="flex w-full justify-end gap-2">
                 <Button
                   onClick={() => router.push('/forgot-password')}
@@ -223,6 +308,7 @@ export default function UserPanelForm() {
                 >
                   تغییر رمز عبور
                 </Button>
+
                 <Button
                   type="submit"
                   className={twJoin(
@@ -231,68 +317,18 @@ export default function UserPanelForm() {
                   )}
                   isDisabled={updateMutation.isPending}
                 >
-                  {updateMutation.isPending ? 'در حال ثبت...' : 'ثبت'}{' '}
+                  {updateMutation.isPending ? 'در حال ثبت...' : 'ثبت'}
                 </Button>
               </div>
             </figcaption>
           </figure>
         </Accordion>
 
-        {/* user profile color setting */}
-        <section className="bg-crust flex flex-col gap-y-2.5 rounded-xl p-5">
-          <h2 className="text-xs font-bold">تنظیمات رنگ قسمت سمت راست پروفایل :</h2>
-          <div className="flex flex-wrap gap-[5px]">
-            <MyRadioGroup
-              name="theme-color"
-              options={[
-                {
-                  label: 'lavender',
-                  bgColorClass: 'bg-lavender',
-                  value: 'lavender',
-                },
-                { label: 'maroon', bgColorClass: 'bg-maroon', value: 'maroon' },
-                { label: 'teal', bgColorClass: 'bg-teal', value: 'teal' },
-                { label: 'peach', bgColorClass: 'bg-peach', value: 'peach' },
-                { label: 'sky', bgColorClass: 'bg-sky', value: 'sky' },
-                { label: 'mauve', bgColorClass: 'bg-mauve', value: 'mauve' },
-                { label: 'pink', bgColorClass: 'bg-pink', value: 'pink' },
-                {
-                  label: 'flamingo',
-                  bgColorClass: 'bg-flamingo',
-                  value: 'flamingo',
-                },
-              ]}
-            />
-          </div>
-        </section>
-        {/*social media  */}
-        <Accordion title="شبکه های اجتماعی">
-          <section className="flex w-full flex-col gap-2">
-            <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
-              <Button className="bg-mantle flex h-8 w-8 items-center justify-center rounded-md">
-                <PlusSign />
-              </Button>
-              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
-                لینک سوشال میدیا هایی که دارید رو اینجا بزارید.
-              </Text>
-            </article>
-          </section>
-        </Accordion>
-        {/* user skills */}
-        <Accordion title="مهارت ها">
-          <section className="flex w-full flex-col gap-2">
-            <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
-              <Button className="bg-mantle flex h-8 w-8 items-center justify-center rounded-md">
-                <PlusSign />
-              </Button>
-              <Text className="bg-mantle h-9 w-full rounded-md p-2 text-xs">
-                زبان ها و تکنولوژی هایی که بلد هستید رو وارد کنید. (به زبان انگلیسی) : مثال c programming language
-              </Text>
-            </article>
-          </section>
-        </Accordion>
+        {/* social links */}
+        <SocialLinksSection username={userProfileData?.username ?? ''} />
 
-        {/* setting */}
+        {/* the rest of accordions (kept unchanged) */}
+        <SkillsSection username={userProfileData?.username} />
         <Accordion title="تنظیمات">
           <section>
             <fieldset className="bg-crust flex w-full flex-col gap-y-2.5 rounded-xl p-2">
@@ -324,7 +360,6 @@ export default function UserPanelForm() {
           </section>
         </Accordion>
 
-        {/* requests */}
         <Accordion title="درخواست ها">
           <section>
             <article className="bg-crust flex items-center gap-x-2.5 rounded-xl p-2">
