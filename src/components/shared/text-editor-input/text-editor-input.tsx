@@ -15,7 +15,7 @@ import { FaItalic } from 'react-icons/fa6';
 import { HiOutlineBold } from 'react-icons/hi2';
 import { TextEditorButton } from './text-editor-button';
 import Placeholder from '@tiptap/extension-placeholder'; // Import Placeholder
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 type TextEditorInputProps = { content?: string; placeHolder?: string; onChange?: (content: string) => void };
 
@@ -24,6 +24,7 @@ const TextEditorInput: FC<TextEditorInputProps> = ({
   placeHolder = 'کامنت خود رو بنویسید ...',
   onChange,
 }) => {
+
   const lowlight = createLowlight(all);
   const editor = useEditor({
     extensions: [
@@ -42,7 +43,7 @@ const TextEditorInput: FC<TextEditorInputProps> = ({
         showOnlyCurrent: false, // Show placeholder in all empty nodes
       }),
     ],
-    content: `${content?.trim() === '' ? `<p> ${placeHolder} </p>` : content}`,
+    content: content.trim() || '<p></p>',
     immediatelyRender: false,
     shouldRerenderOnTransaction: true,
     onUpdate: ({ editor }) => {
@@ -52,12 +53,18 @@ const TextEditorInput: FC<TextEditorInputProps> = ({
       }
     },
   });
+
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content.trim() || '<p></p>');
+    }
+  }, [editor, content]);
+
   if (!editor) {
     return null;
   }
-
   return (
-    <div className="flex flex-col gap-4">
+    <div className="bg-surface-0 flex flex-col gap-4 rounded-lg p-2">
       <EditorContent editor={editor} />
       <div className="flex gap-2 self-end">
         <TextEditorButton

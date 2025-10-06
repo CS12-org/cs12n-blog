@@ -1,46 +1,68 @@
 'use client';
 import Button from '@/components/button';
 import CommentMessege from '@/components/posts/comment-messages/comment-message';
-import HighlightCommentMessege from '@/components/posts/comment-messages/highlight-comment-message';
 import TextEditorInput from '@/components/shared/text-editor-input/text-editor-input';
-import { getPostCommentsByPostId } from '@/service/get-comments-by-post-id';
 import { postComment, PostCommentBody } from '@/service/post-comment';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+import Profile from '@/assets/images/user-profile.png';
+import { useFetchPostComments } from '@/hooks/use-get-comments-by-id';
+import { GetPostCommentsByPostIdRes } from '@/service/get-comments-by-post-id';
 
 type CommentSectionProps = { postId: string };
 export default function CommentSection({ postId }: CommentSectionProps) {
+  const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
+
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const [commentModel, setCommentModel] = useState<PostCommentBody>({
     content: '',
     postId,
-    parentId: '',
-    quotedText: '',
+    parentId: null,
+    quotedText: null,
     quotedStartIndex: NaN,
     quotedEndIndex: NaN,
   });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const { data: comments, error: queryError } = useQuery<Comment[]>({
-    queryKey: ['comments', postId],
-    queryFn: () => getPostCommentsByPostId({ postId }),
-    enabled: !!postId, // Only run when postId is available
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } =
+    useFetchPostComments(postId);
+  console.log();
+
+  // Flatten all Comments
+  const seenIds = new Set();
+  const comments =
+    (data as InfiniteData<GetPostCommentsByPostIdRes>)?.pages
+      .flatMap((page) => page.items)
+      .filter((comment) => {
+        if (seenIds.has(comment.id)) {
+          return false;
+        }
+        seenIds.add(comment.id);
+        return true;
+      }) || [];
+
+  console.log(comments, 'comments');
+  // Trigger fetch next page
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const postCommentMutation = useMutation({
     mutationFn: async (body: PostCommentBody) => {
-      return await postComment({ body });
+      return await postComment(body);
     },
     onSuccess: () => {
-      // Invalidate comments query to refresh the list
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
       setCommentModel({
         content: '',
         postId,
-        parentId: '',
-        quotedText: '',
+        parentId: null,
+        quotedText: null,
         quotedStartIndex: NaN,
         quotedEndIndex: NaN,
       });
@@ -50,10 +72,12 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       setErrorMessage(error?.response?.data?.message ?? 'خطایی رخ داده است');
     },
   });
+
   // Handle content changes from TextEditorInput
   const handleEditorChange = (content: string) => {
     setCommentModel((prev) => ({ ...prev, content }));
   };
+
   const handleSubmitComment = () => {
     if (!commentModel.content.trim()) {
       setErrorMessage('لطفاً متن نظر خود را وارد کنید');
@@ -65,31 +89,28 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   // Use session data for profile image and username, fallback to defaults
   const profileImageUrl = session?.user?.username || '/default-profile.jpg';
   const userName = session?.user?.username || 'کاربر مهمان';
+  const hasComments = Array.isArray(comments) && comments.length > 0;
+  const numberOfComments = hasComments ? comments.length : '0';
+
+  // Move early returns after all hooks
+  if (isLoading) return <p>در حال بارگذاری کامنت ها...</p>;
+  if (isError) return <p>خطا در دریافت پست‌ها: {error?.message}</p>;
+
   return (
     <section className="flex flex-col gap-[25px]">
       <section className="bg-crust flex flex-col justify-start gap-[10px] rounded-[10px] px-[10px] py-[30px] text-[14px] lg:px-[60px]">
-        <header className="text-subtext-0 text-[20px] font-extrabold">نظرات ({comments?.length || 0})</header>
+        <header className="text-subtext-0 text-[20px] font-extrabold">نظرات ({numberOfComments})</header>
 
         <section className="flex items-center gap-[10px] pb-[5px]">
           <section className="flex h-[35px] w-[35px] items-center justify-center rounded-full shadow-inner shadow-[#24273A]">
             <img
-              src={profileImageUrl}
+              src={profileImageUrl ?? Profile}
               alt="Profile picture"
               className="bg-crust h-[25px] w-[25px] rounded-full object-cover"
             />
           </section>
           <span className="text-subtext-0 font-bold">{userName}</span>
         </section>
-
-        {/* <div>
-          <TextInput
-            className="border-surface-0 placeholder:text-text text-text h-[35px] w-full border-b-[1px] p-[5px] text-[12px] lg:h-auto lg:!p-[15px] lg:text-[14px]"
-            name="نقد و نکات"
-            aria-label="کامنت خود را بنویسید"
-            placeholder="کامنت خود رو بنویسید ..."
-          />
-          
-        </div> */}
         <TextEditorInput
           content={commentModel.content}
           placeHolder="کامنت خود رو بنویسید ..."
@@ -119,9 +140,15 @@ export default function CommentSection({ postId }: CommentSectionProps) {
           </p>
         </div>
       </section>
+
       <section className="flex flex-col gap-[40px]">
-        <CommentMessege />
-        <HighlightCommentMessege />
+        {hasComments ? (
+          comments.map((comment) => <CommentMessege key={comment?.id} comment={comment} />)
+        ) : (
+          <p>نظری موجود نیست</p>
+        )}
+        {hasNextPage && <div ref={ref} style={{ height: 1 }} />}
+        {isFetchingNextPage && <p>در حال بارگذاری پست‌های بعدی...</p>}
       </section>
     </section>
   );

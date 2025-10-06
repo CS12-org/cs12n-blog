@@ -1,4 +1,5 @@
 /* Basic editor styles */
+
 .tiptap {
   :first-child {
     margin-top: 0;
@@ -70,5 +71,22 @@
     .hljs-strong {
       font-weight: 700;
     }
+    &:focus-visible {
+      outline: none;
+      /* Optional: Add a custom focus indicator for accessibility */
+      /* border: 1px solid #3b82f6; */ /* Matches Tailwind's blue-500 or your sapphire */
+    }
   }
+}
+/* Placeholder styling for RTL */
+.ProseMirror p.is-empty::before {
+  content: attr(data-placeholder);
+  color: #a0aec0; /* Tailwind gray-400 */
+  float: right; /* RTL support */
+  pointer-events: none;
+  height: 0;
+}
+*:where(:not([data-rac])):focus-visible {
+  outline: none !important;
+  outline-color: transparent;
 }
