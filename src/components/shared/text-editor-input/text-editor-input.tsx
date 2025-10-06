@@ -14,11 +14,16 @@ import { FaCode } from 'react-icons/fa6';
 import { FaItalic } from 'react-icons/fa6';
 import { HiOutlineBold } from 'react-icons/hi2';
 import { TextEditorButton } from './text-editor-button';
+import Placeholder from '@tiptap/extension-placeholder'; // Import Placeholder
 import { FC } from 'react';
 
-type TextEditorInputProps = { content?: string; placeHolder?: string };
+type TextEditorInputProps = { content?: string; placeHolder?: string; onChange?: (content: string) => void };
 
-const TextEditorInput: FC<TextEditorInputProps> = ({ content = '', placeHolder = 'کامنت خود رو بنویسید ...' }) => {
+const TextEditorInput: FC<TextEditorInputProps> = ({
+  content = '',
+  placeHolder = 'کامنت خود رو بنویسید ...',
+  onChange,
+}) => {
   const lowlight = createLowlight(all);
   const editor = useEditor({
     extensions: [
@@ -31,10 +36,21 @@ const TextEditorInput: FC<TextEditorInputProps> = ({ content = '', placeHolder =
       CodeBlockLowlight.configure({
         lowlight,
       }),
+      Placeholder.configure({
+        placeholder: placeHolder, // Use the placeHolder prop
+        showOnlyWhenEditable: true, // Show placeholder only when editor is editable
+        showOnlyCurrent: false, // Show placeholder in all empty nodes
+      }),
     ],
     content: `${content?.trim() === '' ? `<p> ${placeHolder} </p>` : content}`,
     immediatelyRender: false,
     shouldRerenderOnTransaction: true,
+    onUpdate: ({ editor }) => {
+      // Trigger onChange with the editor's HTML content
+      if (onChange) {
+        onChange(editor.getHTML());
+      }
+    },
   });
   if (!editor) {
     return null;

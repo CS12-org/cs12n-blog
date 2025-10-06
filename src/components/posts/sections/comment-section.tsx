@@ -1,14 +1,13 @@
 'use client';
 import Button from '@/components/button';
-import { TextInput } from '@/components/user-panel/text-field';
-import { getPostCommentsByPostId } from '@/service/get-comments-by-post-id';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { postComment, PostCommentBody } from '@/service/post-comment';
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
-import TextEditorInput from '@/components/shared/text-editor-input/text-editor-input';
 import CommentMessege from '@/components/posts/comment-messages/comment-message';
 import HighlightCommentMessege from '@/components/posts/comment-messages/highlight-comment-message';
+import TextEditorInput from '@/components/shared/text-editor-input/text-editor-input';
+import { getPostCommentsByPostId } from '@/service/get-comments-by-post-id';
+import { postComment, PostCommentBody } from '@/service/post-comment';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 
 type CommentSectionProps = { postId: string };
 export default function CommentSection({ postId }: CommentSectionProps) {
@@ -51,7 +50,10 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       setErrorMessage(error?.response?.data?.message ?? 'خطایی رخ داده است');
     },
   });
-
+  // Handle content changes from TextEditorInput
+  const handleEditorChange = (content: string) => {
+    setCommentModel((prev) => ({ ...prev, content }));
+  };
   const handleSubmitComment = () => {
     if (!commentModel.content.trim()) {
       setErrorMessage('لطفاً متن نظر خود را وارد کنید');
@@ -88,7 +90,11 @@ export default function CommentSection({ postId }: CommentSectionProps) {
           />
           
         </div> */}
-        <TextEditorInput />
+        <TextEditorInput
+          content={commentModel.content}
+          placeHolder="کامنت خود رو بنویسید ..."
+          onChange={handleEditorChange}
+        />
         {errorMessage && <p className="mt-[5px] text-[12px] text-red-500">{errorMessage}</p>}
         <Button
           onClick={handleSubmitComment}
