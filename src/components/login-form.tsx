@@ -3,12 +3,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { Input, Label, Text, TextField } from '@/components/react-aria-components';
 import { Controller, useForm } from 'react-hook-form';
 import { twJoin } from 'tailwind-merge';
 import { z } from 'zod';
 import Button from '@/components/button';
 import Image from 'next/image';
+import { getUserProfile } from '@/service/get-user-profile';
+import { useUserStore } from '@/store/user-store';
 
 const schema = z.object({
   password: z.string().min(8),
@@ -25,7 +28,6 @@ const STATUS_ERRORS: Record<string, string> = {
 
 function LoginForm() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const { control, handleSubmit } = useForm<FormFields>({
@@ -36,26 +38,41 @@ function LoginForm() {
     },
   });
 
+  const loginMutation = useMutation({
+    mutationFn: async (values: FormFields) => {
+      const res = await signIn('credentials', {
+        redirect: false,
+        email: values.identifier,
+        password: values.password,
+      });
+
+      if (!res) {
+        throw new Error(DEFAULT_ERROR_MESSAGE);
+      }
+      if (!res.ok) {
+        const errorMessage = STATUS_ERRORS[res.status.toString()];
+        throw new Error(errorMessage || DEFAULT_ERROR_MESSAGE);
+      }
+
+      return res;
+    },
+    onSuccess: async () => {
+      try {
+        const profile = await getUserProfile({});
+        useUserStore.getState().setUserProfile(profile);
+      } catch (err) {
+        console.error(err);
+      }
+      router.replace('/');
+    },
+    onError: (err) => {
+      setError(err instanceof Error ? err.message : DEFAULT_ERROR_MESSAGE);
+    },
+  });
+
   const submitHandler = handleSubmit(async (values) => {
     setError(null);
-    setLoading(true);
-
-    const res = await signIn('credentials', {
-      redirect: false,
-      email: values.identifier,
-      password: values.password,
-    });
-
-    setLoading(false);
-
-    if (!res) {
-      return setError(DEFAULT_ERROR_MESSAGE);
-    }
-    if (!res.ok) {
-      const errorMessage = STATUS_ERRORS[res.status.toString()];
-      return setError(errorMessage || DEFAULT_ERROR_MESSAGE);
-    }
-    router.replace('/');
+    loginMutation.mutate(values);
   });
 
   return (
@@ -138,7 +155,7 @@ function LoginForm() {
           رمز عبورم رو فراموش کردم!
         </button>
         <div className="mt-4 flex gap-2">
-          <Button isPending={loading} type="submit" className="grow py-2">
+          <Button isDisabled={loginMutation.isPending} type="submit" className="grow py-2">
             ورود به سایت
           </Button>
           <Button type="button" variant="outline" className="px-4 py-2" onPress={() => router.push('/signup')}>

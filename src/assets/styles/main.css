@@ -6,9 +6,9 @@
 
 @import './palette.css';
 @import './base.css';
+@import './tiptap.css';
 
-@plugin "tailwindcss-react-aria-components";
-
+@plugin 'tailwindcss-react-aria-components';
 @theme inline {
   --color-rosewater: var(--rosewater);
   --color-flamingo: var(--flamingo);
@@ -80,4 +80,17 @@
   --text-body-sm--font-weight: 400;
   --text-body-xs: 12px;
   --text-body-xs--font-weight: 400;
+}
+
+.react-aria-Popover {
+  transition:
+    opacity 300ms,
+    scale 300ms;
+  transform-origin: var(--trigger-anchor-point);
+
+  &[data-entering],
+  &[data-exiting] {
+    opacity: 0;
+    scale: 0.85;
+  }
 }

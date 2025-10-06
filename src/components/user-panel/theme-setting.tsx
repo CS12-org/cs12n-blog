@@ -41,8 +41,8 @@ function MyRadioGroup({ options, ...props }: ColorRadioGroupProps) {
   );
 }
 
-// import Button from "~/components/Button"
-// import twMerge from  "~/lib/tw-merge";
+// import Button from "@/components/Button"
+// import twMerge from  "@/lib/tw-merge";
 
 // type ThemeSettingProps = {
 //   buttonText: string;

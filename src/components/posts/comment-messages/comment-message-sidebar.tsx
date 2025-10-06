@@ -2,23 +2,20 @@ import Image from 'next/image';
 import { Text } from '@/components/react-aria-components';
 import CommentsIcon from '@/assets/images/comments.svg';
 import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
-import ThreeDotts from '@/assets/images/threeDotts.svg';
 import Profile from '@/assets/images/farhan.jpg';
 import IncreaseArrow from '@/assets/images/increaseArrow.svg';
+import ThreeDotts from '@/assets/images/threeDotts.svg';
 import Button from '@/components/button';
 import { Comment } from '@/service/get-post-by-slug';
 import { useMutation } from '@tanstack/react-query';
 import { postVote, PostVoteReq, VoteEnum } from '@/service/post-vote';
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
-import { useSidebarStore } from '@/store/sidebar-store';
-import { CommentSidebarContent } from '@/components/posts/comment-messages/comment-sidebar-content';
 
-type CommentMessegeProps = { comment: Comment; postId: string };
-function CommentMessege({ comment, postId }: CommentMessegeProps) {
-  const openSidebar = useSidebarStore((s) => s.openSidebar);
-
+type CommentMessegeSidebarProps = { comment: Comment; postId: string };
+function CommentMessegeSidebar({ comment, postId }: CommentMessegeSidebarProps) {
   const [netScore, setNetScore] = useState(comment?.netScore ?? 0);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const voteMutation = useMutation({
     mutationFn: async (body: PostVoteReq) => postVote(body),
     onSuccess(data) {
@@ -27,6 +24,9 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
   });
   const handleSubmitVoute = (voteType: VoteEnum) => {
     voteMutation.mutate({ commentId: comment?.id, voteType: voteType });
+  };
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev); // Toggle sidebar open/close
   };
   return (
     <article className="flex w-full flex-col px-[20px]">
@@ -71,10 +71,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
           dangerouslySetInnerHTML={{ __html: comment.content || '' }}
         />
         <section className="flex justify-between">
-          <Button
-            onClick={() => openSidebar(<CommentSidebarContent postId={postId} pinComment={comment} />)}
-            className="bg- text-text flex items-center gap-[5px]"
-          >
+          <Button onClick={toggleSidebar} className="bg- text-text flex items-center gap-[5px]">
             <CommentsIcon className="h-[29px] w-[29px]" />
             پاسخ ها
           </Button>
@@ -84,4 +81,4 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
   );
 }
 
-export default CommentMessege;
+export default CommentMessegeSidebar;

@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import AudioPlayer from '@/components/audio-player';
 import ChangeCommitMessege from '@/components/free-sections/change-commit-message';
 import CommitMessegeInput from '@/components/free-sections/commit-message-input';
 import ResumeSharingNotice from '@/components/free-sections/resume-sharing-notice';
@@ -14,17 +13,35 @@ import PostSideBar from '@/components/posts/side-bar';
 import { getPostBySlug } from '@/service/posts';
 import SharePopoverButton from '@/components/posts/share-button';
 import ClapButton from '@/components/posts/clap-button';
+import Highlights from '@/components/posts/sections/highlight-section';
+import { ReactNode } from 'react';
+import CommentSection from '@/components/posts/sections/comment-section';
+import ReviewSection from '@/components/posts/sections/review-section';
 
 type Props = {
   params: Promise<{
     slug: string;
   }>;
 };
+export type postTabItems = { id: string; title: string; component: ReactNode };
 
 export default async function PostPage({ params }: Props) {
-  const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const { slug: postId } = await params;
+  let post;
+  try {
+    post = await getPostBySlug((await params).slug);
+  } catch (error) {
+    console.error(`Error fetching post with slug ${postId}:`, error);
+    return notFound();
+  }
   if (!post) return notFound();
+
+  const postTabsData: postTabItems[] = [
+    { id: 'highlights', title: 'هایلایت ها', component: <Highlights /> },
+    { id: 'comments', title: 'نظرات', component: <CommentSection postId={post?.id} /> },
+    { id: 'review', title: 'نقد و بررسی', component: <ReviewSection /> },
+  ];
+
   return (
     <section className="flex items-start gap-[15px]">
       <PostSideBar className="hidden lg:flex" />
@@ -33,12 +50,12 @@ export default async function PostPage({ params }: Props) {
 
         <section className="bg-crust mb-[20px] rounded-[10px]">
           <header className="flex w-full flex-col">
-            {post.featured_image && (
+            {post.featuredImage && (
               <Image
                 alt={post.title}
-                src={post.featured_image.url}
-                width={post.featured_image.width}
-                height={post.featured_image.height}
+                src={post.featuredImage.url}
+                width={post.featuredImage.width}
+                height={post.featuredImage.height}
                 className="h-auto w-full rounded-tl-[10px] rounded-tr-[10px]"
               />
             )}
@@ -48,22 +65,22 @@ export default async function PostPage({ params }: Props) {
             </h1>
           </header>
 
-          {post.narrator && <AudioPlayer audioSrc={post.narrator} />}
+          {/* {post.narrator && <AudioPlayer audioSrc={post.narrator} />} */}
 
           <article
             id="highlight-area"
             className="flex flex-col gap-[20px] p-[10px] text-[14px] lg:px-[30px] lg:py-[20px] lg:text-[16px]"
           >
-            <p>{post.description}</p>
+            {/* <p>{post.description}</p> */}
           </article>
 
-          {post.featured_image && (
+          {post.featuredImage && (
             <Image
               alt={post.title}
               className="w-full"
-              src={post.featured_image.url}
-              width={post.featured_image.width}
-              height={post.featured_image.height}
+              src={post.featuredImage.url}
+              width={post.featuredImage.width}
+              height={post.featuredImage.height}
             />
           )}
 
@@ -85,7 +102,7 @@ export default async function PostPage({ params }: Props) {
 
         <PostAuthor user={post.user} />
         <PostNavigation />
-        <PostTabs />
+        <PostTabs postTabsData={postTabsData} />
       </section>
     </section>
   );
