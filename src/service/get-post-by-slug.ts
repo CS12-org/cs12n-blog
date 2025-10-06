@@ -80,7 +80,7 @@ export type Comment = {
     };
   };
   parentId: string;
-  replies: string[];
+  replies: any[]; //TODO : handle the type of replies
   userVote: Record<string, any>;
 };
 

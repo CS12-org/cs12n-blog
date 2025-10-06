@@ -44,8 +44,11 @@ export default function MainTopbar({ isBlured = false }: Props) {
   return (
     <header
       className={twJoin(
-        'bg-crust [&>button]:text-overlay-1 relative z-11 mt-8 flex h-17.5 items-center',
-        'gap-3.5 rounded-xl px-4 select-none lg:px-7.5 [&>*]:shrink-0',
+        'bg-crust mt-8 h-17.5 rounded-xl',
+        'flex items-center px-4',
+        'gap-3.5 lg:px-7.5 [&>*]:shrink-0',
+        'relative z-11 select-none',
+        '[&>button]:text-overlay-1',
       )}
     >
       <Logo />

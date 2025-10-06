@@ -1,15 +1,15 @@
 'use client';
-import Button from '@/components/button';
-import CommentMessege from '@/components/posts/comment-messages/comment-message';
+import Profile from '@/assets/images/user-profile.png';
 import TextEditorInput from '@/components/shared/text-editor-input/text-editor-input';
+import { useFetchPostComments } from '@/hooks/use-get-comments-by-id';
 import { postComment, PostCommentBody } from '@/service/post-comment';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import Profile from '@/assets/images/user-profile.png';
-import { useFetchPostComments } from '@/hooks/use-get-comments-by-id';
-import { GetPostCommentsByPostIdRes } from '@/service/get-comments-by-post-id';
+import Button from '~/components/button';
+import { GetPostCommentsByPostIdRes } from '~/service/get-comments-by-post-id';
+import CommentMessege from '../comment-messages/comment-message';
 
 type CommentSectionProps = { postId: string };
 export default function CommentSection({ postId }: CommentSectionProps) {
@@ -17,6 +17,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
 
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
   const [commentModel, setCommentModel] = useState<PostCommentBody>({
     content: '',
     postId,
@@ -29,7 +30,6 @@ export default function CommentSection({ postId }: CommentSectionProps) {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } =
     useFetchPostComments(postId);
-  console.log();
 
   // Flatten all Comments
   const seenIds = new Set();
@@ -44,7 +44,6 @@ export default function CommentSection({ postId }: CommentSectionProps) {
         return true;
       }) || [];
 
-  console.log(comments, 'comments');
   // Trigger fetch next page
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -90,14 +89,14 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   const profileImageUrl = session?.user?.username || '/default-profile.jpg';
   const userName = session?.user?.username || 'کاربر مهمان';
   const hasComments = Array.isArray(comments) && comments.length > 0;
-  const numberOfComments = hasComments ? comments.length : '0';
+  const numberOfComments = data?.pages[0]?.totalCount ?? 0;
 
   // Move early returns after all hooks
   if (isLoading) return <p>در حال بارگذاری کامنت ها...</p>;
   if (isError) return <p>خطا در دریافت پست‌ها: {error?.message}</p>;
 
   return (
-    <section className="flex flex-col gap-[25px]">
+    <section className="realtive flex flex-col gap-[25px]">
       <section className="bg-crust flex flex-col justify-start gap-[10px] rounded-[10px] px-[10px] py-[30px] text-[14px] lg:px-[60px]">
         <header className="text-subtext-0 text-[20px] font-extrabold">نظرات ({numberOfComments})</header>
 
@@ -143,7 +142,9 @@ export default function CommentSection({ postId }: CommentSectionProps) {
 
       <section className="flex flex-col gap-[40px]">
         {hasComments ? (
-          comments.map((comment) => <CommentMessege key={comment?.id} comment={comment} />)
+          comments.map((comment) => (
+            <CommentMessege key={comment.id} comment={comment} postId={postId} onReplyClick={() => {}} />
+          ))
         ) : (
           <p>نظری موجود نیست</p>
         )}

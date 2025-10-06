@@ -9,6 +9,8 @@ import { twJoin } from 'tailwind-merge';
 import { z } from 'zod';
 import Button from '@/components/button';
 import Image from 'next/image';
+import { getUserProfile } from '~/service/get-user-profile';
+import { useUserStore } from '~/store/user-store';
 
 const schema = z.object({
   password: z.string().min(8),
@@ -55,6 +57,14 @@ function LoginForm() {
       const errorMessage = STATUS_ERRORS[res.status.toString()];
       return setError(errorMessage || DEFAULT_ERROR_MESSAGE);
     }
+    // ✅ Login successful → fetch user profile
+    try {
+      const profile = await getUserProfile({});
+      useUserStore.getState().setUserProfile(profile); // store globally
+    } catch (err) {
+      console.error(err);
+    }
+
     router.replace('/');
   });
 
