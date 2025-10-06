@@ -23,7 +23,7 @@ export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
 
   const mutation = useMutation({
     mutationFn: async (value: { count: number }) => {
-      const res = await axios.post<PostClapData>(`/clap`, { postId, count: value.count });
+      const res = await axios.post<PostClapData>(`/api/clap`, { postId, count: value.count });
       return res.data;
     },
     onMutate: () => {

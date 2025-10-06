@@ -10,7 +10,7 @@ export function useSavePost(postId: string) {
 
   const saveMutation = useMutation<void, unknown, SavePostBody>({
     mutationFn: async () => {
-      await axios.post(`/saved-posts`, { postId });
+      await axios.post(`/api/saved-posts`, { postId });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['saved-posts'] });
@@ -20,7 +20,7 @@ export function useSavePost(postId: string) {
 
   const unsaveMutation = useMutation<void, unknown, SavePostBody>({
     mutationFn: async () => {
-      await axios.delete(`/saved-posts/${postId}`);
+      await axios.delete(`/api/saved-posts/${postId}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['saved-posts'] });
