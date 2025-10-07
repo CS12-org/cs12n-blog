@@ -109,7 +109,7 @@ export const searchPosts = async (params: SearchParams) => {
 
 export const getPostBySlug = async (slug: string): Promise<Post> => {
   try {
-    const res = await axios.get(`/api/posts/get-by-slug/${slug}`);
+    const res = await axios.get(`/api/posts/slug/${slug}`);
     return res.data;
   } catch (err: unknown) {
     console.error(err);

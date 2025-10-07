@@ -24,9 +24,7 @@ export const getCommentByParentId = async ({
     throw new Error('Invalid parentId: parentId must be a non-empty string');
   }
   try {
-    const response = await axios.get<GetCommentByParentIdRes>(`/comments/parent/${parentId}`, {
-      params: { previousCursor: cursor, pageSize: 10, ...params },
-    });
+    const response = await axios.get<GetCommentByParentIdRes>(`/api/comments/parent/${parentId}`);
     return response.data;
   } catch (err: any) {
     console.error('Unexpected error:', err);

@@ -24,7 +24,7 @@ export const getPostCommentsByPostId = async ({
     throw new Error('Invalid postId: postId must be a non-empty string');
   }
   try {
-    const response = await axios.get<GetPostCommentsByPostIdRes>(`/comments/post/${postId}`, {
+    const response = await axios.get<GetPostCommentsByPostIdRes>(`/api/comments/by-post/${postId}`, {
       params: { previousCursor: cursor, pageSize: 10, ...params },
     });
     return response.data;

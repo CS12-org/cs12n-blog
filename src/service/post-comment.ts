@@ -11,4 +11,4 @@ export type PostCommentBody = {
 export type PostCommentReq = PostCommentBody;
 export type PostCommentRes = {};
 
-export const postComment = (body: PostCommentReq) => axios.post<PostCommentRes>('/comments', body);
+export const postComment = (body: PostCommentReq) => axios.post<PostCommentRes>('/api/comments', body);

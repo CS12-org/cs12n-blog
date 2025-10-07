@@ -34,4 +34,4 @@ export type PostVoteRes = {
   };
   userVote: { voteType: VoteEnum } | null;
 };
-export const postVote = (body: PostVoteReq) => axios.post<PostVoteRes>('/comments/vote', body);
+export const postVote = (body: PostVoteReq) => axios.post<PostVoteRes>('/api/comments/vote', body);
