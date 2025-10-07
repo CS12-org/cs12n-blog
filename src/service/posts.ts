@@ -100,7 +100,7 @@ export const searchPosts = async (params: SearchParams) => {
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
 
-    return res.data.items.slice(start, end).map(mapSearchItemToPostItem);
+    return res.data.items?.slice(start, end).map(mapSearchItemToPostItem);
   } catch (err: unknown) {
     console.error(err);
     throw new Error('خطا در جست‌وجوی پست‌ها');
