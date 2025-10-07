@@ -1,12 +1,11 @@
-import Axios from 'axios';
-import publicConfig from './public-config';
-import { getSession } from 'next-auth/react';
-import { getServerSession } from 'next-auth/next';
 import authOptions from '@/auth.config';
+import Axios from 'axios';
+import { getServerSession } from 'next-auth/next';
+import { getSession } from 'next-auth/react';
 
 const axios = Axios.create({
   timeout: 30 * 1000, // 30 seconds
-  baseURL: publicConfig.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 axios.interceptors.request.use(async (config) => {
