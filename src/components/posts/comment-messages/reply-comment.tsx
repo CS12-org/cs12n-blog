@@ -35,7 +35,6 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
     },
   });
 
-  const closeSidebar = useSidebarStore((s) => s.closeSidebar);
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
@@ -44,7 +43,7 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
       queryClient.invalidateQueries({
         queryKey: ['comments'],
       });
-      closeSidebar();
+      useSidebarStore.getState().removeComment(comment.id);
     },
     onError: (error) => {
       console.error('خطا در حذف کامنت', error);
@@ -96,10 +95,7 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
             </Text>
 
             {/* <ThreeDotts className={'bg - [#fff] ms-auto'} /> */}
-            <CommentOptions
-              title={deleteMutation.isPending ? '... در حال حذف کامنت' : 'حذف کامنت'}
-              onDelete={() => deleteMutation.mutate(comment.id)}
-            />
+            <CommentOptions pending={deleteMutation.isPending} onDelete={() => deleteMutation.mutate(comment.id)} />
           </div>
         </header>
         <div className="rounded-b-lg bg-[#101122] py-2.5">
