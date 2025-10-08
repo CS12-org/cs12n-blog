@@ -14,9 +14,11 @@ import { useState } from 'react';
 
 const SignUpSchema = z
   .object({
-    email: z.email().min(1),
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
+    email: z.email({ error: 'ایمیل باید حداقل ۲ کاراکتر باشد' }).min(2),
+    password: z.string({ error: 'رمزعبور خود را انتخاب کنید' }).min(8, { error: 'رمزعبور باید حدافل ۸ کاراکتر باشد' }),
+    confirmPassword: z
+      .string({ error: 'تکرار رمزعبور با رمزعبور یکسان نیست' })
+      .min(8, { error: 'تکرار رمزعبور باید حداقل ۸ کاراکتر باشد' }),
   })
   .superRefine((values, ctx) => {
     if (values.password !== values.confirmPassword)
