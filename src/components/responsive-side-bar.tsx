@@ -76,7 +76,7 @@ const ResponsiveSideBar = (prop: Props) => {
           {prop.groups.map((group) => (
             <li key={group.title}>
               <Link
-                href={`/${group.slug}`}
+                href={`${group.slug}`}
                 onClick={() => toggleIsSideBarOpen()}
                 className={twJoin(
                   'bg-mantle flex items-center justify-between p-2',
