@@ -99,7 +99,7 @@ export default function HighlightMenu({ containerId }: HighlightMenuProps) {
   return (
     <div
       ref={menuRef}
-      className="text-text border-base absolute z-50 flex gap-[15px] rounded-[10px] border border-[1px] bg-[#050615] p-[10px] text-[12px] shadow-lg"
+      className="text-text border-base absolute z-50 flex gap-[15px] rounded-[10px] border bg-[#050615] p-[10px] text-[12px] shadow-lg"
       style={{
         left: coords.x,
         top: coords.y,

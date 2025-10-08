@@ -53,9 +53,9 @@ export default async function PostPage({ params }: Props) {
             {post.featuredImage && (
               <Image
                 alt={post.title}
-                src={post.featuredImage.url}
-                width={post.featuredImage.width}
-                height={post.featuredImage.height}
+                src={post.featuredImage.url || '/default-profile.jpg'}
+                width={post.featuredImage.width || 12}
+                height={post.featuredImage.height || 12}
                 className="h-auto w-full rounded-tl-[10px] rounded-tr-[10px]"
               />
             )}
@@ -78,9 +78,9 @@ export default async function PostPage({ params }: Props) {
             <Image
               alt={post.title}
               className="w-full"
-              src={post.featuredImage.url}
-              width={post.featuredImage.width}
-              height={post.featuredImage.height}
+              src={post.featuredImage.url || '/default-profile.jpg'}
+              width={post.featuredImage.width || 12}
+              height={post.featuredImage.height || 12}
             />
           )}
 

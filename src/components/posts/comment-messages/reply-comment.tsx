@@ -8,27 +8,49 @@ import { useEffect, useState } from 'react';
 import IncreaseArrow from '@/assets/images/increaseArrow.svg';
 import { twJoin } from 'tailwind-merge';
 import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
-import ThreeDotts from '@/assets/images/dots-horizontal.svg';
+// import ThreeDotts from '@/assets/images/dots-horizontal.svg';
 import Reply from '@/assets/images/reply.svg';
 
-import { InfiniteData, useMutation } from '@tanstack/react-query';
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { postVote, PostVoteReq, VoteEnum } from '@/service/post-vote';
 import Profile from '@/assets/images/user-profile.png';
 import { useFetchCommentByParentId } from '@/hooks/use-get-comment-by-parent-id';
 import { GetCommentByParentIdRes } from '@/service/get-comment-by-parent-id';
 import { useInView } from 'react-intersection-observer';
+import { CommentOptions } from './comment-options';
+import { deleteReply } from '@/service/delete-reply';
+import { useSidebarStore } from '@/store/sidebar-store';
 
 type ReplyCommentProps = { comment: Comment; isReply: boolean; isPin: boolean };
+
 export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
   //   const [replies, setReplies] = useState<Comment[]>([]);
   const [netScore, setNetScore] = useState(comment?.netScore ?? 0);
+
   const voteMutation = useMutation({
     mutationFn: async (body: PostVoteReq) => postVote(body),
     onSuccess(data) {
       setNetScore(data?.data?.netScore ?? 0);
     },
   });
+
+  const closeSidebar = useSidebarStore((s) => s.closeSidebar);
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => deleteReply(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comments'],
+      });
+      closeSidebar();
+    },
+    onError: (error) => {
+      console.error('خطا در حذف کامنت', error);
+    },
+  });
+
   const handleSubmitVoute = (voteType: VoteEnum) => {
     voteMutation.mutate({ commentId: comment?.id, voteType: voteType });
   };
@@ -73,7 +95,11 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
               {comment?.user?.profile?.fullName ?? comment?.user?.username}
             </Text>
 
-            <ThreeDotts className={'bg - [#fff] ms-auto'} />
+            {/* <ThreeDotts className={'bg - [#fff] ms-auto'} /> */}
+            <CommentOptions
+              title={deleteMutation.isPending ? '... در حال حذف کامنت' : 'حذف کامنت'}
+              onDelete={() => deleteMutation.mutate(comment.id)}
+            />
           </div>
         </header>
         <div className="rounded-b-lg bg-[#101122] py-2.5">
