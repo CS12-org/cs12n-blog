@@ -14,8 +14,10 @@ import { getUserProfile } from '@/service/get-user-profile';
 import { useUserStore } from '@/store/user-store';
 
 const schema = z.object({
-  password: z.string().min(8),
-  identifier: z.string().min(1),
+  password: z.string({ error: 'رمز عبور وارد شده صحیح نیست' }).min(8, { error: 'رمزعبور باید حداقل ۸ کاراکتر باشد' }),
+  identifier: z
+    .string({ error: 'ایمیل / نام‌کاربری وارد شده صحیح نیست' })
+    .min(2, { error: 'مشخصات ورودی باید حداقل ۲ کاراکتر باشد' }),
 });
 
 type FormFields = z.infer<typeof schema>;
