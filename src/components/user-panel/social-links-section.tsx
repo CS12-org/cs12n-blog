@@ -12,7 +12,7 @@ import RemovableListItem from '@/components/user-panel/removable-list-item';
 import { putUserProfile } from '@/service/put-user-profile';
 
 const socialSchema = z.object({
-  link: z.string().url('لینک معتبر نیست'),
+  link: z.url('لینک معتبر نیست'),
 });
 type SocialForm = z.infer<typeof socialSchema>;
 
