@@ -20,7 +20,6 @@ export function CommentOptions({ list }: CommentOptionsProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  // 🔹 بستن مودال با کلیک بیرون از آن
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
