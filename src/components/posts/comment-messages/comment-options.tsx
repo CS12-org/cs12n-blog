@@ -40,7 +40,7 @@ export function CommentOptions({ onDelete, pending }: CommentOptionsProps) {
         <Popover className="z-50 rounded-lg border border-[#333] bg-[#1a1b2e] p-2 shadow-lg">
           <ListBox className="min-w-32 rounded-2xl bg-[#101122] px-6 py-3">
             {list.map((l) => (
-              <ListBoxItem className="cursor-pointer text-end" key={l.id} onAction={l.action}>
+              <ListBoxItem className="cursor-pointer text-end" key={l.id} onAction={() => setConfirmOpen(true)}>
                 {pending ? l.pendingTitle : l.title}
               </ListBoxItem>
             ))}
