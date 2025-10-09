@@ -17,7 +17,7 @@ import Profile from '@/assets/images/user-profile.png';
 import { useFetchCommentByParentId } from '@/hooks/use-get-comment-by-parent-id';
 import { GetCommentByParentIdRes } from '@/service/get-comment-by-parent-id';
 import { useInView } from 'react-intersection-observer';
-import { CommentOptions } from './comment-options';
+import { CommentOptions, CommentOptionsList } from './comment-options';
 import { deleteReply } from '@/service/delete-reply';
 import { useSidebarStore } from '@/store/sidebar-store';
 
@@ -77,6 +77,17 @@ export function ReplyComment({ comment, isReply, isPin, postId }: ReplyCommentPr
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const list: CommentOptionsList[] = [
+    {
+      id: 1,
+      title: 'حذف کامنت',
+      pendingTitle: '... در حال حذف کامنت',
+      action: () => deleteMutation.mutate(comment.id),
+      pending: deleteMutation.isPending,
+    },
+  ];
+
   return (
     <section className={twJoin('rounded-2xl', isPin ? 'bg-surface-1' : '')}>
       {/* comment */}
@@ -95,7 +106,7 @@ export function ReplyComment({ comment, isReply, isPin, postId }: ReplyCommentPr
             </Text>
 
             {/* <ThreeDotts className={'bg - [#fff] ms-auto'} /> */}
-            <CommentOptions pending={deleteMutation.isPending} onDelete={() => deleteMutation.mutate(comment.id)} />
+            <CommentOptions list={list} />
           </div>
         </header>
         <div className="rounded-b-lg bg-[#101122] py-2.5">

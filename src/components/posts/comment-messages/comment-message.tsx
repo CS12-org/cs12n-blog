@@ -7,12 +7,14 @@ import Profile from '@/assets/images/farhan.jpg';
 import IncreaseArrow from '@/assets/images/increaseArrow.svg';
 import Button from '@/components/button';
 import { Comment } from '@/service/get-post-by-slug';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postVote, PostVoteReq, VoteEnum } from '@/service/post-vote';
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
 import { useSidebarStore } from '@/store/sidebar-store';
 import { CommentSidebarContent } from '@/components/posts/comment-messages/comment-sidebar-content';
+import { CommentOptions, CommentOptionsList } from './comment-options';
+import { deleteReply } from '@/service/delete-reply';
 
 type CommentMessegeProps = { comment: Comment; postId: string };
 function CommentMessege({ comment, postId }: CommentMessegeProps) {
@@ -28,6 +30,32 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
   const handleSubmitVoute = (voteType: VoteEnum) => {
     voteMutation.mutate({ commentId: comment?.id, voteType: voteType });
   };
+
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => deleteReply(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comments', postId],
+      });
+      useSidebarStore.getState().removeComment(comment.id);
+    },
+    onError: (error) => {
+      console.error('خطا در حذف کامنت', error);
+    },
+  });
+
+  const list: CommentOptionsList[] = [
+    {
+      id: 1,
+      title: 'حذف کامنت',
+      pendingTitle: '... در حال حذف کامنت',
+      action: () => deleteMutation.mutate(comment.id),
+      pending: deleteMutation.isPending,
+    },
+  ];
+
   return (
     <article className="flex w-full flex-col px-[20px]">
       <header className="bg-crust flex justify-between rounded-tl-[10px] rounded-tr-[10px] p-[10px] lg:rounded-tr-full lg:rounded-br-full">
@@ -60,7 +88,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
             <DecreaseArrow className="h-[10px] w-[20px]" />
           </Button>
           <Button className="bg- text-subtext-0">
-            <ThreeDotts />
+            <CommentOptions list={list} />
           </Button>
         </div>
       </header>
