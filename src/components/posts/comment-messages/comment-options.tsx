@@ -1,8 +1,9 @@
 'use client';
 
-import { MenuTrigger, Button, Popover, ListBox, ListBoxItem } from 'react-aria-components';
+import { MenuTrigger, Button, Popover, ListBox, ListBoxItem, Dialog, DialogTrigger } from 'react-aria-components';
 import ThreeDotts from '@/assets/images/dots-horizontal.svg';
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 type CommentOptionsList = {
   id: number;
@@ -48,30 +49,31 @@ export function CommentOptions({ onDelete, pending }: CommentOptionsProps) {
         </Popover>
       </MenuTrigger>
 
-      <Popover
-        isOpen={confirmOpen}
-        onOpenChange={setConfirmOpen}
-        className="absolute top-full right-0 z-[60] mt-2 w-[220px] rounded-lg border border-[#333] bg-[#1a1b2e] p-4 shadow-xl"
-      >
-        <p className="mb-3 text-center text-sm text-white">مطمئنی می‌خوای حذف کنی؟</p>
-        <div className="flex justify-between gap-2">
-          <Button
-            className="w-1/2 rounded-md bg-red-500 px-3 py-1 text-sm font-bold text-white hover:bg-red-600"
-            onPress={() => {
-              onDelete?.();
-              setConfirmOpen(false);
-            }}
-          >
-            بله
-          </Button>
-          <Button
-            className="w-1/2 rounded-md bg-gray-700 px-3 py-1 text-sm font-bold text-white hover:bg-gray-600"
-            onPress={() => setConfirmOpen(false)}
-          >
-            خیر
-          </Button>
-        </div>
-      </Popover>
+      <DialogTrigger isOpen={confirmOpen} onOpenChange={setConfirmOpen}>
+        <Button className="hidden" />
+        <Popover placement="top" className="z-[9999] rounded-lg border border-[#333] bg-[#1a1b2e] p-4 shadow-xl">
+          <Dialog>
+            <p className="mb-3 text-center text-sm text-white">مطمئنی می‌خوای حذف کنی؟</p>
+            <div className="flex justify-between gap-2">
+              <Button
+                className="w-1/2 rounded-md bg-red-500 px-3 py-1 text-sm font-bold text-white hover:bg-red-600"
+                onPress={() => {
+                  onDelete?.();
+                  setConfirmOpen(false);
+                }}
+              >
+                بله
+              </Button>
+              <Button
+                className="w-1/2 rounded-md bg-gray-700 px-3 py-1 text-sm font-bold text-white hover:bg-gray-600"
+                onPress={() => setConfirmOpen(false)}
+              >
+                خیر
+              </Button>
+            </div>
+          </Dialog>
+        </Popover>
+      </DialogTrigger>
     </>
   );
 }
