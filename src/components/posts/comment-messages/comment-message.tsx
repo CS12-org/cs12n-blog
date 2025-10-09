@@ -35,7 +35,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
           <Image
             width={25}
             height={25}
-            src={comment?.user?.profile?.avatarUrl?.trim() !== '' ? comment?.user?.profile?.avatarUrl : Profile}
+            src={comment?.user?.profile?.avatarUrl ? comment?.user?.profile?.avatarUrl : '/default-avatar.png'}
             alt={comment?.user?.username}
             className="h-[25px] w-[25px] rounded-full"
           />
