@@ -21,9 +21,9 @@ import { CommentOptions } from './comment-options';
 import { deleteReply } from '@/service/delete-reply';
 import { useSidebarStore } from '@/store/sidebar-store';
 
-type ReplyCommentProps = { comment: Comment; isReply: boolean; isPin: boolean };
+type ReplyCommentProps = { comment: Comment; isReply: boolean; isPin: boolean; postId: string };
 
-export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
+export function ReplyComment({ comment, isReply, isPin, postId }: ReplyCommentProps) {
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
   //   const [replies, setReplies] = useState<Comment[]>([]);
   const [netScore, setNetScore] = useState(comment?.netScore ?? 0);
@@ -41,7 +41,7 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
     mutationFn: async (id: string) => deleteReply(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['comments'],
+        queryKey: ['comments', postId],
       });
       useSidebarStore.getState().removeComment(comment.id);
     },
@@ -137,7 +137,9 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
       </section>
       {/* replys */}
       {replies.length > 0 &&
-        replies?.map((reply) => <ReplyComment key={reply.id} comment={reply} isReply={true} isPin={false} />)}
+        replies?.map((reply) => (
+          <ReplyComment postId={postId} key={reply.id} comment={reply} isReply={true} isPin={false} />
+        ))}
       <div ref={ref} style={{ height: 1 }} />
       {isFetchingNextPage && <p>در حال بارگذاری پست‌های بعدی...</p>}
     </section>

@@ -144,11 +144,13 @@ export function CommentSidebarContent({ postId, pinComment }: CommentSidebarCont
         </section>
 
         <section id="comment-scroll-container" className="flex flex-col gap-[40px]">
-          <ReplyComment key={pinComment.id} comment={pinComment} isReply={false} isPin={true} />
+          <ReplyComment postId={postId} key={pinComment.id} comment={pinComment} isReply={false} isPin={true} />
           {hasComments ? (
             comments
               .filter((comment) => comment.id !== pinComment.id)
-              .map((comment) => <ReplyComment key={comment.id} comment={comment} isReply={false} isPin={false} />)
+              .map((comment) => (
+                <ReplyComment postId={postId} key={comment.id} comment={comment} isReply={false} isPin={false} />
+              ))
           ) : (
             <p>نظری موجود نیست</p>
           )}
