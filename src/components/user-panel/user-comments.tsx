@@ -12,15 +12,7 @@ export default function UserCommentsPage() {
     rootMargin: '300px',
   });
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-    error,
-  } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } = useInfiniteQuery({
     queryKey: ['user-comments'],
     queryFn: async ({ pageParam }) => {
       const params = {
@@ -30,8 +22,7 @@ export default function UserCommentsPage() {
       const { data } = await axios.get('/api/comments/by-user', { params });
       return data;
     },
-    getNextPageParam: (lastPage) =>
-      lastPage?.hasNextPage ? lastPage?.endCursor : undefined,
+    getNextPageParam: (lastPage) => (lastPage?.hasNextPage ? lastPage?.endCursor : undefined),
     initialPageParam: null,
   });
 
@@ -55,14 +46,10 @@ export default function UserCommentsPage() {
 
   return (
     <section className="flex flex-col gap-[40px] px-[20px] py-[30px]">
-      <header className="text-subtext-0 text-[20px] font-extrabold">
-        کامنت‌های من ({totalCount})
-      </header>
+      <header className="text-subtext-0 text-[20px] font-extrabold">کامنت‌های من ({totalCount})</header>
 
       {hasComments ? (
-        comments.map((comment) => (
-          <CommentMessege key={comment.id} comment={comment} postId={comment.id} />
-        ))
+        comments.map((comment) => <CommentMessege key={comment.id} comment={comment} postId={comment.id} />)
       ) : (
         <p>هیچ نظری ثبت نکردی.</p>
       )}
