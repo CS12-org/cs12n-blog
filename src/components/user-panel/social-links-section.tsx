@@ -133,4 +133,3 @@ export default function SocialLinksSection({ username }: SocialLinksSectionProps
     </Accordion>
   );
 }
-/
