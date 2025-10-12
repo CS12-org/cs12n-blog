@@ -86,7 +86,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   };
 
   // Use session data for profile image and username, fallback to defaults
-  const profileImageUrl = session?.user?.username || '/default-profile.jpg';
+  const profileImageUrl = '/default-profile.jpg';
   const userName = session?.user?.username || 'کاربر مهمان';
   const hasComments = Array.isArray(comments) && comments.length > 0;
   const numberOfComments = data?.pages[0]?.totalCount ?? 0;

@@ -8,27 +8,48 @@ import { useEffect, useState } from 'react';
 import IncreaseArrow from '@/assets/images/increaseArrow.svg';
 import { twJoin } from 'tailwind-merge';
 import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
-import ThreeDotts from '@/assets/images/dots-horizontal.svg';
+// import ThreeDotts from '@/assets/images/dots-horizontal.svg';
 import Reply from '@/assets/images/reply.svg';
 
-import { InfiniteData, useMutation } from '@tanstack/react-query';
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { postVote, PostVoteReq, VoteEnum } from '@/service/post-vote';
 import Profile from '@/assets/images/user-profile.png';
 import { useFetchCommentByParentId } from '@/hooks/use-get-comment-by-parent-id';
 import { GetCommentByParentIdRes } from '@/service/get-comment-by-parent-id';
 import { useInView } from 'react-intersection-observer';
+import { CommentOptions, CommentOptionsList } from './comment-options';
+import { deleteReply } from '@/service/delete-reply';
+import { useSidebarStore } from '@/store/sidebar-store';
 
-type ReplyCommentProps = { comment: Comment; isReply: boolean; isPin: boolean };
-export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
+type ReplyCommentProps = { comment: Comment; isReply: boolean; isPin: boolean; postId: string };
+
+export function ReplyComment({ comment, isReply, isPin, postId }: ReplyCommentProps) {
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
   //   const [replies, setReplies] = useState<Comment[]>([]);
   const [netScore, setNetScore] = useState(comment?.netScore ?? 0);
+
   const voteMutation = useMutation({
     mutationFn: async (body: PostVoteReq) => postVote(body),
     onSuccess(data) {
       setNetScore(data?.data?.netScore ?? 0);
     },
   });
+
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => deleteReply(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comments', postId],
+      });
+      useSidebarStore.getState().removeComment(comment.id);
+    },
+    onError: (error) => {
+      console.error('خطا در حذف کامنت', error);
+    },
+  });
+
   const handleSubmitVoute = (voteType: VoteEnum) => {
     voteMutation.mutate({ commentId: comment?.id, voteType: voteType });
   };
@@ -56,6 +77,17 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const list: CommentOptionsList[] = [
+    {
+      id: 1,
+      title: 'حذف کامنت',
+      pendingTitle: '... در حال حذف کامنت',
+      action: () => deleteMutation.mutate(comment.id),
+      pending: deleteMutation.isPending,
+    },
+  ];
+
   return (
     <section className={twJoin('rounded-2xl', isPin ? 'bg-surface-1' : '')}>
       {/* comment */}
@@ -73,7 +105,8 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
               {comment?.user?.profile?.fullName ?? comment?.user?.username}
             </Text>
 
-            <ThreeDotts className={'bg - [#fff] ms-auto'} />
+            {/* <ThreeDotts className={'bg - [#fff] ms-auto'} /> */}
+            <CommentOptions list={list} />
           </div>
         </header>
         <div className="rounded-b-lg bg-[#101122] py-2.5">
@@ -115,7 +148,9 @@ export function ReplyComment({ comment, isReply, isPin }: ReplyCommentProps) {
       </section>
       {/* replys */}
       {replies.length > 0 &&
-        replies?.map((reply) => <ReplyComment key={reply.id} comment={reply} isReply={true} isPin={false} />)}
+        replies?.map((reply) => (
+          <ReplyComment postId={postId} key={reply.id} comment={reply} isReply={true} isPin={false} />
+        ))}
       <div ref={ref} style={{ height: 1 }} />
       {isFetchingNextPage && <p>در حال بارگذاری پست‌های بعدی...</p>}
     </section>

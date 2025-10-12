@@ -7,16 +7,20 @@ import Profile from '@/assets/images/farhan.jpg';
 import IncreaseArrow from '@/assets/images/increaseArrow.svg';
 import Button from '@/components/button';
 import { Comment } from '@/service/get-post-by-slug';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postVote, PostVoteReq, VoteEnum } from '@/service/post-vote';
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
 import { useSidebarStore } from '@/store/sidebar-store';
 import { CommentSidebarContent } from '@/components/posts/comment-messages/comment-sidebar-content';
+import { CommentOptions, CommentOptionsList } from './comment-options';
+import { deleteReply } from '@/service/delete-reply';
 
 type CommentMessegeProps = { comment: Comment; postId: string };
 function CommentMessege({ comment, postId }: CommentMessegeProps) {
   const openSidebar = useSidebarStore((s) => s.openSidebar);
+  const setPinnedComment = useSidebarStore((s) => s.setPinnedComment);
+  const [pinnedCommentId, _] = useState<string | undefined>(comment.id);
 
   const [netScore, setNetScore] = useState(comment?.netScore ?? 0);
   const voteMutation = useMutation({
@@ -28,6 +32,33 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
   const handleSubmitVoute = (voteType: VoteEnum) => {
     voteMutation.mutate({ commentId: comment?.id, voteType: voteType });
   };
+
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => deleteReply(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comments', postId],
+      });
+      useSidebarStore.getState().removeComment(comment.id);
+      setPinnedComment(null);
+    },
+    onError: (error) => {
+      console.error('خطا در حذف کامنت', error);
+    },
+  });
+
+  const list: CommentOptionsList[] = [
+    {
+      id: 1,
+      title: 'حذف کامنت',
+      pendingTitle: '... در حال حذف کامنت',
+      action: () => deleteMutation.mutate(comment.id),
+      pending: deleteMutation.isPending,
+    },
+  ];
+
   return (
     <article className="flex w-full flex-col px-[20px]">
       <header className="bg-crust flex justify-between rounded-tl-[10px] rounded-tr-[10px] p-[10px] lg:rounded-tr-full lg:rounded-br-full">
@@ -35,7 +66,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
           <Image
             width={25}
             height={25}
-            src={comment?.user?.profile?.avatarUrl?.trim() !== '' ? comment?.user?.profile?.avatarUrl : Profile}
+            src={comment?.user?.profile?.avatarUrl ? comment?.user?.profile?.avatarUrl : '/default-avatar.png'}
             alt={comment?.user?.username}
             className="h-[25px] w-[25px] rounded-full"
           />
@@ -60,7 +91,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
             <DecreaseArrow className="h-[10px] w-[20px]" />
           </Button>
           <Button className="bg- text-subtext-0">
-            <ThreeDotts />
+            <CommentOptions list={list} />
           </Button>
         </div>
       </header>
@@ -72,7 +103,10 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
         />
         <section className="flex justify-between">
           <Button
-            onClick={() => openSidebar(<CommentSidebarContent postId={postId} pinComment={comment} />)}
+            onClick={() => {
+              setPinnedComment(comment);
+              openSidebar(<CommentSidebarContent pinCommentId={pinnedCommentId} postId={postId} />);
+            }}
             className="bg- text-text flex items-center gap-[5px]"
           >
             <CommentsIcon className="h-[29px] w-[29px]" />

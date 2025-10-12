@@ -15,12 +15,13 @@ import { useInView } from 'react-intersection-observer';
 import { ReplyComment } from '@/components/posts/comment-messages/reply-comment';
 import { Comment } from '@/service/get-post-by-slug';
 
-type CommentSidebarContentProps = { postId: string; pinComment: Comment };
-export function CommentSidebarContent({ postId, pinComment }: CommentSidebarContentProps) {
+type CommentSidebarContentProps = { postId: string; pinCommentId: string | undefined };
+export function CommentSidebarContent({ postId, pinCommentId }: CommentSidebarContentProps) {
   const queryClient = useQueryClient();
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
 
   const closeSidebar = useSidebarStore((s) => s.closeSidebar);
+  const pinComment = useSidebarStore((s) => s.pinnedComment);
   const userProfile = useUserStore((state) => state.userProfile);
   // Use session data for profile image and username, fallback to defaults
   const profileImageUrl = userProfile?.avatarUrl ?? Profile;
@@ -144,11 +145,15 @@ export function CommentSidebarContent({ postId, pinComment }: CommentSidebarCont
         </section>
 
         <section id="comment-scroll-container" className="flex flex-col gap-[40px]">
-          <ReplyComment key={pinComment.id} comment={pinComment} isReply={false} isPin={true} />
+          {pinComment && (
+            <ReplyComment postId={postId} key={pinComment.id} comment={pinComment} isReply={false} isPin={true} />
+          )}
           {hasComments ? (
             comments
-              .filter((comment) => comment.id !== pinComment.id)
-              .map((comment) => <ReplyComment key={comment.id} comment={comment} isReply={false} isPin={false} />)
+              .filter((comment) => comment.id !== pinCommentId)
+              .map((comment) => (
+                <ReplyComment postId={postId} key={comment.id} comment={comment} isReply={false} isPin={false} />
+              ))
           ) : (
             <p>نظری موجود نیست</p>
           )}
