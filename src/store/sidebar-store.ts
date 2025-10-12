@@ -14,6 +14,11 @@ type SidebarState = {
   setComments: (comments: Comment[]) => void;
   removeComment: (id: string) => void;
   updateCommentScore: (id: string, score: number) => void;
+
+  // Pinned comment management
+  pinnedComment: Comment | null;
+  setPinnedComment: (comment: Comment | null) => void;
+  clearPinnedComment: () => void;
 };
 
 export const useSidebarStore = create<SidebarState>((set) => ({
@@ -26,9 +31,18 @@ export const useSidebarStore = create<SidebarState>((set) => ({
   // Comments management
   comments: [],
   setComments: (comments) => set({ comments }),
-  removeComment: (id) => set((state) => ({ comments: state.comments.filter((c) => c.id !== id) })),
+  removeComment: (id) =>
+    set((state) => ({
+      comments: state.comments.filter((c) => c.id !== id),
+      pinnedComment: state.pinnedComment?.id === id ? null : state.pinnedComment,
+    })),
   updateCommentScore: (id, score) =>
     set((state) => ({
       comments: state.comments.map((c) => (c.id === id ? { ...c, netScore: score } : c)),
     })),
+
+  // Pinned comment management
+  pinnedComment: null,
+  setPinnedComment: (comment) => set({ pinnedComment: comment }),
+  clearPinnedComment: () => set({ pinnedComment: null }),
 }));

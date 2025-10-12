@@ -19,6 +19,8 @@ import { deleteReply } from '@/service/delete-reply';
 type CommentMessegeProps = { comment: Comment; postId: string };
 function CommentMessege({ comment, postId }: CommentMessegeProps) {
   const openSidebar = useSidebarStore((s) => s.openSidebar);
+  const setPinnedComment = useSidebarStore((s) => s.setPinnedComment);
+  const [pinnedCommentId, _] = useState<string | undefined>(comment.id);
 
   const [netScore, setNetScore] = useState(comment?.netScore ?? 0);
   const voteMutation = useMutation({
@@ -40,6 +42,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
         queryKey: ['comments', postId],
       });
       useSidebarStore.getState().removeComment(comment.id);
+      setPinnedComment(null);
     },
     onError: (error) => {
       console.error('خطا در حذف کامنت', error);
@@ -100,7 +103,10 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
         />
         <section className="flex justify-between">
           <Button
-            onClick={() => openSidebar(<CommentSidebarContent postId={postId} pinComment={comment} />)}
+            onClick={() => {
+              setPinnedComment(comment);
+              openSidebar(<CommentSidebarContent pinCommentId={pinnedCommentId} postId={postId} />);
+            }}
             className="bg- text-text flex items-center gap-[5px]"
           >
             <CommentsIcon className="h-[29px] w-[29px]" />
