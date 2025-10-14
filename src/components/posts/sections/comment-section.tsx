@@ -13,7 +13,7 @@ import { getPostCommentsByPostId, GetPostCommentsByPostIdRes } from '@/service/g
 import CommentMessege from '../comment-messages/comment-message';
 import ExclamationMark from '@/assets/images/excalamation.svg';
 
-type CommentSectionProps = { postId: string; postUserRole: string };
+type CommentSectionProps = { postId: string};
 export default function CommentSection({ postId }: CommentSectionProps) {
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
 
