@@ -14,7 +14,7 @@ import CommentMessege from '../comment-messages/comment-message';
 import ExclamationMark from '@/assets/images/excalamation.svg';
 
 type CommentSectionProps = { postId: string; postUserRole: string };
-export default function CommentSection({ postId, postUserRole }: CommentSectionProps) {
+export default function CommentSection({ postId }: CommentSectionProps) {
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
 
   const { data: session } = useSession();
