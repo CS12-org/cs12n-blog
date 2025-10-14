@@ -81,10 +81,8 @@ export function ReplyComment({ comment, isReply, isPin, postId }: ReplyCommentPr
   const list: CommentOptionsList[] = [
     {
       id: 1,
-      title: 'حذف کامنت',
-      pendingTitle: '... در حال حذف کامنت',
+      title: 'حذف',
       action: () => deleteMutation.mutate(comment.id),
-      pending: deleteMutation.isPending,
     },
   ];
 
@@ -93,17 +91,27 @@ export function ReplyComment({ comment, isReply, isPin, postId }: ReplyCommentPr
       {/* comment */}
       <section className={'m-2'}>
         <header className="bg-base rounded-t-lg">
-          <div className="flex items-center justify-start gap-1.5 p-2.5">
-            <Image
-              width={25}
-              height={25}
-              src={comment?.user?.profile?.avatarUrl?.trim() !== '' ? comment?.user?.profile?.avatarUrl : Profile}
-              alt={comment?.user?.username}
-              className="h-[25px] w-[25px] rounded-full"
-            />
-            <Text className="text-subtext-0 text-[14px] font-bold">
-              {comment?.user?.profile?.fullName ?? comment?.user?.username}
-            </Text>
+          <div className="flex items-center justify-between gap-1.5 p-2.5">
+            <div className="flex items-center gap-x-1.5">
+              <div className="bg-crust flex items-center gap-1.5 rounded-full p-1.5">
+                <Pin className="h-[29px] w-[29px]" />
+                <Image
+                  width={25}
+                  height={25}
+                  src={comment?.user?.profile?.avatarUrl?.trim() !== '' ? comment?.user?.profile?.avatarUrl : Profile}
+                  alt={comment?.user?.username}
+                  className="h-[25px] w-[25px] rounded-full"
+                />
+              </div>
+              <Text className="text-subtext-0 text-[14px] font-bold">
+                {comment?.user?.profile?.fullName ?? comment?.user?.username}
+              </Text>
+              {comment?.user?.roles[0] && (
+                <span className="bg-crust text-sapphire rounded-md px-4 py-1 text-sm font-bold">
+                  {comment?.user?.roles[0].name}
+                </span>
+              )}
+            </div>
 
             {/* <ThreeDotts className={'bg - [#fff] ms-auto'} /> */}
             <CommentOptions list={list} />
@@ -113,7 +121,10 @@ export function ReplyComment({ comment, isReply, isPin, postId }: ReplyCommentPr
           {isReply && (
             <div className="bg-mantle flex py-4">
               <Reply />
-              <p className="ms-2">در پاسخ به : {comment?.user?.profile?.fullName ?? comment?.user?.username}</p>
+              <p className="ms-2">
+                در پاسخ به :{' '}
+                <span className="text-sapphire">{comment?.user?.profile?.fullName ?? comment?.user?.username}</span>
+              </p>
             </div>
           )}
           <div
@@ -123,7 +134,7 @@ export function ReplyComment({ comment, isReply, isPin, postId }: ReplyCommentPr
           />
           <section className="flex justify-between p-2.5">
             <Button onClick={() => {}} className="bg- text-text flex items-center gap-[5px]">
-              {isPin ? <Pin className="h-[29px] w-[29px]" /> : <CommentsIcon className="h-[29px] w-[29px]" />}
+              <CommentsIcon className="h-[29px] w-[29px]" />
               پاسخ دهید
             </Button>
             <div className="flex items-center gap-[10px]">

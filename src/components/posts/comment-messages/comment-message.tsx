@@ -4,6 +4,7 @@ import CommentsIcon from '@/assets/images/comments.svg';
 import DecreaseArrow from '@/assets/images/decreaseArrow.svg';
 import ThreeDotts from '@/assets/images/threeDotts.svg';
 import Profile from '@/assets/images/farhan.jpg';
+import Highlighter from '@/assets/images/highlighter.svg';
 import IncreaseArrow from '@/assets/images/increaseArrow.svg';
 import Button from '@/components/button';
 import { Comment } from '@/service/get-post-by-slug';
@@ -52,10 +53,8 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
   const list: CommentOptionsList[] = [
     {
       id: 1,
-      title: 'حذف کامنت',
-      pendingTitle: '... در حال حذف کامنت',
+      title: 'حذف',
       action: () => deleteMutation.mutate(comment.id),
-      pending: deleteMutation.isPending,
     },
   ];
 
@@ -73,6 +72,11 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
           <Text className="text-subtext-0 text-[14px] font-bold">
             {comment?.user?.profile?.fullName ?? comment?.user?.username}
           </Text>
+          {comment?.user?.roles[0] && (
+            <span className="bg-base text-sapphire rounded-md px-4 py-1 text-sm font-bold">
+              {comment?.user?.roles[0].name}
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-[10px]">
           {netScore !== 0 && (
@@ -90,12 +94,20 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
           >
             <DecreaseArrow className="h-[10px] w-[20px]" />
           </Button>
-          <Button className="bg- text-subtext-0">
-            <CommentOptions list={list} />
-          </Button>
+          <CommentOptions list={list} />
         </div>
       </header>
       <section className="text-text flex flex-col gap-y-[15px] rounded-b-[10px] bg-[#101122] p-[10px] text-[12px] lg:mx-[20px]">
+        {comment.quotedText && (
+          <div className="bg-mantle -mx-2.5 flex justify-between py-3 pl-3">
+            <div className="flex gap-x-3">
+              <span className="border-sapphire border-r-4"></span>
+              <p className="text-sm font-normal">{comment.quotedText}</p>
+            </div>
+            <Highlighter className="size-[24.5px]" />
+          </div>
+        )}
+
         <div
           className="prose prose-invert max-w-none"
           dir="rtl" // Ensure RTL for Persian text
@@ -110,7 +122,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
             className="bg- text-text flex items-center gap-[5px]"
           >
             <CommentsIcon className="h-[29px] w-[29px]" />
-            پاسخ ها
+            پاسخ ها ( 2 )
           </Button>
         </section>
       </section>

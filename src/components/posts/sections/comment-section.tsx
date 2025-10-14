@@ -1,18 +1,20 @@
 'use client';
+
 import Profile from '@/assets/images/user-profile.png';
 import TextEditorInput from '@/components/shared/text-editor-input/text-editor-input';
 import { useFetchPostComments } from '@/hooks/use-get-comments-by-id';
 import { postComment, PostCommentBody } from '@/service/post-comment';
-import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
+import { InfiniteData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Button from '@/components/button';
-import { GetPostCommentsByPostIdRes } from '@/service/get-comments-by-post-id';
+import { getPostCommentsByPostId, GetPostCommentsByPostIdRes } from '@/service/get-comments-by-post-id';
 import CommentMessege from '../comment-messages/comment-message';
+import ExclamationMark from '@/assets/images/excalamation.svg';
 
-type CommentSectionProps = { postId: string };
-export default function CommentSection({ postId }: CommentSectionProps) {
+type CommentSectionProps = { postId: string; postUserRole: string };
+export default function CommentSection({ postId, postUserRole }: CommentSectionProps) {
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
 
   const { data: session } = useSession();
@@ -32,6 +34,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     useFetchPostComments(postId);
 
   // Flatten all Comments
+
   const seenIds = new Set();
   const comments =
     (data as InfiniteData<GetPostCommentsByPostIdRes>)?.pages
@@ -88,7 +91,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   // Use session data for profile image and username, fallback to defaults
   const profileImageUrl = '/default-profile.jpg';
   const userName = session?.user?.username || 'کاربر مهمان';
-  const hasComments = Array.isArray(comments) && comments.length > 0;
+  const hasComments = Array.isArray(comments) && comments?.length > 0;
   const numberOfComments = data?.pages[0]?.totalCount ?? 0;
 
   // Move early returns after all hooks
@@ -128,7 +131,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       <section className="bg-crust rounded-[10px] p-[10px] lg:px-[60px] lg:py-[30px]">
         <div className="bg-base flex items-center gap-[10px] rounded-[10px] px-[10px] py-[15px] text-[12px] lg:p-[15px] lg:text-[14px]">
           <div className="bg-crust flex h-[38px] !w-[40px] items-center justify-center justify-self-start rounded-[10px] lg:h-[48px] lg:w-[48px]">
-            {/* <ExclamationMark fill="#91D7E3" className="lg:[26px] lg:[26px] h-[20px] w-[20px]" /> */}
+            <ExclamationMark fill="#91D7E3" className="lg:[26px] lg:[26px] h-[20px] w-[20px]" />
           </div>
           <p className="font-bold">
             برای کامنت گذاشتن باید در سایت

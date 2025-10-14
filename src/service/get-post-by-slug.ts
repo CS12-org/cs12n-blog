@@ -78,6 +78,14 @@ export type Comment = {
       fullName: string;
       avatarUrl: string;
     };
+    roles: [
+      {
+        createdAt: string;
+        description?: string;
+        id: string;
+        name: string;
+      },
+    ];
   };
   parentId: string;
   replies: any[]; //TODO : handle the type of replies

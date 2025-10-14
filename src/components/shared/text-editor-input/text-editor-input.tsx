@@ -62,7 +62,7 @@ const TextEditorInput: FC<TextEditorInputProps> = ({
     return null;
   }
   return (
-    <div className="bg-surface-0 flex flex-col gap-4 rounded-lg p-2">
+    <div className="bg-base border-surface-0 flex flex-col gap-4 rounded-lg p-2">
       <EditorContent editor={editor} />
       <div className="flex gap-2 self-end">
         <TextEditorButton

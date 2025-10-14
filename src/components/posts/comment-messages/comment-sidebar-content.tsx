@@ -115,7 +115,7 @@ export function CommentSidebarContent({ postId, pinCommentId }: CommentSidebarCo
           ]}
         />
 
-        <section className="flex flex-col gap-[10px]">
+        <section className="flex flex-col gap-[10px] rounded-xl bg-[#101122] p-3">
           <section className="flex items-center gap-[10px] pb-[5px]">
             <section className="flex h-[35px] w-[35px] items-center justify-center rounded-full shadow-inner shadow-[#24273A]">
               {profileImageUrl ? (
