@@ -13,9 +13,10 @@ export type CommentOptionsList = {
 
 type CommentOptionsProps = {
   list: CommentOptionsList[];
+  onBeforeOpen?: () => boolean | void;
 };
 
-export function CommentOptions({ list }: CommentOptionsProps) {
+export function CommentOptions({ list, onBeforeOpen }: CommentOptionsProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<CommentOptionsList | null>(null);
@@ -34,10 +35,14 @@ export function CommentOptions({ list }: CommentOptionsProps) {
       document.removeEventListener('mousedown', handleClickOutside);
     }
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [confirmOpen]);
+
+  const handleButtonClick = () => {
+    const canOpen = onBeforeOpen ? onBeforeOpen() : true;
+    if (canOpen === false) return;
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <div className="relative">

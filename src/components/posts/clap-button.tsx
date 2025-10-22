@@ -4,6 +4,7 @@ import Hands from '@/assets/images/hands-celebrate.svg';
 import { useClap } from '@/hooks/use-clap';
 import { useDebounce } from 'use-debounce';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useLoginModalContext } from '../providers/login-modal-provider';
 
 interface ClapButtonProps {
   postId: string;
@@ -15,6 +16,7 @@ interface ClapButtonProps {
 export default function ClapButton({ postId, maxClicks, count, userClapCount: initialUserClap }: ClapButtonProps) {
   const max = maxClicks ?? 5;
   const { handleClap, isMutating } = useClap({ postId, maxClicks: max });
+  const { openLoginModalIfUnauthenticated } = useLoginModalContext();
 
   const [userClap, setUserClap] = useState(initialUserClap);
   const [debouncedUserClap] = useDebounce(userClap, 800);
@@ -34,11 +36,13 @@ export default function ClapButton({ postId, maxClicks, count, userClapCount: in
   }, [debouncedUserClap, handleClap]);
 
   const onClick = () => {
-    if (isMutating) return;
+    openLoginModalIfUnauthenticated(() => {
+      if (isMutating) return;
 
-    if (!handleClap(1)) return;
+      handleClap(1);
 
-    setUserClap((v) => Math.min(v + 1, max));
+      setUserClap((v) => Math.min(v + 1, max));
+    });
   };
 
   const displayedTotal = useMemo(() => count + (userClap - lastSentRef.current), [count, userClap]);

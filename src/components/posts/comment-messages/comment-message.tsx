@@ -16,12 +16,15 @@ import { useSidebarStore } from '@/store/sidebar-store';
 import { CommentSidebarContent } from '@/components/posts/comment-messages/comment-sidebar-content';
 import { CommentOptions, CommentOptionsList } from './comment-options';
 import { deleteReply } from '@/service/delete-reply';
+import { useLoginModalContext } from '@/components/providers/login-modal-provider';
 
 type CommentMessegeProps = { comment: Comment; postId: string };
 function CommentMessege({ comment, postId }: CommentMessegeProps) {
   const openSidebar = useSidebarStore((s) => s.openSidebar);
   const setPinnedComment = useSidebarStore((s) => s.setPinnedComment);
   const [pinnedCommentId, _] = useState<string | undefined>(comment.id);
+
+  const { openLoginModalIfUnauthenticated } = useLoginModalContext();
 
   const [netScore, setNetScore] = useState(comment?.netScore ?? 0);
   const voteMutation = useMutation({
@@ -31,7 +34,9 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
     },
   });
   const handleSubmitVoute = (voteType: VoteEnum) => {
-    voteMutation.mutate({ commentId: comment?.id, voteType: voteType });
+    openLoginModalIfUnauthenticated(() => {
+      voteMutation.mutate({ commentId: comment?.id, voteType: voteType });
+    });
   };
 
   const queryClient = useQueryClient();
@@ -49,6 +54,21 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
       console.error('خطا در حذف کامنت', error);
     },
   });
+
+  const handleReadAnswers = () => {
+    openLoginModalIfUnauthenticated(() => {
+      setPinnedComment(comment);
+      openSidebar(<CommentSidebarContent pinCommentId={pinnedCommentId} postId={postId} />);
+    });
+  };
+
+  const handleBeforeOpenOptions = () => {
+    let allowed = false;
+    openLoginModalIfUnauthenticated(() => {
+      allowed = true;
+    });
+    return allowed;
+  };
 
   const list: CommentOptionsList[] = [
     {
@@ -94,7 +114,9 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
           >
             <DecreaseArrow className="h-[10px] w-[20px]" />
           </Button>
-          <CommentOptions list={list} />
+          <Button className="bg- text-subtext-0">
+            <CommentOptions list={list} onBeforeOpen={handleBeforeOpenOptions} />
+          </Button>
         </div>
       </header>
       <section className="text-text flex flex-col gap-y-[15px] rounded-b-[10px] bg-[#101122] p-[10px] text-[12px] lg:mx-[20px]">
@@ -114,13 +136,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
           dangerouslySetInnerHTML={{ __html: comment.content || '' }}
         />
         <section className="flex justify-between">
-          <Button
-            onClick={() => {
-              setPinnedComment(comment);
-              openSidebar(<CommentSidebarContent pinCommentId={pinnedCommentId} postId={postId} />);
-            }}
-            className="bg- text-text flex items-center gap-[5px]"
-          >
+          <Button onClick={handleReadAnswers} className="bg- text-text flex items-center gap-[5px]">
             <CommentsIcon className="h-[29px] w-[29px]" />
             پاسخ ها ( 2 )
           </Button>

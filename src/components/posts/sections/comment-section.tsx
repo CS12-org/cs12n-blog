@@ -12,10 +12,12 @@ import Button from '@/components/button';
 import { getPostCommentsByPostId, GetPostCommentsByPostIdRes } from '@/service/get-comments-by-post-id';
 import CommentMessege from '../comment-messages/comment-message';
 import ExclamationMark from '@/assets/images/excalamation.svg';
+import { useLoginModalContext } from '@/components/providers/login-modal-provider';
 
 type CommentSectionProps = { postId: string };
 export default function CommentSection({ postId }: CommentSectionProps) {
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '300px' });
+  const { openLoginModalIfUnauthenticated } = useLoginModalContext();
 
   const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -81,11 +83,13 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   };
 
   const handleSubmitComment = () => {
-    if (!commentModel.content.trim()) {
-      setErrorMessage('لطفاً متن نظر خود را وارد کنید');
-      return;
-    }
-    postCommentMutation.mutate(commentModel);
+    openLoginModalIfUnauthenticated(() => {
+      if (!commentModel.content.trim()) {
+        setErrorMessage('لطفاً متن نظر خود را وارد کنید');
+        return;
+      }
+      postCommentMutation.mutate(commentModel);
+    });
   };
 
   // Use session data for profile image and username, fallback to defaults

@@ -7,7 +7,7 @@ import { LoginModal } from '../auth/login-modal';
 type ContextType = {
   openLoginModal: () => void;
   closeLoginModal: () => void;
-  openLoginModalIfUnauthenticated: (action?: () => void | Promise<void>) => void;
+  openLoginModalIfUnauthenticated: (action: () => void | Promise<void>) => void;
 };
 
 const LoginModalContext = createContext<ContextType | null>(null);
@@ -20,7 +20,7 @@ export function LoginModalProvider({ children }: { children: ReactNode }) {
   const closeLoginModal = useCallback(() => setIsOpen(false), []);
 
   const openLoginModalIfUnauthenticated = useCallback(
-    async (action?: () => void | Promise<void>) => {
+    async (action: () => void | Promise<void>) => {
       if (status === 'loading') return;
 
       if (!session) {
@@ -28,7 +28,7 @@ export function LoginModalProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      action ? await action() : null;
+      await action();
     },
 
     [status, session],

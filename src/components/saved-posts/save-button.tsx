@@ -13,24 +13,20 @@ interface SaveButtonProps {
 export default function SaveButton({ postId, isSavedByCurrentUser }: SaveButtonProps) {
   const { openLoginModalIfUnauthenticated } = useLoginModalContext();
 
-  const { status } = useSession();
   const [isSaved, setIsSaved] = useState(isSavedByCurrentUser);
 
   const { saveMutation, unsaveMutation } = useSavePost(postId);
 
-  const handleClick = async () => {
-    if (status === 'unauthenticated') {
-      openLoginModalIfUnauthenticated();
-      return;
-    }
-
-    if (isSaved) {
-      await unsaveMutation.mutate({ postId });
-      setIsSaved(false);
-    } else {
-      await saveMutation.mutate({ postId });
-      setIsSaved(true);
-    }
+  const handleClick = () => {
+    openLoginModalIfUnauthenticated(async () => {
+      if (isSaved) {
+        await unsaveMutation.mutate({ postId });
+        setIsSaved(false);
+      } else {
+        await saveMutation.mutate({ postId });
+        setIsSaved(true);
+      }
+    });
   };
 
   return (
