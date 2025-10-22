@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Slider, SliderThumb, SliderTrack } from 'react-aria-components';
-import { CiPause1, CiPlay1 } from 'react-icons/ci';
-import Save from '@/assets/images/save.svg';
-import Comments from '../assets/images/comments.svg';
+import { useRef, useState, useEffect } from 'react';
+import { Slider, SliderTrack, SliderThumb } from 'react-aria-components';
 import Button from './button';
+import { CiPause1 } from 'react-icons/ci';
 import LicenceMark from './posts/license-mark';
+import Comments from '../assets/images/comments.svg';
+import Play from '@/assets/images/play-audio.svg';
+import Save from '@/assets/images/save.svg';
 
 export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -87,16 +88,16 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
             aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
           >
             {isPlaying ? (
-              <CiPause1 strokeWidth={1} className="text-overlay-1 size-4 lg:size-6" />
+              <CiPause1 className="text-overlay-1 h-[20px] w-[20px] font-extrabold lg:h-[18px] lg:w-[20px]" />
             ) : (
-              <CiPlay1 strokeWidth={1} className="text-overlay-1 size-4 lg:size-6" />
+              <Play className="text-overlay-1 h-[20px] w-[20px] font-extrabold lg:h-[24px] lg:w-[24px]" />
             )}
           </Button>
           <Button
             className="border-surface-0 bg-base flex h-[30px] w-[30px] items-center justify-center rounded-[10px] border-[1px] lg:h-[48px] lg:w-[48px]"
             aria-label="Bookmark"
           >
-            <Save className="text-overlay-1 h-[20px] w-[20px] font-extrabold lg:h-[24px] lg:w-[24px]" />
+            <Save className="text-overlay-1 h-[26px] w-[26px] fill-white font-extrabold lg:h-[24px] lg:w-[24px]" />
           </Button>
           <span className="text-sapphire self-center font-extrabold">|</span>{' '}
           <Button
@@ -127,7 +128,10 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
               }}
             />
           </SliderTrack>
-          <SliderThumb className="bg-maroon block h-0 w-0 rounded-full" aria-label="Seek handle" />
+          <SliderThumb
+            aria-label="Seek handle"
+            className="bg-maroon top-1/2 block h-2 w-2 cursor-pointer rounded-full"
+          />
         </Slider>
       </section>
 

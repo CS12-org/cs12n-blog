@@ -18,6 +18,7 @@ import { ReactNode } from 'react';
 import CommentSection from '@/components/posts/sections/comment-section';
 import ReviewSection from '@/components/posts/sections/review-section';
 import PostActions from '@/components/posts/PostActions';
+import AudioPlayer from '@/components/audio-player';
 
 type Props = {
   params: Promise<{
@@ -66,8 +67,7 @@ export default async function PostPage({ params }: Props) {
             </h1>
           </header>
 
-          {/* {post.narrator && <AudioPlayer audioSrc={post.narrator} />} */}
-
+          {post.narrator && <AudioPlayer audioSrc={'/audio.mp3'} />}
           <article
             id="highlight-area"
             className="flex flex-col gap-[20px] p-[10px] text-[14px] lg:px-[30px] lg:py-[20px] lg:text-[16px]"
