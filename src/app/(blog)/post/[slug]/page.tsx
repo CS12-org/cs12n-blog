@@ -17,8 +17,6 @@ import Highlights from '@/components/posts/sections/highlight-section';
 import { ReactNode } from 'react';
 import CommentSection from '@/components/posts/sections/comment-section';
 import ReviewSection from '@/components/posts/sections/review-section';
-import { useLoginModal } from '@/hooks/use-login-modal';
-import { LoginModal } from '@/components/auth/login-modal';
 import PostActions from '@/components/posts/PostActions';
 
 type Props = {

@@ -4,29 +4,17 @@ import Hands from '@/assets/images/hands-celebrate.svg';
 import { useClap } from '@/hooks/use-clap';
 import { useDebounce } from 'use-debounce';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { LoginModal } from '../auth/login-modal';
 
 interface ClapButtonProps {
   postId: string;
   maxClicks?: number;
   count: number;
   userClapCount: number;
-  isOpen: boolean;
-  openLoginModal: () => void;
-  closeLoginModal: () => void;
 }
 
-export default function ClapButton({
-  postId,
-  maxClicks,
-  count,
-  userClapCount: initialUserClap,
-  isOpen,
-  openLoginModal,
-  closeLoginModal,
-}: ClapButtonProps) {
+export default function ClapButton({ postId, maxClicks, count, userClapCount: initialUserClap }: ClapButtonProps) {
   const max = maxClicks ?? 5;
-  const { handleClap, isMutating } = useClap({ postId, maxClicks: max, openLoginModal });
+  const { handleClap, isMutating } = useClap({ postId, maxClicks: max });
 
   const [userClap, setUserClap] = useState(initialUserClap);
   const [debouncedUserClap] = useDebounce(userClap, 800);
@@ -68,8 +56,6 @@ export default function ClapButton({
       >
         <Hands className="h-[21px] w-[18px] lg:h-[28px] lg:w-[25px]" />
       </button>
-
-      <LoginModal isOpen={isOpen} onClose={closeLoginModal} />
     </div>
   );
 }

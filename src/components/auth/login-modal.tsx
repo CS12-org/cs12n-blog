@@ -28,7 +28,13 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
               بیخیال
             </button>
 
-            <button className="bg-crust rounded-lg px-4 py-3 text-white" onClick={() => router.push('/login')}>
+            <button
+              className="bg-crust rounded-lg px-4 py-3 text-white"
+              onClick={() => {
+                router.push('/login');
+                onClose();
+              }}
+            >
               برو به صفحه ورود
             </button>
           </div>

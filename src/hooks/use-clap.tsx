@@ -5,6 +5,7 @@ import axios from '@/lib/axios';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { GetPostsResult } from '@/service/posts';
+import { useLoginModalContext } from '@/components/providers/login-modal-provider';
 
 interface PostClapData {
   count: number;
@@ -14,13 +15,13 @@ interface PostClapData {
 interface UseClapProps {
   postId: string;
   maxClicks?: number;
-  openLoginModal: () => void;
 }
 
-export function useClap({ postId, maxClicks = 5, openLoginModal }: UseClapProps) {
+export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
   const { status } = useSession();
   const queryClient = useQueryClient();
   const [localClickCount, setLocalClickCount] = useState(0);
+  const { openLoginModalIfUnauthenticated } = useLoginModalContext();
 
   const mutation = useMutation({
     mutationFn: async (value: { count: number }) => {
@@ -54,7 +55,8 @@ export function useClap({ postId, maxClicks = 5, openLoginModal }: UseClapProps)
 
   const handleClap = (count: number) => {
     if (status !== 'authenticated') {
-      openLoginModal();
+      openLoginModalIfUnauthenticated();
+
       return false;
     }
     // const data = queryClient.getQueryData<PostClapData>(['post', postId]);
