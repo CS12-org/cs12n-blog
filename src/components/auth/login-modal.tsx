@@ -7,9 +7,9 @@ type LoginModalProps = {
 };
 
 export function LoginModal({ isOpen, onClose }: LoginModalProps) {
-  if (!isOpen) return null; // don't render if closed
-
   const router = useRouter();
+
+  if (!isOpen) return null; // don't render if closed
 
   return (
     <ModalOverlay
