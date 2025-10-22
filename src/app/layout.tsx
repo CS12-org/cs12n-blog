@@ -7,6 +7,7 @@ import NextAuthProvider from '@/components/providers/session-provider';
 import authOptions from '@/auth.config';
 import { getServerSession } from 'next-auth';
 import ReactAriaToastProvider from '@/components/providers/react-aria-toast-provider';
+import { LoginModalProvider } from '@/components/providers/login-modal-provider';
 
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 
@@ -30,7 +31,9 @@ async function RootLayout(props: RootLayoutProps) {
         <ReactAriaClientProvider>
           <ReactAriaToastProvider />
           <NextAuthProvider session={session}>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <LoginModalProvider>{children}</LoginModalProvider>
+            </QueryProvider>
           </NextAuthProvider>
         </ReactAriaClientProvider>
       </body>

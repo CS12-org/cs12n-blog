@@ -17,6 +17,7 @@ import Highlights from '@/components/posts/sections/highlight-section';
 import { ReactNode } from 'react';
 import CommentSection from '@/components/posts/sections/comment-section';
 import ReviewSection from '@/components/posts/sections/review-section';
+import PostActions from '@/components/posts/PostActions';
 
 type Props = {
   params: Promise<{
@@ -95,7 +96,7 @@ export default async function PostPage({ params }: Props) {
           <section className="pt-[10px]">
             <div className="flex justify-between px-[10px] py-[10px] lg:px-[30px]">
               <SharePopoverButton />
-              <ClapButton postId={post.id} userClapCount={0} count={0} />
+              <PostActions postId={post.id} />
             </div>
           </section>
         </section>
