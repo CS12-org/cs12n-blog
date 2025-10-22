@@ -45,7 +45,7 @@ export default function UserCommentsPage() {
   }
 
   return (
-    <section className="flex flex-col gap-[40px] px-[20px] py-[30px]">
+    <section className="flex w-full flex-col gap-[40px] px-[20px] py-[30px]">
       <header className="text-subtext-0 text-[20px] font-extrabold">کامنت‌های من ({totalCount})</header>
 
       {hasComments ? (
