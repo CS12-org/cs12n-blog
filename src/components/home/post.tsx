@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 import ClapButton from '../posts/clap-button';
 import SaveButton from '../saved-posts/save-button';
+import { useLoginModal } from '@/hooks/use-login-modal';
 const colors = ['text-peach', 'text-mauve', 'text-yellow'];
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 
 export default function Post(props: Props) {
   const { id, title, tags, description, image, slug, isSavedByCurrentUser, claps } = props;
+  const { isOpen, openModal, closeModal } = useLoginModal();
 
   return (
     <article className="bg-crust overflow-hidden rounded-xl">
@@ -65,7 +67,15 @@ export default function Post(props: Props) {
             <span className="text-white">نظرات</span>
           </Button>
 
-          <ClapButton postId={id} maxClicks={5} count={claps} userClapCount={props.clapUserCount} />
+          <ClapButton
+            postId={id}
+            maxClicks={5}
+            count={claps}
+            userClapCount={props.clapUserCount}
+            isOpen={isOpen}
+            openLoginModal={openModal}
+            closeLoginModal={closeModal}
+          />
 
           <p className="mr-auto text-white">3 دقیقه</p>
           <SaveButton postId={id} isSavedByCurrentUser={isSavedByCurrentUser} />

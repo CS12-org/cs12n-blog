@@ -17,6 +17,8 @@ import Highlights from '@/components/posts/sections/highlight-section';
 import { ReactNode } from 'react';
 import CommentSection from '@/components/posts/sections/comment-section';
 import ReviewSection from '@/components/posts/sections/review-section';
+import { useLoginModal } from '@/hooks/use-login-modal';
+import { LoginModal } from '@/components/auth/login-modal';
 
 type Props = {
   params: Promise<{
@@ -26,6 +28,8 @@ type Props = {
 export type postTabItems = { id: string; title: string; component: ReactNode };
 
 export default async function PostPage({ params }: Props) {
+  const { isOpen, openModal, closeModal } = useLoginModal();
+
   const { slug: postId } = await params;
   let post;
   try {
@@ -95,7 +99,15 @@ export default async function PostPage({ params }: Props) {
           <section className="pt-[10px]">
             <div className="flex justify-between px-[10px] py-[10px] lg:px-[30px]">
               <SharePopoverButton />
-              <ClapButton postId={post.id} userClapCount={0} count={0} />
+              <ClapButton
+                postId={post.id}
+                userClapCount={0}
+                count={0}
+                isOpen={isOpen}
+                openLoginModal={openModal}
+                closeLoginModal={closeModal}
+              />
+              <LoginModal isOpen={isOpen} onClose={closeModal} />
             </div>
           </section>
         </section>

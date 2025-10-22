@@ -4,21 +4,32 @@ import Hands from '@/assets/images/hands-celebrate.svg';
 import { useClap } from '@/hooks/use-clap';
 import { useDebounce } from 'use-debounce';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { LoginModal } from '../auth/login-modal';
 
 interface ClapButtonProps {
   postId: string;
   maxClicks?: number;
   count: number;
   userClapCount: number;
+  isOpen: boolean;
+  openLoginModal: () => void;
+  closeLoginModal: () => void;
 }
 
-export default function ClapButton({ postId, maxClicks, count, userClapCount: initialUserClap }: ClapButtonProps) {
+export default function ClapButton({
+  postId,
+  maxClicks,
+  count,
+  userClapCount: initialUserClap,
+  isOpen,
+  openLoginModal,
+  closeLoginModal,
+}: ClapButtonProps) {
   const max = maxClicks ?? 5;
-  const { handleClap, isMutating } = useClap({ postId, maxClicks: max });
+  const { handleClap, isMutating } = useClap({ postId, maxClicks: max, openLoginModal });
 
   const [userClap, setUserClap] = useState(initialUserClap);
   const [debouncedUserClap] = useDebounce(userClap, 800);
-
   const lastSentRef = useRef(initialUserClap);
 
   useEffect(() => {
@@ -36,11 +47,13 @@ export default function ClapButton({ postId, maxClicks, count, userClapCount: in
 
   const onClick = () => {
     if (isMutating) return;
+
+    if (!handleClap(1)) return;
+
     setUserClap((v) => Math.min(v + 1, max));
   };
 
   const displayedTotal = useMemo(() => count + (userClap - lastSentRef.current), [count, userClap]);
-
   const disabled = userClap >= max || isMutating;
 
   return (
@@ -55,6 +68,8 @@ export default function ClapButton({ postId, maxClicks, count, userClapCount: in
       >
         <Hands className="h-[21px] w-[18px] lg:h-[28px] lg:w-[25px]" />
       </button>
+
+      <LoginModal isOpen={isOpen} onClose={closeLoginModal} />
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { useState } from 'react';
-import { useSession, signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { GetPostsResult } from '@/service/posts';
 
 interface PostClapData {
@@ -14,9 +14,10 @@ interface PostClapData {
 interface UseClapProps {
   postId: string;
   maxClicks?: number;
+  openLoginModal: () => void;
 }
 
-export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
+export function useClap({ postId, maxClicks = 5, openLoginModal }: UseClapProps) {
   const { status } = useSession();
   const queryClient = useQueryClient();
   const [localClickCount, setLocalClickCount] = useState(0);
@@ -49,28 +50,24 @@ export function useClap({ postId, maxClicks = 5 }: UseClapProps) {
     },
   });
 
+  const data = queryClient.getQueryData<PostClapData>(['post', postId]);
+
   const handleClap = (count: number) => {
     if (status !== 'authenticated') {
-      signIn();
-      return;
+      openLoginModal();
+      return false;
     }
-
     // const data = queryClient.getQueryData<PostClapData>(['post', postId]);
     const currentUserClap = (data?.count ?? 0) + localClickCount;
-
     if (currentUserClap >= maxClicks) return;
 
     if (!mutation.isPending) mutation.mutate({ count });
   };
 
-  const data = queryClient.getQueryData<PostClapData>(['post', postId]);
   const clap = (data?.count ?? 0) + localClickCount;
-  const userClapCount = (data?.count ?? 0) + localClickCount;
 
   return {
     clap,
-    userClapCount,
-    maxClicks,
     handleClap,
     isMutating: mutation.isPending,
   };
