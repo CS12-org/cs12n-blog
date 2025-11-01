@@ -38,12 +38,6 @@ export function CommentOptions({ list, onBeforeOpen }: CommentOptionsProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [confirmOpen]);
 
-  const handleButtonClick = () => {
-    const canOpen = onBeforeOpen ? onBeforeOpen() : true;
-    if (canOpen === false) return;
-    setMenuOpen(!menuOpen);
-  };
-
   return (
     <div className="relative">
       <MenuTrigger isOpen={menuOpen} onOpenChange={setMenuOpen}>
@@ -52,22 +46,25 @@ export function CommentOptions({ list, onBeforeOpen }: CommentOptionsProps) {
         </Button>
 
         <Popover className="relative z-50 -mx-3 mt-3 rounded-lg border border-[#333] bg-[#1a1b2e] shadow-lg md:mx-2">
-          {list.map((l) => (
-            <div key={l.id} className="relative">
-              <ListBox className="text-maroon w-fit px-6 py-2">
-                <ListBoxItem
-                  className="cursor-pointer text-end"
-                  onAction={() => {
+          <ListBox className="w-fit px-6 py-2">
+            {list.map((l) => (
+              <ListBoxItem
+                key={l.id}
+                className={`cursor-pointer text-end ${l.title === 'حذف' ? 'text-maroon' : ''}`}
+                onAction={() => {
+                  if (l.title === 'حذف') {
                     setSelectedItem(l);
                     setConfirmOpen(true);
-                    setMenuOpen(false);
-                  }}
-                >
-                  {l.title}
-                </ListBoxItem>
-              </ListBox>
-            </div>
-          ))}
+                  } else {
+                    l.action?.();
+                  }
+                  setMenuOpen(false);
+                }}
+              >
+                {l.title}
+              </ListBoxItem>
+            ))}
+          </ListBox>
         </Popover>
       </MenuTrigger>
 
