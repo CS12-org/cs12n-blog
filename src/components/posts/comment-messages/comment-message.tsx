@@ -54,7 +54,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
       console.error('خطا در حذف کامنت', error);
     },
   });
-
+  
   const handleReadAnswers = () => {
     openLoginModalIfUnauthenticated(() => {
       setPinnedComment(comment);

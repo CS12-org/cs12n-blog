@@ -1,3 +1,5 @@
+'use client';
+
 import Comments from '@/assets/images/comments.svg';
 import Button from '@/components/button';
 import { Link } from '@/components/react-aria-components';
@@ -5,7 +7,18 @@ import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 import ClapButton from '../posts/clap-button';
 import SaveButton from '../saved-posts/save-button';
+import { PostOptions } from '../posts/post-options';
+import { useLoginModalContext } from '../providers/login-modal-provider';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deletePost } from '@/service/delete-post';
+import { useUserStore } from '@/store/user-store';
 const colors = ['text-peach', 'text-mauve', 'text-yellow'];
+
+export type PostOptionsList = {
+  id: number;
+  title: string;
+  action?: () => void;
+};
 
 type Props = {
   id: string;
@@ -20,7 +33,51 @@ type Props = {
 };
 
 export default function Post(props: Props) {
-  const { id, title, tags, description, image, slug, isSavedByCurrentUser, claps } = props;
+  const { id: postId, title, tags, description, image, slug, isSavedByCurrentUser, claps } = props;
+
+  const { openLoginModalIfUnauthenticated } = useLoginModalContext();
+
+  const { userProfile } = useUserStore();
+
+  const userRole = userProfile?.roles[0];
+
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: deletePost,
+    onMutate: async (postId) => {
+      await queryClient.cancelQueries({ queryKey: ['posts'] });
+      const prevPosts = queryClient.getQueryData(['posts']);
+
+      queryClient.setQueryData(['posts'], (old: any) =>
+        old ? old.filter((post: any) => post.id !== postId) : undefined,
+      );
+
+      return { prevPosts };
+    },
+    onError: (_err, _postId, context) => {
+      queryClient.setQueryData(['posts'], context?.prevPosts);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
+
+  const handleBeforeOpenOptions = () => {
+    let allowed = false;
+    openLoginModalIfUnauthenticated(() => {
+      allowed = true;
+    });
+    return allowed;
+  };
+
+  const list: PostOptionsList[] = [
+    {
+      id: 1,
+      title: 'حذف',
+      action: () => deleteMutation.mutate(postId),
+    },
+  ];
 
   return (
     <article className="bg-crust overflow-hidden rounded-xl">
@@ -32,9 +89,14 @@ export default function Post(props: Props) {
         </header>
       )}
       <main>
-        <Link href={`/post/${slug}`}>
-          <h3 className="text-headline-md lg:text-headline-lg truncate px-2.5 pt-4 pb-2.5">{title}</h3>
-        </Link>
+        <div className="flex items-center justify-between px-2.5 pt-4 pb-2.5">
+          <Link href={`/post/${slug}`}>
+            <h3 className="text-headline-md lg:text-headline-lg truncate">{title}</h3>
+          </Link>
+          {(userRole === 'superadmin' || userRole === 'admin') && (
+            <PostOptions list={list} onBeforeOpen={handleBeforeOpenOptions} />
+          )}
+        </div>
 
         <div className="bg-mantle flex items-stretch py-2.5">
           <div aria-hidden className="bg-teal w-[5px] shrink-0 rounded-full" />
@@ -65,10 +127,10 @@ export default function Post(props: Props) {
             <span className="text-white">نظرات</span>
           </Button>
 
-          <ClapButton postId={id} maxClicks={5} count={claps} userClapCount={props.clapUserCount} />
+          <ClapButton postId={postId} maxClicks={5} count={claps} userClapCount={props.clapUserCount} />
 
           <p className="mr-auto text-white">3 دقیقه</p>
-          <SaveButton postId={id} isSavedByCurrentUser={isSavedByCurrentUser} />
+          <SaveButton postId={postId} isSavedByCurrentUser={isSavedByCurrentUser} />
         </div>
       </footer>
     </article>

@@ -4,23 +4,23 @@ import { MenuTrigger, Button, Popover, ListBox, ListBoxItem } from 'react-aria-c
 import ThreeDotts from '@/assets/images/dots-horizontal.svg';
 import { useState, useEffect, useRef } from 'react';
 import ExclamationMark from '@/assets/images/excalamation.svg';
-import { useLoginModalContext } from '@/components/providers/login-modal-provider';
+import { useLoginModalContext } from '../providers/login-modal-provider';
 
-export type CommentOptionsList = {
+export type PostOptionsList = {
   id: number;
   title: string;
   action?: () => void;
 };
 
-type CommentOptionsProps = {
-  list: CommentOptionsList[];
+type PostOptionsProps = {
+  list: PostOptionsList[];
   onBeforeOpen?: () => boolean | void;
 };
 
-export function CommentOptions({ list, onBeforeOpen }: CommentOptionsProps) {
+export function PostOptions({ list, onBeforeOpen }: PostOptionsProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<CommentOptionsList | null>(null);
+  const [selectedItem, setSelectedItem] = useState<PostOptionsList | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const { openLoginModalIfUnauthenticated } = useLoginModalContext();
@@ -40,12 +40,6 @@ export function CommentOptions({ list, onBeforeOpen }: CommentOptionsProps) {
 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [confirmOpen]);
-
-  const handleButtonClick = () => {
-    const canOpen = onBeforeOpen ? onBeforeOpen() : true;
-    if (canOpen === false) return;
-    setMenuOpen(!menuOpen);
-  };
 
   return (
     <div className="relative">
