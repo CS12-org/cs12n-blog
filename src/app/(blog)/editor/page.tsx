@@ -11,6 +11,10 @@ import { FaCode } from 'react-icons/fa6';
 import { MdFormatListBulleted } from 'react-icons/md';
 import { PiListNumbers } from 'react-icons/pi';
 import { MdCopyAll } from 'react-icons/md';
+import { MultiSelect } from '@/components/fancy-multi-select';
+import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from 'use-debounce';
+import { searchTags } from './search.api';
 
 export default function EditorPage() {
   const editor = useEditor({
@@ -22,6 +26,16 @@ export default function EditorPage() {
         class: 'outline-none text-right rtl',
       },
     },
+  });
+  const [selectedTags, setSelectedTags] = useState<{ name: string }[]>([]);
+  const [inputValue, setInputValue] = useState('');
+
+  const [debouncedSearchQuery] = useDebounce(inputValue, 300);
+  const { data: tagsData } = useQuery({
+    queryKey: ['tags', debouncedSearchQuery],
+    queryFn: () => searchTags(debouncedSearchQuery),
+    select: (data) => data?.items || data || [],
+    enabled: debouncedSearchQuery.trim().length > 0,
   });
 
   // Force rerender on selection or content change
@@ -114,6 +128,16 @@ export default function EditorPage() {
           className="border-crust bg-mantle prose text-text [&_blockquote]:border-sky min-h-[200px] w-full max-w-none rounded-b-lg border border-t-0 p-4 text-right focus:outline-none [&_blockquote]:mr-4 [&_blockquote]:rounded-md [&_blockquote]:border-r-4 [&_blockquote]:bg-[#1e1e2e] [&_blockquote]:pr-4 [&_blockquote]:text-[#b4befe] [&_blockquote]:italic [&_code]:rounded [&_code]:bg-[#1e1e2e] [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_ol]:mr-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:bg-[#0f0f17] [&_pre]:p-3 [&_pre]:font-mono [&_pre]:text-[#cdd6f4] [&_ul]:mr-6 [&_ul]:list-disc [&_ul]:pl-6"
         />
       </div>
+      <MultiSelect
+        items={tagsData || []}
+        getLabel={(e) => e.name}
+        getValue={(e) => e.name}
+        selectedItems={selectedTags}
+        onChange={setSelectedTags}
+        createNewItem={(val) => ({ name: val })}
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+      />
     </div>
   );
 }
