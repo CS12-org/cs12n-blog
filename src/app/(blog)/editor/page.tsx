@@ -27,6 +27,9 @@ export default function EditorPage() {
       },
     },
   });
+  editor?.on('update', ({ editor }) => {
+    console.log(editor.getJSON());
+  });
   const [selectedTags, setSelectedTags] = useState<{ name: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
 
