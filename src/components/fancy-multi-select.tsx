@@ -94,17 +94,19 @@ export function MultiSelect<T>({
   const selectables = items?.filter((item) => !selectedItems.some((s) => getValue(s) === getValue(item)));
 
   return (
-    <Command onKeyDown={handleKeyDown} className="bg-field overflow-visible">
-      <div className="flex justify-between gap-2">
-        <div className="outline-border flex-grow rounded-md outline outline-1">
-          <div className="flex flex-wrap items-center gap-2 p-2">
+    <Command onKeyDown={handleKeyDown} className="bg-fieldr overflow-visible">
+      <div className="mr-[50px] flex justify-between gap-4">
+        <div className="outline-border outline-base h-fit flex-grow rounded-md outline outline-4">
+          <div className="flex w-full flex-wrap items-center gap-2 p-2">
             {selectedItems.map((item) => (
               <Button
                 key={getValue(item)}
-                className="bg-secondary text-accent-foreground h-fit border-none py-1 shadow-none md:py-[6px]"
+                className="bg-base text-subtext-0 flex h-fit items-center gap-2 border-none px-2 py-1 shadow-none md:py-[6px]"
               >
-                <HiHashtag className="size-4 md:size-[18px]" />
-                <span className="text-sm font-medium md:text-base">{getLabel(item)}</span>
+                <div className="flex items-center">
+                  <HiHashtag className="size-4 md:size-[18px]" />
+                  <span className="justify-self-end text-sm font-medium">{getLabel(item)}</span>
+                </div>
                 <button
                   className="ml-1 rounded-full outline-none"
                   onKeyDown={(e) => {
@@ -118,7 +120,7 @@ export function MultiSelect<T>({
                   }}
                   onClick={() => handleUnselect(item)}
                 >
-                  <PiXCircleDuotone className="text-muted-foreground size-4 md:size-[18px]" />
+                  <PiXCircleDuotone className="text-subtext-0 size-4 justify-self-start md:size-[18px]" />
                 </button>
               </Button>
             ))}
@@ -130,7 +132,7 @@ export function MultiSelect<T>({
               onFocus={() => setOpen(true)}
               placeholder={placeholder}
               className={twMerge(
-                'peer placeholder:text-muted-foreground flex-1 bg-transparent py-1 text-sm outline-none md:py-[6px] md:text-base',
+                'peer placeholder:text-subtext-0 flex h-fit w-full text-sm outline-none',
                 disableAddingTag && 'hidden',
               )}
             />
@@ -142,9 +144,9 @@ export function MultiSelect<T>({
             type="button"
             // disabled={!inputRef.current?.value.trim()}
             onClick={handleAddItem}
-            className="bg-primary h-fit rounded-md p-[14px] md:p-4"
+            className="bg-base hover:bg-sky text-sky flex h-[38px] w-[38px] items-center justify-center rounded-md hover:text-base"
           >
-            <BiPlus className="md:!size-5" />
+            <BiPlus className="h-[20px] w-[20px]" />
           </Button>
         )}
       </div>
@@ -152,7 +154,7 @@ export function MultiSelect<T>({
         <CommandList>
           {!disableAddingTag && open && selectables?.length > 0 && (
             <div className="bg-popover text-popover-foreground animate-in absolute top-2 z-50 max-h-52 w-full rounded-md border shadow-md outline-none">
-              <CommandGroup heading={'هدر'} className="h-full max-h-52 overflow-auto">
+              <CommandGroup heading={'هدر'} className="h-fulسl max-h-52 overflow-auto">
                 {selectables.map((item) => (
                   <CommandItem
                     key={getValue(item)}

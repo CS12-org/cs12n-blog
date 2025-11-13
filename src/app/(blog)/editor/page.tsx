@@ -19,7 +19,7 @@ import { searchTags } from './search.api';
 export default function EditorPage() {
   const editor = useEditor({
     extensions: [StarterKit],
-    content: '<p>به ادیتور خوش اومدی ✨</p>',
+    content: '<p>پsj</p>',
     immediatelyRender: false,
     editorProps: {
       attributes: {
@@ -101,46 +101,48 @@ export default function EditorPage() {
   ];
 
   return (
-    <div className="bg-crust text-text flex min-h-screen items-start justify-center py-10">
-      <div className="border-mantle bg-mantle flex w-full max-w-2xl rounded-xl border p-6 shadow-lg">
-        {/* Toolbar */}
-        <div className="border-crust bg-mantle flex flex-col flex-wrap gap-2 rounded-t-lg border p-2">
-          {buttons.map((btn, i) => (
+    <div className="text-text flex min-h-screen flex-col items-center">
+      <div className="bg-crust flex w-full max-w-2xl flex-col gap-4 rounded-xl p-6">
+        <section className="flex">
+          {/* Toolbar */}
+          <div className="bg-crust flex flex-col flex-wrap gap-2 rounded-t-lg p-2">
+            {buttons.map((btn, i) => (
+              <button
+                key={i}
+                onClick={btn.action}
+                className={`flex h-[30px] w-[30px] items-center justify-center self-center rounded text-sm transition-all ${
+                  btn.isActive() ? 'text-sky' : 'hover:bg-surface-0 text-subtext-0'
+                }`}
+              >
+                {btn.label}
+              </button>
+            ))}
+
             <button
-              key={i}
-              onClick={btn.action}
-              className={`rounded border px-3 py-1 text-sm transition-all ${
-                btn.isActive() ? 'bg-sky text-crust border-sky' : 'hover:bg-crust border-crust text-sky'
-              } `}
+              onClick={handleCopy}
+              className="bg-crust text-sky hover:bg-base flex h-[30px] w-[30px] items-center justify-center rounded-md transition"
             >
-              {btn.label}
+              <MdCopyAll className="h-[18px] w-[18px]" />
             </button>
-          ))}
+          </div>
 
-          <button
-            onClick={handleCopy}
-            className="border-crust text-sky hover:bg-crust ml-auto rounded border px-3 py-1"
-          >
-            <MdCopyAll />
-          </button>
-        </div>
-
-        {/* Editor */}
-        <EditorContent
-          editor={editor}
-          className="border-crust bg-mantle prose text-text [&_blockquote]:border-sky min-h-[200px] w-full max-w-none rounded-b-lg border border-t-0 p-4 text-right focus:outline-none [&_blockquote]:mr-4 [&_blockquote]:rounded-md [&_blockquote]:border-r-4 [&_blockquote]:bg-[#1e1e2e] [&_blockquote]:pr-4 [&_blockquote]:text-[#b4befe] [&_blockquote]:italic [&_code]:rounded [&_code]:bg-[#1e1e2e] [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_ol]:mr-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:bg-[#0f0f17] [&_pre]:p-3 [&_pre]:font-mono [&_pre]:text-[#cdd6f4] [&_ul]:mr-6 [&_ul]:list-disc [&_ul]:pl-6"
+          {/* Editor */}
+          <EditorContent
+            editor={editor}
+            className="border-crust bg-base prose text-text [&_blockquote]:border-sky min-h-[200px] w-full max-w-none rounded-lg border border-t-0 p-4 text-right focus:outline-none [&_blockquote]:mr-4 [&_blockquote]:rounded-md [&_blockquote]:border-r-4 [&_blockquote]:bg-[#1e1e2e] [&_blockquote]:pr-4 [&_blockquote]:text-[#b4befe] [&_blockquote]:italic [&_code]:rounded [&_code]:bg-[#1e1e2e] [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_ol]:mr-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:bg-[#0f0f17] [&_pre]:p-3 [&_pre]:font-mono [&_pre]:text-[#cdd6f4] [&_ul]:mr-6 [&_ul]:list-disc [&_ul]:pl-6"
+          />
+        </section>
+        <MultiSelect
+          items={tagsData || []}
+          getLabel={(e) => e.name}
+          getValue={(e) => e.name}
+          selectedItems={selectedTags}
+          onChange={setSelectedTags}
+          createNewItem={(val) => ({ name: val })}
+          inputValue={inputValue}
+          onInputChange={setInputValue}
         />
       </div>
-      <MultiSelect
-        items={tagsData || []}
-        getLabel={(e) => e.name}
-        getValue={(e) => e.name}
-        selectedItems={selectedTags}
-        onChange={setSelectedTags}
-        createNewItem={(val) => ({ name: val })}
-        inputValue={inputValue}
-        onInputChange={setInputValue}
-      />
     </div>
   );
 }
