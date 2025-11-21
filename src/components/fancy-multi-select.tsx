@@ -95,7 +95,7 @@ export function MultiSelect<T>({
 
   return (
     <Command onKeyDown={handleKeyDown} className="bg-fieldr overflow-visible">
-      <div className="mr-[50px] flex justify-between gap-4">
+      <div className="mr-[5px] flex justify-between gap-4">
         <div className="outline-border outline-base h-fit flex-grow rounded-md outline outline-4">
           <div className="flex w-full flex-wrap items-center gap-2 p-2">
             {selectedItems.map((item) => (
