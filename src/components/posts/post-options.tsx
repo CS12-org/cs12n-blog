@@ -4,23 +4,23 @@ import { MenuTrigger, Button, Popover, ListBox, ListBoxItem } from 'react-aria-c
 import ThreeDotts from '@/assets/images/dots-horizontal.svg';
 import { useState, useEffect, useRef } from 'react';
 import ExclamationMark from '@/assets/images/excalamation.svg';
-import { useLoginModalContext } from '@/components/providers/login-modal-provider';
+import { useLoginModalContext } from '../providers/login-modal-provider';
 
-export type CommentOptionsList = {
+export type PostOptionsList = {
   id: number;
   title: string;
   action?: () => void;
 };
 
-type CommentOptionsProps = {
-  list: CommentOptionsList[];
+type PostOptionsProps = {
+  list: PostOptionsList[];
   onBeforeOpen?: () => boolean | void;
 };
 
-export function CommentOptions({ list, onBeforeOpen }: CommentOptionsProps) {
+export function PostOptions({ list, onBeforeOpen }: PostOptionsProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<CommentOptionsList | null>(null);
+  const [selectedItem, setSelectedItem] = useState<PostOptionsList | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const { openLoginModalIfUnauthenticated } = useLoginModalContext();
@@ -56,25 +56,22 @@ export function CommentOptions({ list, onBeforeOpen }: CommentOptionsProps) {
         </Button>
 
         <Popover className="relative z-50 -mx-3 mt-3 rounded-lg border border-[#333] bg-[#1a1b2e] shadow-lg md:mx-2">
-          <ListBox className="w-fit px-6 py-2">
-            {list.map((l) => (
-              <ListBoxItem
-                key={l.id}
-                className={`cursor-pointer text-end ${l.title === 'حذف' ? 'text-maroon' : ''}`}
-                onAction={() => {
-                  if (l.title === 'حذف') {
+          {list.map((l) => (
+            <div key={l.id} className="relative">
+              <ListBox className="text-maroon w-fit px-6 py-2">
+                <ListBoxItem
+                  className="cursor-pointer text-end"
+                  onAction={() => {
                     setSelectedItem(l);
                     setConfirmOpen(true);
-                  } else {
-                    l.action?.();
-                  }
-                  setMenuOpen(false);
-                }}
-              >
-                {l.title}
-              </ListBoxItem>
-            ))}
-          </ListBox>
+                    setMenuOpen(false);
+                  }}
+                >
+                  {l.title}
+                </ListBoxItem>
+              </ListBox>
+            </div>
+          ))}
         </Popover>
       </MenuTrigger>
 

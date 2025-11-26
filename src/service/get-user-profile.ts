@@ -10,6 +10,7 @@ export type GetUserProfileRes = {
   avatarUrl?: string; // 👈 null → undefined
   coverUrl?: string; // 👈 null → undefined
   website?: string; // 👈 null → undefined
+  roles: string[];
   createdAt: string;
   socialUrls?: string[];
   selectedColor?: string; // 👈 اضافه شد

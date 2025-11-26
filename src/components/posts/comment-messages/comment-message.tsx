@@ -71,7 +71,7 @@ function CommentMessege({ comment, postId }: CommentMessegeProps) {
     },
     onError: (err: any) => setError(err?.response?.data?.message ?? 'خطایی در ویرایش رخ داده است'),
   });
-
+  
   const handleReadAnswers = () => {
     openLoginModalIfUnauthenticated(() => {
       setPinnedComment(comment);
