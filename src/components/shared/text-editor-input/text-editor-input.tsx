@@ -41,7 +41,7 @@ const TextEditorInput: FC<TextEditorInputProps> = ({
         showOnlyCurrent: false, // Show placeholder in all empty nodes
       }),
     ],
-    content: content.trim() || '<p></p>',
+    content: content.trim(),
     immediatelyRender: false,
     shouldRerenderOnTransaction: true,
     onUpdate: ({ editor }) => {
