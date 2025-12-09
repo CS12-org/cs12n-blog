@@ -131,7 +131,7 @@ export default function EditorPage() {
 
   return (
     <div className="text-text flex min-h-screen flex-col items-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-crust flex w-full max-w-2xl flex-col gap-4 rounded-xl p-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-crust flex w-full flex-col gap-4 rounded-xl p-6">
         <section className="flex gap-4">
           <div className="bg-crust flex flex-col flex-wrap gap-2 rounded-t-lg p-2">
             {buttons.map((btn, i) => (
