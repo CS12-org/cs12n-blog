@@ -26,7 +26,7 @@ export default function EditorPage() {
       featuredImage: null,
       slideImage: null,
       title: '',
-      content: null,
+      content: {},
       tags: [],
       isDraft: false,
     },
@@ -37,15 +37,10 @@ export default function EditorPage() {
     immediatelyRender: false,
     content: '<p></p>',
     editorProps: { attributes: { class: 'outline-none text-right rtl' } },
+    onUpdate: ({ editor }) => {
+      setValue('content', editor.getJSON());
+    },
   });
-
-  useEffect(() => {
-    if (!editor) return;
-    setValue('content', editor.getJSON());
-    const handler = () => setValue('content', editor.getJSON(), { shouldDirty: true, shouldValidate: true });
-    editor.on('update', handler);
-    return () => editor.off('update', handler);
-  }, [editor, setValue]);
 
   const [, forceUpdate] = useState(0);
   useEffect(() => {
@@ -92,37 +87,37 @@ export default function EditorPage() {
   const buttons = [
     {
       label: <HiMiniBold />,
-      action: () => editor.chain().focus().toggleBold().run(),
+      action: () => editor?.chain().focus().toggleBold().run(),
       active: () => editor?.isActive('bold'),
     },
     {
       label: <FaItalic />,
-      action: () => editor.chain().focus().toggleItalic().run(),
+      action: () => editor?.chain().focus().toggleItalic().run(),
       active: () => editor?.isActive('italic'),
     },
     {
       label: <FaStrikethrough />,
-      action: () => editor.chain().focus().toggleStrike().run(),
+      action: () => editor?.chain().focus().toggleStrike().run(),
       active: () => editor?.isActive('strike'),
     },
     {
       label: <FaQuoteRight />,
-      action: () => editor.chain().focus().toggleBlockquote().run(),
+      action: () => editor?.chain().focus().toggleBlockquote().run(),
       active: () => editor?.isActive('blockquote'),
     },
     {
       label: <FaCode />,
-      action: () => editor.chain().focus().toggleCodeBlock().run(),
+      action: () => editor?.chain().focus().toggleCodeBlock().run(),
       active: () => editor?.isActive('codeBlock'),
     },
     {
       label: <MdFormatListBulleted />,
-      action: () => editor.chain().focus().toggleBulletList().run(),
+      action: () => editor?.chain().focus().toggleBulletList().run(),
       active: () => editor?.isActive('bulletList'),
     },
     {
       label: <PiListNumbers />,
-      action: () => editor.chain().focus().toggleOrderedList().run(),
+      action: () => editor?.chain().focus().toggleOrderedList().run(),
       active: () => editor?.isActive('orderedList'),
     },
   ];
