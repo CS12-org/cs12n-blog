@@ -9,9 +9,11 @@ import { FaItalic, FaStrikethrough, FaCode } from 'react-icons/fa6';
 import { FaQuoteRight } from 'react-icons/fa';
 import { MdFormatListBulleted, MdCopyAll } from 'react-icons/md';
 import { PiListNumbers } from 'react-icons/pi';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { MultiSelect } from '@/components/fancy-multi-select';
+import { useDebounce } from 'use-debounce';
+import { searchTags } from './search.api';
 
 export default function EditorPage() {
   const {
@@ -30,6 +32,17 @@ export default function EditorPage() {
       tags: [],
       isDraft: false,
     },
+  });
+
+  const [selectedTags, setSelectedTags] = useState<{ name: string }[]>([]);
+  const [inputValue, setInputValue] = useState('');
+
+  const [debouncedSearchQuery] = useDebounce(inputValue, 300);
+  const { data: tagsData } = useQuery({
+    queryKey: ['tags', debouncedSearchQuery],
+    queryFn: () => searchTags(debouncedSearchQuery),
+    select: (data) => data?.items || data || [],
+    enabled: debouncedSearchQuery.trim().length > 0,
   });
 
   const editor = useEditor({
@@ -188,12 +201,14 @@ export default function EditorPage() {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <MultiSelect
-                  items={[]}
+                  items={tagsData || []}
                   getLabel={(e) => e.name}
                   getValue={(e) => e.name}
-                  selectedItems={value || []}
-                  onChange={onChange}
+                  selectedItems={selectedTags}
+                  onChange={setSelectedTags}
                   createNewItem={(val) => ({ name: val })}
+                  inputValue={inputValue}
+                  onInputChange={setInputValue}
                 />
               )}
             />
