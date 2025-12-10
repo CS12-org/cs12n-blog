@@ -67,7 +67,7 @@ export default function EditorPage() {
     const featured = values.featuredImage;
     if (!featured?.[0]) return alert('تصویر الزامی است');
     formData.append('featuredImage', featured[0]);
-    if (values.slideImage?.length > 0) for (let file of values.slideImage) formData.append('slideImage', file);
+    if (values.slideImage?.length > 0) for (const file of values.slideImage) formData.append('slideImage', file);
     formData.append('title', values.title || '');
     formData.append('content', JSON.stringify(values.content || {}));
     formData.append('tags', JSON.stringify(values.tags || []));
