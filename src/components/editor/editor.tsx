@@ -25,7 +25,6 @@ export default function RichTextEditor({ value, onChange, error }: RichTextEdito
     onUpdate: ({ editor }) => {
       onChange?.(editor.getJSON());
     },
-    textDirection: 'auto',
   });
 
   const [, forceUpdate] = useState(0);
