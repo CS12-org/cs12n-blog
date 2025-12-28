@@ -1,8 +1,12 @@
+'use client';
 import { Text } from '@/components/react-aria-components';
 import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
 import Button from '@/components/button';
+import { useUserStore } from '@/store/user-store';
 
 function PostNavigation() {
+  const userProfile = useUserStore((state) => state.userProfile);
+  console.log(userProfile);
   return (
     <section className="text-text divide-surface-2 flex w-full divide-x-2 divide-dashed">
       <div className="bg-crust grid w-full grid-cols-7 grid-rows-2 justify-start gap-y-[10px] rounded-r-[10px] py-[10px] pr-[10px] lg:py-[20px] lg:pr-[50px]">
